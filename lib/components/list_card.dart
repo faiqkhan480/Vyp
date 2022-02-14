@@ -5,7 +5,8 @@ import 'package:vyp/widgets/space.dart';
 import 'package:vyp/widgets/text_component.dart';
 
 class ListCard extends StatelessWidget {
-  const ListCard({Key? key}) : super(key: key);
+  final num? index;
+  const ListCard({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +25,15 @@ class ListCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextWidget(text: "tennis", color: AppColors.white, weight: FontWeight.w300, ),
+          TextWidget(text: "$index tennis", color: AppColors.white, weight: FontWeight.w300, ),
           VerticalSpace(20),
           TextWidget(text: "Tennis\nde Aigra Nova", size: 1.7, color: AppColors.white, align: TextAlign.center,),
           VerticalSpace(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset("assets/images/svgs/info.svg"),
-              SvgPicture.asset("assets/images/svgs/vertical_circles.svg"),
+              InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg")),
+              InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg")),
             ],
           )
         ],

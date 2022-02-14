@@ -23,7 +23,7 @@ class CountryList extends StatelessWidget {
               childAspectRatio: 1.0,
               crossAxisSpacing: 6,
               mainAxisSpacing: 6),
-          itemBuilder: (context, index) => ListCard(),
+          itemBuilder: (context, index) => ListCard(index: index,),
         ),
       ),
     );

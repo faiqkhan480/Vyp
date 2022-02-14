@@ -41,11 +41,16 @@ class CountriesScreen extends StatelessWidget {
                     // family: 'GemunuLibre',
                   ),
                   subtitle: Divider(),
-                  onTap: () => Get.offNamed('/home'),
+                  onTap: () => handleClick(country),
                 ),
             ],
           )
       ),
     );
+  }
+
+  void handleClick(Country country) {
+    // controller.fetchCountryData(country);
+    Get.offNamed('/home');
   }
 }

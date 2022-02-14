@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vyp/components/country_list.dart';
+import 'package:vyp/components/group_list.dart';
 import 'package:vyp/utils/app_colors.dart';
 
 import 'package:vyp/utils/constants.dart';
@@ -104,8 +105,8 @@ class HomeScreen extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     CountryList(),
-                    Container(),
-                    Container(),
+                    GroupList(),
+                    GroupList(),
                   ]
               ),
             )
