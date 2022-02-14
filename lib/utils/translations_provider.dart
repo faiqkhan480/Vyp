@@ -7,7 +7,8 @@ class TranslationProvider {
   Future<AppTranslations?> getTranslations() async {
     String en = await rootBundle.loadString('assets/lang/en_us.json');
     // var jsonResult = jsonDecode(en);
-    var jsonResult = AppTranslations.fromJson(en);
-    return jsonResult;
+    // var jsonResult = AppTranslations.fromJson(en);
+    // return jsonResult;
+    return null;
   }
 }

@@ -10,10 +10,11 @@ import 'package:vyp/utils/translations_provider.dart';
 
 void main() async {
   await GetStorage.init();
-  final translationProvider = TranslationProvider();
+  // final translationProvider = TranslationProvider();
 
-  final translations = await translationProvider.getTranslations();
-  runApp(MyApp(translations: translations!,));
+  // final translations = await translationProvider.getTranslations();
+  // runApp(MyApp(translations: translations!,));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           SizeConfig().init(constraints, orientation);
           return GetMaterialApp(
             title: 'Vyp',
-            translations: translations,
+            translations: AppTranslations(),
             locale: AppTranslations.locale,
             fallbackLocale: AppTranslations.fallbackLocale,
             debugShowCheckedModeBanner: false,
