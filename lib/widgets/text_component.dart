@@ -11,7 +11,7 @@ class TextWidget extends StatelessWidget {
   final TextAlign align;
 
   const TextWidget({Key? key,
-    this.size = 1.9,
+    this.size = 1.6,
     required this.text,
     this.weight = FontWeight.w400,
     this.color,
