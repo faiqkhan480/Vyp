@@ -7,8 +7,3 @@ class Constants {
 
   static final appbarHeight = AppBar().preferredSize.height;
 }
-
-class AppColors {
-  static final primaryColor = Color(0xffCD3939);
-  static final secondaryColor = Color(0xffF4F3F3);
-}
