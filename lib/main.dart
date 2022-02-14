@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vyp/navigation/bottom_navigation.dart';
 import 'package:vyp/screens/countries.dart';
 import 'package:vyp/screens/home.dart';
 import 'package:vyp/utils/size_config.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             initialRoute: '/',
             getPages: [
               GetPage(name: '/', page: () => CountriesScreen()),
+              GetPage(name: '/navigator', page: () => BottomNavigator()),
               GetPage(name: '/home', page: () => HomeScreen()),
             ],
             // home: Countries(),

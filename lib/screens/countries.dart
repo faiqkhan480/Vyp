@@ -51,6 +51,6 @@ class CountriesScreen extends StatelessWidget {
 
   void handleClick(Country country) {
     // controller.fetchCountryData(country);
-    Get.offNamed('/home');
+    Get.offNamed('/navigator');
   }
 }
