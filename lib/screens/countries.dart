@@ -5,8 +5,8 @@ import 'package:vyp/models/country_model.dart';
 import 'package:vyp/utils/constants.dart';
 import 'package:vyp/widgets/text_component.dart';
 
-class Countries extends StatelessWidget {
-  Countries({Key? key}) : super(key: key);
+class CountriesScreen extends StatelessWidget {
+  CountriesScreen({Key? key}) : super(key: key);
 
   CountryController controller = Get.put(CountryController());
 
@@ -19,7 +19,7 @@ class Countries extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextWidget(
-                text: "Vyp\n",
+                text: "${Constants.appName}\n",
                 color: AppColors.primaryColor,
                 size: 10,
                 align: TextAlign.center,
@@ -40,7 +40,7 @@ class Countries extends StatelessWidget {
                     // family: 'GemunuLibre',
                   ),
                   subtitle: Divider(),
-                  // onTap: () => Navigator.push(context, MaterialPageRoute(builder: )),
+                  onTap: () => Get.offNamed('/home'),
                 ),
             ],
           )

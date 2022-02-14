@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vyp/utils/size_config.dart';
+import 'package:get/get.dart';
 
 class TextWidget extends StatelessWidget {
   final String? text, family;
@@ -21,7 +22,7 @@ class TextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text!, textAlign: align, style: TextStyle(
+    return Text(text!.tr, textAlign: align, style: TextStyle(
       color: color ?? Colors.black,
       fontWeight: weight,
       fontFamily: family,
