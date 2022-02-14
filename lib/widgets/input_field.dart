@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class InputField extends StatelessWidget {
+  const InputField({Key? key, this.placeHolder, this.icon, this.vertical, this.horizontal}) : super(key: key);
+
+  final String? placeHolder;
+  final Widget? icon;
+  final double? vertical, horizontal;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: vertical ?? 0.0, horizontal: horizontal ?? 0.0,),
+      child: TextField(
+        style: TextStyle(fontFamily: 'Heebo'),
+        decoration: InputDecoration(
+          hintText: placeHolder.toString().tr,
+          prefixIcon: icon,
+          hintStyle: TextStyle(fontFamily: 'Heebo'),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
