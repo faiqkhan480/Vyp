@@ -5,7 +5,7 @@ import 'package:vyp/widgets/space.dart';
 import 'package:vyp/widgets/text_component.dart';
 import 'package:get/get.dart';
 
-import 'sheet_menu.dart';
+import 'menu_sheet.dart';
 
 class ListCard extends StatelessWidget {
   final num? index;
@@ -46,8 +46,7 @@ class ListCard extends StatelessWidget {
 
   handleClick() {
     Get.bottomSheet(
-      SheetMenu(),
-      useRootNavigator: true,
+      MenuSheet(),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(

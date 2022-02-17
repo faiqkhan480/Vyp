@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vyp/navigation/bottom_navigation.dart';
-import 'package:vyp/screens/countries.dart';
-import 'package:vyp/screens/home.dart';
-import 'package:vyp/utils/size_config.dart';
-import 'package:vyp/utils/app_translation.dart';
-import 'package:vyp/utils/translations_provider.dart';
+
+// IMPORTING APP VIEWS/SCREENS ROUTES
+import 'screens/countries.dart';
+import 'screens/home.dart';
+import 'screens/info_screen.dart';
+
+// IMPORTING APP UTILS
+import 'utils/app_translation.dart';
+import 'utils/size_config.dart';
 
 
 void main() async {
@@ -44,6 +48,7 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/', page: () => CountriesScreen()),
               GetPage(name: '/navigator', page: () => BottomNavigator()),
               GetPage(name: '/home', page: () => HomeScreen()),
+              GetPage(name: '/info', page: () => InfoScreen()),
             ],
             // home: Countries(),
           );

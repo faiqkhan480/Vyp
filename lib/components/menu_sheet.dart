@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyp/utils/app_colors.dart';
 import 'package:vyp/utils/constants.dart';
 import 'package:vyp/utils/size_config.dart';
 import 'package:vyp/widgets/space.dart';
 import 'package:vyp/widgets/text_component.dart';
 
-class SheetMenu extends StatelessWidget {
-  const SheetMenu({Key? key}) : super(key: key);
+import 'info_sheet.dart';
+
+class MenuSheet extends StatelessWidget {
+  const MenuSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List menu = loginMenu;
     return Container(
-      color: AppColors.secondaryColor,
+        color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 20),
         child:Column(
           mainAxisSize: MainAxisSize.min,
@@ -29,10 +32,10 @@ class SheetMenu extends StatelessWidget {
                       subtitle: Divider(thickness: 1, height: 1,),
                       dense: true,
                       minVerticalPadding: 0.0,
+                      onTap: () => index == 0 ? handleClick() : null,
                     ),
               ),
             ),
-
             TextButton(
                 onPressed: () => null,
                 child: Text("logout"),
@@ -41,10 +44,21 @@ class SheetMenu extends StatelessWidget {
                 textStyle: TextStyle(decoration: TextDecoration.underline, fontSize: SizeConfig.textMultiplier * 1.8),
               ),
             ),
-            
             VerticalSpace(20)
           ],
         )
+    );
+  }
+
+  handleClick() {
+    Get.bottomSheet(
+      InfoSheet(),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      enableDrag: false,
     );
   }
 }
