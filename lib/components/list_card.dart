@@ -3,6 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vyp/utils/app_colors.dart';
 import 'package:vyp/widgets/space.dart';
 import 'package:vyp/widgets/text_component.dart';
+import 'package:get/get.dart';
+
+import 'sheet_menu.dart';
 
 class ListCard extends StatelessWidget {
   final num? index;
@@ -33,11 +36,28 @@ class ListCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg")),
-              InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg")),
+              InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"), onTap:() => handleClick(),),
             ],
           )
         ],
       ),
+    );
+  }
+
+  handleClick() {
+    Get.bottomSheet(
+      SheetMenu(),
+      useRootNavigator: true,
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          // side: BorderSide(
+          //     width: 5,
+          //     color: Colors.black
+          // )
+      ),
+      enableDrag: false,
     );
   }
 }

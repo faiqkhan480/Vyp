@@ -5,5 +5,15 @@ const Map<String, String> en_US = {
   "where": "Where?",
   "districts": "Districts",
   "counties": "Counties",
+  // SHEET MENU
+  "login_signup": "Login / Signup",
+  "account": "Account",
+  "favorites": "Favorites",
+  "settings": "Settings",
+  "more_info": "More information",
+  "add_fav": "Add to favorites",
+  "add_calender": "Add to calendar",
+  "share": "Share",
+  "logout": "Logout",
   "": "",
 };
