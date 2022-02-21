@@ -18,4 +18,10 @@ const Map<String, String> en_US = {
   // INFO MENU
   "free": "free",
   "go_to_web": "Go to website",
+
+  "categories": "Categories",
+  "tips": "Tips",
+  "maps": "Maps",
+  "reviews": "Reviews"
+
 };

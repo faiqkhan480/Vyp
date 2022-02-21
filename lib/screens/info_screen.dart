@@ -1,13 +1,29 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vyp/utils/app_colors.dart';
 import 'package:vyp/utils/constants.dart';
 import 'package:vyp/utils/size_config.dart';
+import 'package:vyp/widgets/space.dart';
 import 'package:vyp/widgets/text_component.dart';
 
-class InfoScreen extends StatelessWidget {
+class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
+
+  @override
+  _InfoScreenState createState() => _InfoScreenState();
+}
+
+class _InfoScreenState extends State<InfoScreen> {
+  bool readMore = false;
+
+  void handleState() {
+    this.setState(() {
+      readMore = !readMore;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +49,146 @@ class InfoScreen extends StatelessWidget {
       ),
 
       body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
-            Image.network(
-              'https://s3-alpha-sig.figma.com/img/14da/de7a/53bbc93c0f0cc06000d0f846d34c04c0?Expires=1646006400&Signature=haYuDjTnl8vAu5lazbNSuc~A8o~~jnwFbEczvtOrj~zyEjDGc5CBZDHaW973ZjI2SngwzZHRluTMdifPrIJRbSfQuG-NwaETa3JovwpS-L~CXWITow8nqUXMNcazEDV06xlecvqrpxn5VP4uhOGd61xhLMtINsstMHWguNkQmzdJxpjOkm5oYyDBfMJ1pVTGd-USYSDD-c~E-vsxn27orcqiThp42YiTYcJo-4qoidwhD0KZdT9tOtyEXY7yU~~cOLR0U~KpHadJuKJQ-DVwHeuRSjmuT0ArmGy1dGZrnIaMzXC-NiJM-gTl5x5P6ANxMgUcUfaVjQrpiTzbymCPsg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+            // BANNER IMAGE
+            Image.network(Constants.imgUrl,
               height: SizeConfig.heightMultiplier * 20,
               fit: BoxFit.cover,
             ),
 
-            TextWidget(text: "Tennis de Monte Frio"),
-            TextWidget(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae mollis ipsum. Integer at mi vel nisi sagittis aliquam... Read more "),
+            // CONTENT
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextWidget(text: "Tennis de Monte Frio", size: 2.0, weight: FontWeight.w700,),
+                  AnimatedContainer(
+                    // height: readMore ? 100.0 : 200.0,
+                    // height: 50.0,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.fastOutSlowIn,
+                    child: Wrap(
+                      children: [
+                        // Text(
+                        //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        //   style: TextStyle(
+                        //       fontFamily: "Heebo",
+                        //       fontSize: SizeConfig.textMultiplier * 1.8,
+                        //       color: AppColors.black,
+                        //   ),
+                        //   maxLines: 5,
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
+                        Flexible(
+                          child: RichText(
+                            text: new TextSpan(
+                                // text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                                style: TextStyle(
+                                    fontFamily: "Heebo",
+                                    fontSize: SizeConfig.textMultiplier * 1.8,
+                                    color: AppColors.black
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                                    style: TextStyle(
+                                      // fontWeight: FontWeight.w700,
+                                    ),
+
+                                  ),
+                                ]
+                            ),
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        // GestureDetector(
+                        //   onTap: handleState,
+                        //   child: TextWidget(
+                        //     text: 'Read more',
+                        //     weight: FontWeight.w700,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+
+                  ...List.generate(3, (index) => linksRow(
+                    index == 0 ? "assets/images/svgs/link_move.svg" :
+                    index == 1 ? "assets/images/svgs/phone.svg" :
+                    "assets/images/svgs/email.svg",
+                    index == 0 ? "www.website.com" :
+                    index == 1 ? "+351 999999999" :
+                    "email@email.com",
+                  )),
+
+                  ...List.generate(3, (index) => TextWidget(text: index == 0 ? "categories" : index == 1 ? "tips" : "maps", weight: FontWeight.w700, size: 1.7,)),
+
+                  TextWidget(text: "reviews", weight: FontWeight.w700, size: 2.0,),
+
+                  ...List.generate(5, (index) => progressRow(5.toString(), 456.toString())),
+
+                  VerticalSpace(10),
+                  usersStars()
+                ],
+              ),
+            )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget linksRow(String iconPath, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          SvgPicture.asset(iconPath),
+          HorizontalSpace(10),
+          TextWidget(text: text, weight: FontWeight.w700, size: 1.6,),
+        ],
+      ),
+    );
+  }
+
+  Widget progressRow(String stars, String points) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Icon(Icons.star, color: AppColors.skyBlue,),
+          HorizontalSpace(10),
+          TextWidget(text: stars, size: 1.6,),
+          Expanded(
+              child: LinearPercentIndicator(
+                width: SizeConfig.screenWidth * 0.78,
+                lineHeight: 8.0,
+                percent: 0.5,
+                barRadius: Radius.circular(50),
+                progressColor: AppColors.skyBlue,)
+          ),
+          // HorizontalSpace(10),
+          TextWidget(text: points, size: 1.6,),
+          // HorizontalSpace(10),
+        ],
+      ),
+    );
+  }
+
+  Widget usersStars() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          ...List.generate(5, (index) => Icon(Icons.star, color: AppColors.skyBlue,),),
+          TextWidget(text: "CharlieBillBlister", size: 2.0,),
+          Spacer(),
+          TextWidget(text: "Jan 12,2022", size: 2.0,),
+        ],
       ),
     );
   }
