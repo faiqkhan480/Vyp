@@ -1,6 +1,6 @@
-import 'package:vyp/models/country_model.dart';
-import 'package:vyp/service/apis.dart';
-import 'package:vyp/utils/network.dart';
+import 'package:vyv/models/country_model.dart';
+import 'package:vyv/service/apis.dart';
+import 'package:vyv/utils/network.dart';
 
 class Service {
   // ALL COUNTRIES

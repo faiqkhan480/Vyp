@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:vyp/utils/app_colors.dart';
-import 'package:vyp/utils/size_config.dart';
-import 'package:vyp/widgets/text_component.dart';
+import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/size_config.dart';
+import 'package:vyv/widgets/text_component.dart';
 
 import 'tab_navigator.dart';
 

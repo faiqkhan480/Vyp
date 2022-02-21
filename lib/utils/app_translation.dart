@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:vyp/lang/en_us.dart';
+import 'package:vyv/lang/en_us.dart';
 
 
 class AppTranslations extends Translations {

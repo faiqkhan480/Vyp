@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vyp/utils/size_config.dart';
+import 'package:vyv/utils/size_config.dart';
 import 'package:get/get.dart';
 
 class TextWidget extends StatelessWidget {

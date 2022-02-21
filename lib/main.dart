@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:vyp/navigation/bottom_navigation.dart';
+import 'package:vyv/navigation/bottom_navigation.dart';
 
 // IMPORTING APP VIEWS/SCREENS ROUTES
 import 'screens/countries.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         builder: (context, orientation) {
           SizeConfig().init(constraints, orientation);
           return GetMaterialApp(
-            title: 'Vyp',
+            title: 'Vyv',
             translations: AppTranslations(),
             locale: AppTranslations.locale,
             fallbackLocale: AppTranslations.fallbackLocale,

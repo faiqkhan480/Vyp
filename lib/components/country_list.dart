@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vyp/utils/size_config.dart';
+import 'package:vyv/utils/size_config.dart';
 
 import 'list_card.dart';
 

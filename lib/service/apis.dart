@@ -1,4 +1,4 @@
-import 'package:vyp/utils/constants.dart';
+import 'package:vyv/utils/constants.dart';
 
 class Api {
   static String middleWare = "/general";

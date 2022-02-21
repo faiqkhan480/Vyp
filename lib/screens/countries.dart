@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyp/controllers/countries_controller.dart';
-import 'package:vyp/models/country_model.dart';
-import 'package:vyp/utils/app_colors.dart';
-import 'package:vyp/utils/constants.dart';
-import 'package:vyp/widgets/text_component.dart';
+import 'package:vyv/controllers/countries_controller.dart';
+import 'package:vyv/models/country_model.dart';
+import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/constants.dart';
+import 'package:vyv/widgets/text_component.dart';
 
 class CountriesScreen extends StatelessWidget {
   CountriesScreen({Key? key}) : super(key: key);

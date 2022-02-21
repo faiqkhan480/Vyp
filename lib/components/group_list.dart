@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vyp/widgets/text_component.dart';
+import 'package:vyv/widgets/text_component.dart';
 
 import 'country_list.dart';
 

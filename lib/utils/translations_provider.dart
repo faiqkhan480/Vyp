@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:vyp/utils/app_translation.dart';
+import 'package:vyv/utils/app_translation.dart';
 
 class TranslationProvider {
   Future<AppTranslations?> getTranslations() async {

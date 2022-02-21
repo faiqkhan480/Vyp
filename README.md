@@ -1,6 +1,6 @@
-# vyp
+# vyv
 
-Vyp app
+Vyv app
 
 ## Getting Started
 

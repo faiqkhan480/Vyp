@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vyp/screens/home.dart';
+import 'package:vyv/screens/home.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';

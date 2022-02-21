@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyp/models/country_model.dart';
-import 'package:vyp/service/services.dart';
+import 'package:vyv/models/country_model.dart';
+import 'package:vyv/service/services.dart';
 
 class CountryController extends GetxController {
   Rx<bool> isLoading = false.obs;

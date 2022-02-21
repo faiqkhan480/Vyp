@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vyp/components/country_list.dart';
-import 'package:vyp/components/group_list.dart';
-import 'package:vyp/utils/app_colors.dart';
+import 'package:vyv/components/country_list.dart';
+import 'package:vyv/components/group_list.dart';
+import 'package:vyv/utils/app_colors.dart';
 
-import 'package:vyp/utils/constants.dart';
-import 'package:vyp/utils/size_config.dart';
-import 'package:vyp/widgets/input_field.dart';
-import 'package:vyp/widgets/space.dart';
-import 'package:vyp/widgets/text_component.dart';
+import 'package:vyv/utils/constants.dart';
+import 'package:vyv/utils/size_config.dart';
+import 'package:vyv/widgets/input_field.dart';
+import 'package:vyv/widgets/space.dart';
+import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);

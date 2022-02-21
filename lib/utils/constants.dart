@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vyp/utils/app_colors.dart';
+import 'package:vyv/utils/app_colors.dart';
 
 class Constants {
   static final baseURL = 'https://vyvapi.azurewebsites.net';
