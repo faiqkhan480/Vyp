@@ -32,7 +32,7 @@ class MenuSheet extends StatelessWidget {
                       subtitle: Divider(thickness: 1, height: 1,),
                       dense: true,
                       minVerticalPadding: 0.0,
-                      onTap: () => index == 0 ? handleClick() : null,
+                      onTap: () => handleClick(index),
                     ),
               ),
             ),
@@ -50,15 +50,23 @@ class MenuSheet extends StatelessWidget {
     );
   }
 
-  handleClick() {
-    Get.bottomSheet(
-      InfoSheet(),
-      isDismissible: true,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      enableDrag: false,
-    );
+  handleClick(index) {
+    switch (index) {
+      case 0:
+        Get.bottomSheet(
+          InfoSheet(),
+          isDismissible: true,
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          enableDrag: false,
+        );
+        break;
+      case 1:
+        Get.back(closeOverlays: true);
+        Get.toNamed("/fav");
+        break;
+    }
   }
 }

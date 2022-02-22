@@ -22,6 +22,8 @@ const Map<String, String> en_US = {
   "categories": "Categories",
   "tips": "Tips",
   "maps": "Maps",
-  "reviews": "Reviews"
+  "reviews": "Reviews",
+
+  "all": "All"
 
 };

@@ -1,14 +1,16 @@
+// IMPORTING PACKAGES USED IN THIS COMPONENT
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vyv/navigation/bottom_navigation.dart';
 
-// IMPORTING APP VIEWS/SCREENS ROUTES
+// IMPORTING APP VIEWS/SCREENS FOR ROUTES
 import 'screens/countries.dart';
+import 'screens/favorites_screen.dart';
 import 'screens/home.dart';
 import 'screens/info_screen.dart';
 
-// IMPORTING APP UTILS
+// IMPORTING APP UTILS USED IN THIS COMPONENT
 import 'utils/app_translation.dart';
 import 'utils/size_config.dart';
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) => OrientationBuilder(
         builder: (context, orientation) {
-          SizeConfig().init(constraints, orientation);
+          SizeConfig().init(constraints, orientation); // SET APP CONSTRAINTS
           return GetMaterialApp(
             title: 'Vyv',
             translations: AppTranslations(),
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/navigator', page: () => BottomNavigator()),
               GetPage(name: '/home', page: () => HomeScreen()),
               GetPage(name: '/info', page: () => InfoScreen()),
+              GetPage(name: '/fav', page: () => FavoritesScreen()),
             ],
             // home: Countries(),
           );
