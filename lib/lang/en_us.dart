@@ -38,5 +38,14 @@ const Map<String, String> en_US = {
   "already_have_account": "Already have an account? ",
   "sign_up": "Sign up",
   "sign_in": "Sign In",
-  "": ""
+  "let_get_started": "Let’s get started!",
+  "signup_text": "Create an account to App to get all features",
+  "first_name": "FirstName",
+  "last_name": "LastName",
+  "phone": "Phone",
+  "nationality": "Nationality",
+  "b_day": "Bd yyyy/mm/dd",
+  "confirm_password": "Confirm password",
+  "create_upper": "CREATE",
+  "": "",
 };
