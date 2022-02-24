@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
@@ -13,7 +14,7 @@ class MenuSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List menu = loginMenu;
+    List menu = guestMenu;
     return Container(
         color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -32,7 +33,7 @@ class MenuSheet extends StatelessWidget {
                       subtitle: Divider(thickness: 1, height: 1,),
                       dense: true,
                       minVerticalPadding: 0.0,
-                      onTap: () => handleClick(index),
+                      onTap: () => handleClick(index, true),
                     ),
               ),
             ),
@@ -50,22 +51,23 @@ class MenuSheet extends StatelessWidget {
     );
   }
 
-  handleClick(index) {
+  handleClick(num index, bool isLogin) {
     switch (index) {
       case 0:
         Get.bottomSheet(
           InfoSheet(),
           isDismissible: true,
           clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
           enableDrag: false,
         );
         break;
       case 1:
         Get.back(closeOverlays: true);
         Get.toNamed("/fav");
+        break;
+      case 2:
+        Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
         break;
     }
   }

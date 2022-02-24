@@ -24,6 +24,19 @@ const Map<String, String> en_US = {
   "maps": "Maps",
   "reviews": "Reviews",
 
-  "all": "All"
+  "all": "All",
 
+  // LOGIN/REGISTER DIALOG
+  "welcome_back": "Welcome back!",
+  "login_text": "Log in to your existent account of App",
+  "email": "Email",
+  "password": "Password",
+  "forgot": "Forgot?",
+  "login_upper": "LOG IN",
+  "connect_using": "Or connect using",
+  "dont_have_account": "Don’t have an account? ",
+  "already_have_account": "Already have an account? ",
+  "sign_up": "Sign up",
+  "sign_in": "Sign In",
+  "": ""
 };
