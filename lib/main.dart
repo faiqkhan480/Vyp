@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:vyv/navigation/bottom_navigation.dart';
+import 'package:vyv/navigation/bot_navigation.dart';
 
 // IMPORTING APP VIEWS/SCREENS FOR ROUTES
+import 'navigation/bottom_navigation.dart';
 import 'screens/countries.dart';
 import 'screens/favorites_screen.dart';
 import 'screens/home.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             initialRoute: '/',
             getPages: [
               GetPage(name: '/', page: () => CountriesScreen()),
-              GetPage(name: '/navigator', page: () => BottomNavigator()),
+              GetPage(name: '/navigator', page: () => BottomNavigation()),
               GetPage(name: '/home', page: () => HomeScreen()),
               GetPage(name: '/info', page: () => InfoScreen()),
               GetPage(name: '/fav', page: () => FavoritesScreen()),
