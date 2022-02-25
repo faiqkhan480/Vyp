@@ -64,7 +64,7 @@ class MenuSheet extends StatelessWidget {
         break;
       case 1:
         Get.back(closeOverlays: true);
-        Get.toNamed("/fav");
+        Get.toNamed("/fav", id: 1);
         break;
       case 2:
         Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);

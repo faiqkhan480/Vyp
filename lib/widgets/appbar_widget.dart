@@ -26,7 +26,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         align: TextAlign.center,
         family: 'GemunuLibre',
       ),
-      leading: IconButton(onPressed: () => Get.back(), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
+      leading: IconButton(onPressed: () => Get.back(id: 1, canPop: true), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
       actions: [child ?? SizedBox() ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

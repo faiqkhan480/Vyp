@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/countries_controller.dart';
 import 'package:vyv/models/country_model.dart';
+import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/widgets/text_component.dart';
 
-class CountriesScreen extends StatelessWidget {
+class CountriesScreen extends GetView<CountryController> {
   CountriesScreen({Key? key}) : super(key: key);
-
-  CountryController controller = Get.put(CountryController());
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +50,6 @@ class CountriesScreen extends StatelessWidget {
 
   void handleClick(Country country) {
     // controller.fetchCountryData(country);
-    Get.offNamed('/navigator');
+    Get.offNamed(AppRoutes.ROOT);
   }
 }
