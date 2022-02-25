@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/country_list.dart';
 import 'package:vyv/components/group_list.dart';
+import 'package:vyv/components/map_box.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/utils/app_colors.dart';
 
@@ -112,7 +113,10 @@ class HomeScreen extends GetView<HomeController> {
                     ]
                 ),
               )
-            ],
+            ]
+            else
+              MapBox(),
+
           ],
         ),
       )),
@@ -120,7 +124,7 @@ class HomeScreen extends GetView<HomeController> {
       floatingActionButton: Obx(() => InkWell(
         onTap: () => controller.changeView(),
         child: Container(
-            decoration: BoxDecoration(border: Border.all(color: AppColors.darkGrey)),
+            decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.darkGrey)),
             padding: EdgeInsets.all(8.0),
             child: SvgPicture.asset(controller.showMap.value ? "assets/images/svgs/window.svg" : "assets/images/svgs/paper_map.svg")
         ),
