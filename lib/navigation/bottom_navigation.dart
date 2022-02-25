@@ -49,7 +49,7 @@ class BottomNavigation extends GetView<RootController> {
         elevation: 4.0,
         color: AppColors.white,
         child: Container(
-          height: SizeConfig.heightMultiplier * 8,
+          height: SizeConfig.heightMultiplier * 9,
           width: double.infinity,
           padding: const EdgeInsets.all(8.0),
           child: Row(

@@ -29,11 +29,12 @@ class RootController extends GetxController {
 
   Route? onGenerateRoute(RouteSettings settings) {
     print("ROUTE : ${settings.name}");
-    // if(settings.name == "/")
-    //   return GetPageRoute(
-    //     settings: settings,
-    //     page: () => HomeScreen(),
-    //   );
+    if(settings.name == "/" || settings.name == AppRoutes.HOME)
+      return GetPageRoute(
+        settings: settings,
+        binding: HomeBindings(),
+        page: () => HomeScreen(),
+      );
 
     if (settings.name == AppRoutes.INFO)
       return GetPageRoute(
@@ -46,11 +47,11 @@ class RootController extends GetxController {
         settings: settings,
         page: () => FavoritesScreen()
       );
-    return GetPageRoute(
-      settings: settings,
-      binding: HomeBindings(),
-      page: () => HomeScreen(),
-    );
+    // return GetPageRoute(
+    //   settings: settings,
+    //   binding: HomeBindings(),
+    //   page: () => HomeScreen(),
+    // );
   }
 
   // final navMenuIndex = 0.obs;

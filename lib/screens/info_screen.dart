@@ -39,7 +39,7 @@ class _InfoScreenState extends State<InfoScreen> {
           align: TextAlign.center,
           family: 'GemunuLibre',
         ),
-        leading: IconButton(onPressed: () => Get.back(), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
+        leading: IconButton(onPressed: () => Get.back(canPop: true, id: 1), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
         actions: [],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -69,7 +69,7 @@ class _InfoScreenState extends State<InfoScreen> {
                     // height: 50.0,
                     duration: const Duration(seconds: 2),
                     curve: Curves.fastOutSlowIn,
-                    child: Wrap(
+                    child: Row(
                       children: [
                         // Text(
                         //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",

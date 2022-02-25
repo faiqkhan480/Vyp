@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
@@ -84,6 +85,6 @@ class InfoSheet extends StatelessWidget {
 
   handleNavigate() {
     Get.back(closeOverlays: true);
-    Get.toNamed("/info");
+    Get.toNamed(AppRoutes.INFO, id: 1);
   }
 }

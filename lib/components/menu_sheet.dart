@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/dialog_component.dart';
+import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
@@ -64,7 +65,7 @@ class MenuSheet extends StatelessWidget {
         break;
       case 1:
         Get.back(closeOverlays: true);
-        Get.toNamed("/fav", id: 1);
+        Get.toNamed(AppRoutes.FAVORITES, id: 1);
         break;
       case 2:
         Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
