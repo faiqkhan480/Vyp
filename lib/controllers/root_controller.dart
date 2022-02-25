@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:vyv/models/screen_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/favorites_screen.dart';
-import 'package:vyv/screens/home.dart';
+import 'package:vyv/screens/home/home.dart';
+import 'package:vyv/screens/home/home_bindings.dart';
 import 'package:vyv/screens/info_screen.dart';
 
 /// screens models list
@@ -19,7 +20,7 @@ class RootController extends GetxController {
 
   var currentIndex = 0.obs;
 
-  final pages = <String>[AppRoutes.INFO, AppRoutes.FAVORITES];
+  final pages = <String>[AppRoutes.HOME, AppRoutes.HOME, AppRoutes.HOME, AppRoutes.HOME,];
 
   void changePage(int index) {
     currentIndex.value = index;
@@ -27,6 +28,7 @@ class RootController extends GetxController {
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
+    print("ROUTE : ${settings.name}");
     // if(settings.name == "/")
     //   return GetPageRoute(
     //     settings: settings,
@@ -46,6 +48,7 @@ class RootController extends GetxController {
       );
     return GetPageRoute(
       settings: settings,
+      binding: HomeBindings(),
       page: () => HomeScreen(),
     );
   }
