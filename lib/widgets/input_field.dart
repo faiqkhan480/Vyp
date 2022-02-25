@@ -15,6 +15,7 @@ class InputField extends StatelessWidget {
       child: TextField(
         style: TextStyle(fontFamily: 'Heebo'),
         decoration: InputDecoration(
+          isDense: true,
           hintText: placeHolder.toString().tr,
           prefixIcon: icon,
           hintStyle: TextStyle(fontFamily: 'Heebo'),

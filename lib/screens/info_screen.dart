@@ -59,11 +59,13 @@ class _InfoScreenState extends State<InfoScreen> {
 
             // CONTENT
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextWidget(text: "Tennis de Monte Frio", size: 2.0, weight: FontWeight.w700,),
+                  TextWidget(text: "Tennis de Monte Frio", size: 2.4, weight: FontWeight.w700,),
+                  VerticalSpace(20),
+
                   AnimatedContainer(
                     // height: readMore ? 100.0 : 200.0,
                     // height: 50.0,
@@ -164,7 +166,7 @@ class _InfoScreenState extends State<InfoScreen> {
           TextWidget(text: stars, size: 1.6,),
           Expanded(
               child: LinearPercentIndicator(
-                width: SizeConfig.screenWidth * 0.78,
+                width: SizeConfig.screenWidth * 0.74,
                 lineHeight: 8.0,
                 percent: 0.5,
                 barRadius: Radius.circular(50),

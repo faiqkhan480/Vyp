@@ -9,14 +9,25 @@ class Button extends StatelessWidget {
   final bool? isFlat;
   final double? radius;
   final Color? color;
+  final Widget? icon;
 
-  const Button(this.text, {required this.onPressed, this.isFlat, this.radius, this.color});
+  const Button(this.text, {required this.onPressed, this.isFlat, this.icon, this.radius, this.color});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child: Text(text.tr),
+      child: icon != null ? Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 5, top: 0, bottom: 0),
+            child: icon!,
+          ),
+
+          Text(text.tr),
+        ],
+      ) : Text(text.tr),
       style: TextButton.styleFrom(
           primary: isFlat != null ? AppColors.white : color,
           backgroundColor: color ?? Colors.transparent,
@@ -24,6 +35,7 @@ class Button extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius ?? 100),
             // side: BorderSide(color: AppColors.primaryColor)
           ) : null,
+          padding: EdgeInsets.symmetric(vertical: 15),
           textStyle: TextStyle(fontSize: isFlat == null ? 13 :  SizeConfig.textMultiplier * 2.2, fontWeight: isFlat != null ? FontWeight.w400 : FontWeight.w700)
       ),
     );

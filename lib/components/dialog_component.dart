@@ -20,6 +20,7 @@ class _DialogComponentState extends State<DialogComponent> {
       insetPadding: EdgeInsets.symmetric(horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       clipBehavior: Clip.antiAlias,
+      elevation: 2.0,
       child: isLogin ? LoginForm(action: handleChange) : SignupForm(action: handleChange,),
     );
   }

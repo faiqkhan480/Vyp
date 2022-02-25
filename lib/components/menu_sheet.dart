@@ -16,6 +16,7 @@ class MenuSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List menu = guestMenu;
+    // List menu = loginMenu;
     return Container(
         color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -40,7 +41,7 @@ class MenuSheet extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () => null,
-                child: Text("logout"),
+                child: Text("logout".tr),
                 style: TextButton.styleFrom(
                   primary: AppColors.skyBlue,
                 textStyle: TextStyle(decoration: TextDecoration.underline, fontSize: SizeConfig.textMultiplier * 1.8),
@@ -55,20 +56,15 @@ class MenuSheet extends StatelessWidget {
   handleClick(num index, bool isLogin) {
     switch (index) {
       case 0:
-        Get.bottomSheet(
-          InfoSheet(),
-          isDismissible: true,
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
-          enableDrag: false,
-        );
+        Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
         break;
       case 1:
-        Get.back(closeOverlays: true);
-        Get.toNamed(AppRoutes.FAVORITES, id: 1);
+        // Get.back(closeOverlays: true);
+        // Get.toNamed(AppRoutes.FAVORITES, id: 1);
         break;
       case 2:
-        Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
+        Get.back(closeOverlays: true);
+        Get.toNamed(AppRoutes.FAVORITES, id: 1);
         break;
     }
   }

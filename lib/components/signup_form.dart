@@ -28,7 +28,7 @@ class _SignupFormState extends State<SignupForm> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  String dropdownValue = 'One';
+  String dropdownValue = '';
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -65,8 +65,9 @@ class _SignupFormState extends State<SignupForm> {
                     controller: firstNameController,
                     decoration: InputDecoration(
                         isDense: true,
+                        prefixIconConstraints: BoxConstraints(maxWidth: 40),
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
                           child: SvgPicture.asset("assets/images/svgs/user.svg"),
                         ),
                         contentPadding: EdgeInsets.zero,
@@ -75,6 +76,7 @@ class _SignupFormState extends State<SignupForm> {
                         labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
                     ),
                   ),),
+                  HorizontalSpace(20),
                   Expanded( child: TextFormField(
                     controller: lastNameController,
                     decoration: InputDecoration(
@@ -101,8 +103,9 @@ class _SignupFormState extends State<SignupForm> {
               controller: emailController,
               decoration: InputDecoration(
                   isDense: true,
+                  prefixIconConstraints: BoxConstraints(maxWidth: 40),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
                     child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
                   ),
                   contentPadding: EdgeInsets.zero,
@@ -117,8 +120,9 @@ class _SignupFormState extends State<SignupForm> {
               controller: phoneController,
               decoration: InputDecoration(
                   isDense: true,
+                  prefixIconConstraints: BoxConstraints(maxWidth: 40),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
                     child: SvgPicture.asset("assets/images/svgs/phone_square.svg"),
                   ),
                   contentPadding: EdgeInsets.zero,
@@ -134,7 +138,8 @@ class _SignupFormState extends State<SignupForm> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: dropdownValue,
+                      hint: Text("nationality".tr, style: TextStyle(color: AppColors.greyScale.withOpacity(0.7), fontFamily: 'Heebo', fontWeight: FontWeight.w300),),
+                      // value: dropdownValue,
                       icon:  SvgPicture.asset("assets/images/svgs/arrow_down.svg"),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
@@ -174,8 +179,9 @@ class _SignupFormState extends State<SignupForm> {
               obscureText: true,
               decoration: InputDecoration(
                 isDense: true,
+                prefixIconConstraints: BoxConstraints(maxWidth: 40),
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
                   child: SvgPicture.asset("assets/images/svgs/lock_open.svg"),
                 ),
                 contentPadding: EdgeInsets.zero,
@@ -190,8 +196,9 @@ class _SignupFormState extends State<SignupForm> {
               obscureText: true,
               decoration: InputDecoration(
                 isDense: true,
+                prefixIconConstraints: BoxConstraints(maxWidth: 40),
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
                   child: SvgPicture.asset("assets/images/svgs/lock_open.svg"),
                 ),
                 contentPadding: EdgeInsets.zero,
@@ -210,7 +217,7 @@ class _SignupFormState extends State<SignupForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextWidget(text: "already_have_account", size: 1.5, align: TextAlign.center,),
-                InkWell(onTap: () => null, child: TextWidget(text: "sign_in", size: 1.5, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
+                InkWell(onTap: () => widget.action(true), child: TextWidget(text: "sign_in", size: 1.5, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
               ],
             ),
           ],

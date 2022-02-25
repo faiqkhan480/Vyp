@@ -16,7 +16,7 @@ const Map<String, String> en_US = {
   "share": "Share",
   "logout": "Logout",
   // INFO MENU
-  "free": "free",
+  "free": "Free",
   "go_to_web": "Go to website",
 
   "categories": "Categories",
@@ -47,5 +47,6 @@ const Map<String, String> en_US = {
   "b_day": "Bd yyyy/mm/dd",
   "confirm_password": "Confirm password",
   "create_upper": "CREATE",
-  "": "",
+  "name": "Name",
+  "add": "Add",
 };

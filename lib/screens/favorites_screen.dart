@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:vyv/components/add_favorite_dialog.dart';
 import 'package:vyv/widgets/appbar_widget.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -14,11 +16,15 @@ const List<String> images = [
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
 
+  void handleClick() {
+    Get.dialog(AddFavorite(), barrierDismissible: true, useSafeArea: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        child: IconButton(onPressed: () => null, icon: SvgPicture.asset("assets/images/svgs/plus.svg"))
+        child: IconButton(onPressed: handleClick, icon: SvgPicture.asset("assets/images/svgs/plus.svg"))
       ),
 
       body: GridView.count(

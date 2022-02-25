@@ -25,7 +25,7 @@ class InfoSheet extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWidget(text: "Tennis de Aigra Nova", size: 1.8, color: AppColors.darkGrey,),
+                TextWidget(text: "Tennis de Aigra Nova", size: 2.2, color: AppColors.darkGrey,),
                 InkWell(child: SvgPicture.asset("assets/images/svgs/close_square.svg"), onTap: handleClose,)
               ],
             ),
@@ -35,7 +35,7 @@ class InfoSheet extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
             child: Row(
               children: [
-                TextWidget(text: "free", size: 1.8, weight: FontWeight.w500,),
+                TextWidget(text: "free", size: 2.0, weight: FontWeight.w500,),
                 HorizontalSpace(8),
                 SvgPicture.asset("assets/images/svgs/success.svg"),
                 HorizontalSpace(8),
@@ -60,7 +60,9 @@ class InfoSheet extends StatelessWidget {
                   ),
                 ),
                 HorizontalSpace(8),
-                Expanded(flex: 3,child: TextWidget(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae mollis ipsum. Integer at mi vel nisi sagittis aliquam. Integer fermentum sed quam non blandit. Vivamus dapibus commodo libero at sodales.", size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,)),
+                Expanded(flex: 3,child: TextWidget(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae mollis ipsum. Integer at mi vel nisi sagittis aliquam."
+                    " Integer fermentum sed quam non blandit. Vivamus dapibus commodo libero at sodales."
+                    "Integer fermentum sed quam non blandit.", size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,)),
               ],
             ),
           ),

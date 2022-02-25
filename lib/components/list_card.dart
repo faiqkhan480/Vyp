@@ -6,6 +6,7 @@ import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 import 'package:get/get.dart';
 
+import 'info_sheet.dart';
 import 'menu_sheet.dart';
 
 class ListCard extends StatelessWidget {
@@ -29,7 +30,14 @@ class ListCard extends StatelessWidget {
   }
 
   handleInfoClick() {
-    Get.toNamed(AppRoutes.INFO, id: 1);
+    Get.bottomSheet(
+      InfoSheet(),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
+      enableDrag: false,
+    );
+    // Get.toNamed(AppRoutes.INFO, id: 1);
   }
 
   @override

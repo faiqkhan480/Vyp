@@ -66,17 +66,17 @@ class HomeScreen extends GetView<HomeController> {
             InputField(
               placeHolder: "what_r_u_looking_for",
               icon: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
               ),
               horizontal: 30,
-              vertical: 20,
+              vertical: 15,
             ),
             // VerticalSpace(15),
             InputField(
               placeHolder: "where",
               icon: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset("assets/images/svgs/location.svg"),
               ),
               horizontal: 30,
@@ -87,6 +87,9 @@ class HomeScreen extends GetView<HomeController> {
               TabBar(
                   indicatorColor: AppColors.black,
                   indicatorWeight: 0.9,
+                  labelColor: AppColors.black,
+                  labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
+                  unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
                   labelPadding: EdgeInsets.zero,
                   tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
                     decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
@@ -94,10 +97,9 @@ class HomeScreen extends GetView<HomeController> {
                     margin: EdgeInsets.only(bottom: 5),
                     height: double.infinity,
                     width: double.infinity,
-                    child: TextWidget(
-                      text: tabs.elementAt(index),
-                      size: 1.8,
-                      align: TextAlign.center,
+                    child: Text(
+                      tabs.elementAt(index).tr,
+                      textAlign: TextAlign.center,
                     ),
                   ),))
               ),
