@@ -2,7 +2,8 @@
     package="com.eusopht.vyv">
    <application
         android:label="vyv"
-        android:icon="@mipmap/ic_launcher">
+       android:icon="@mipmap/ic_launcher"
+       android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

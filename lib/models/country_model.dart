@@ -12,18 +12,22 @@ class Country {
   Country({
     this.id,
     this.countryName,
+    this.imageStr,
   });
 
   int? id;
   String? countryName;
+  String? imageStr;
 
   factory Country.fromMap(Map<String, dynamic> json) => Country(
     id: json["id"] ?? null,
     countryName: json["countryName"] ?? null,
+    imageStr: json["imageStr"] ?? null,
   );
 
   Map<String, dynamic> toMap() => {
     "id": id ?? null,
     "countryName": countryName ?? null,
+    "imageStr": imageStr ?? null,
   };
 }
