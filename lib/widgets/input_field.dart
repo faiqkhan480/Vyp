@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({Key? key, this.placeHolder, this.icon, this.vertical, this.horizontal}) : super(key: key);
+  const InputField({Key? key, this.placeHolder, this.readOnly, this.icon, this.vertical, this.horizontal}) : super(key: key);
 
   final String? placeHolder;
   final Widget? icon;
+  final bool? readOnly;
   final double? vertical, horizontal;
 
   @override
@@ -14,6 +15,7 @@ class InputField extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: vertical ?? 0.0, horizontal: horizontal ?? 0.0,),
       child: TextField(
         style: TextStyle(fontFamily: 'Heebo'),
+        readOnly: readOnly ?? false,
         decoration: InputDecoration(
           isDense: true,
           hintText: placeHolder.toString().tr,

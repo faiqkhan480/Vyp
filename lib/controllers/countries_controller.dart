@@ -4,7 +4,7 @@ import 'package:vyv/models/country_model.dart';
 import 'package:vyv/service/services.dart';
 
 class CountryController extends GetxController {
-  static CountryController get to => Get.find();
+  static CountryController get controller => Get.find();
 
   Rx<bool> isLoading = false.obs;
   List<Country> countries = List<Country>.empty(growable: true).obs;

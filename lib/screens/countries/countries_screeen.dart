@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/countries_controller.dart';
+import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
@@ -88,7 +89,11 @@ class CountriesScreen extends GetView<CountryController> {
   }
 
   void handleClick(Country country) {
+    SearchController _searchController = Get.find<SearchController>();
+    _searchController.setCountry(country);
+    _searchController.fetchDistricts();
+    // print(_searchController.selectedCountry.value.countryName);
     // controller.fetchCountryData(country);
-    Get.offNamed(AppRoutes.ROOT);
+    // Get.offNamed(AppRoutes.ROOT);
   }
 }

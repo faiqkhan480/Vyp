@@ -5,7 +5,7 @@ import 'package:vyv/utils/app_colors.dart';
 class Constants {
   static final baseURL = 'https://vyvapi.azurewebsites.net';
   static final appName = 'Vyv';
-  static final imgUrl = 'https://s3-alpha-sig.figma.com/img/14da/de7a/53bbc93c0f0cc06000d0f846d34c04c0?Expires=1646006400&Signature=haYuDjTnl8vAu5lazbNSuc~A8o~~jnwFbEczvtOrj~zyEjDGc5CBZDHaW973ZjI2SngwzZHRluTMdifPrIJRbSfQuG-NwaETa3JovwpS-L~CXWITow8nqUXMNcazEDV06xlecvqrpxn5VP4uhOGd61xhLMtINsstMHWguNkQmzdJxpjOkm5oYyDBfMJ1pVTGd-USYSDD-c~E-vsxn27orcqiThp42YiTYcJo-4qoidwhD0KZdT9tOtyEXY7yU~~cOLR0U~KpHadJuKJQ-DVwHeuRSjmuT0ArmGy1dGZrnIaMzXC-NiJM-gTl5x5P6ANxMgUcUfaVjQrpiTzbymCPsg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA';
+  static final imgUrl = 'https://zameenblog.s3.amazonaws.com/blog/wp-content/uploads/2020/07/national-stadium-karachi-E-03-07-1.jpg';
   static final appbarHeight = AppBar().preferredSize.height;
 }
 

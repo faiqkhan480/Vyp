@@ -65,6 +65,7 @@ class HomeScreen extends GetView<HomeController> {
           children: [
             InputField(
               placeHolder: "what_r_u_looking_for",
+              readOnly: true,
               icon: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
@@ -75,6 +76,7 @@ class HomeScreen extends GetView<HomeController> {
             // VerticalSpace(15),
             InputField(
               placeHolder: "where",
+              readOnly: true,
               icon: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset("assets/images/svgs/location.svg"),
