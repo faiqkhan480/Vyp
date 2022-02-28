@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:vyv/components/country_list.dart';
 import 'package:vyv/components/group_list.dart';
 import 'package:vyv/components/map_box.dart';
+import 'package:vyv/components/search_sheet.dart';
 import 'package:vyv/controllers/home_controller.dart';
+import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/utils/app_colors.dart';
 
 import 'package:vyv/utils/constants.dart';
@@ -17,6 +19,8 @@ import 'package:vyv/widgets/text_component.dart';
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
+
+  SearchController searchController = Get.find<SearchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +76,7 @@ class HomeScreen extends GetView<HomeController> {
               ),
               horizontal: 30,
               vertical: 15,
+              onTap: handleSearch,
             ),
             // VerticalSpace(15),
             InputField(
@@ -100,7 +105,9 @@ class HomeScreen extends GetView<HomeController> {
                     height: double.infinity,
                     width: double.infinity,
                     child: Text(
-                      tabs.elementAt(index).tr,
+                      index == 0 ?
+                      searchController.selectedCountry.value.countryName ?? ""
+                          : tabs.elementAt(index).tr,
                       textAlign: TextAlign.center,
                     ),
                   ),))
@@ -134,5 +141,16 @@ class HomeScreen extends GetView<HomeController> {
         ),
       )),
     );
+  }
+
+  handleSearch() {
+    Get.bottomSheet(
+      SearchBottomSheet(),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
+      enableDrag: true,
+    );
+    // Get.toNamed(AppRoutes.INFO, id: 1);
   }
 }

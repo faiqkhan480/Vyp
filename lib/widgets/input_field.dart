@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({Key? key, this.placeHolder, this.readOnly, this.icon, this.vertical, this.horizontal}) : super(key: key);
+  const InputField({Key? key, this.onTap, this.placeHolder, this.readOnly, this.icon, this.vertical, this.horizontal}) : super(key: key);
 
   final String? placeHolder;
   final Widget? icon;
   final bool? readOnly;
   final double? vertical, horizontal;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class InputField extends StatelessWidget {
       child: TextField(
         style: TextStyle(fontFamily: 'Heebo'),
         readOnly: readOnly ?? false,
+        onTap: onTap,
         decoration: InputDecoration(
           isDense: true,
           hintText: placeHolder.toString().tr,

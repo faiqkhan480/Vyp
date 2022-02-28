@@ -6,6 +6,6 @@ class CountriesBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => CountryController());
-    Get.lazyPut(() => SearchController());
+    // Get.put<SearchController>(SearchController());
   }
 }

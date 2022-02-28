@@ -16,6 +16,8 @@ import 'package:vyv/widgets/text_component.dart';
 class CountriesScreen extends GetView<CountryController> {
   CountriesScreen({Key? key}) : super(key: key);
 
+  SearchController _searchController = Get.put(SearchController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,40 +50,47 @@ class CountriesScreen extends GetView<CountryController> {
                       // weight: FontWeight.w300,
                       // family: 'GemunuLibre',
                     ),
-                    HorizontalSpace(23),
-                    SvgPicture.asset("assets/images/svgs/arrow_up.svg")
+                    // HorizontalSpace(23),
+                    // SvgPicture.asset("assets/images/svgs/arrow_up.svg")
                   ],
                 ),
 
               VerticalSpace(30),
 
-              for(Country country in controller.countries)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.memory(
-                            base64Decode(country.imageStr!),
-                            height: SizeConfig.heightMultiplier * 3,
+              if(controller.countries.isNotEmpty)
+              SizedBox(
+                height: SizeConfig.heightMultiplier * 39,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: List.generate(controller.countries.length + 3, (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: ListTile(
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.memory(
+                              base64Decode(controller.countries.elementAt(index > 2 ? index ~/ 2 : index).imageStr!),
+                              height: SizeConfig.heightMultiplier * 3,
+                            ),
                           ),
-                        ),
-                        TextWidget(
-                          text: country.countryName,
-                          // color: AppColors.primaryColor,
-                          size: 2.4,
-                          align: TextAlign.center,
-                          // family: 'GemunuLibre',
-                        ),
-                      ],
+                          TextWidget(
+                            text: controller.countries.elementAt(index > 2 ? index ~/ 2 : index).countryName,
+                            // color: AppColors.primaryColor,
+                            size: 2.4,
+                            align: TextAlign.center,
+                            // family: 'GemunuLibre',
+                          ),
+                        ],
+                      ),
+                      subtitle: (index > 4) ? null : Divider(color: AppColors.darkGrey,),
+                      // subtitle: (controller.countries.elementAt(index > 2 ? (index -1) : index) == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
+                      onTap: () => handleClick(controller.countries.elementAt(index > 2 ? index ~/ 2 : index)),
                     ),
-                    subtitle: (country == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
-                    onTap: () => handleClick(country),
-                  ),
+                  )),
                 ),
+              ),
             ],
           )
       ),
@@ -89,7 +98,6 @@ class CountriesScreen extends GetView<CountryController> {
   }
 
   void handleClick(Country country) {
-    SearchController _searchController = Get.find<SearchController>();
     _searchController.setCountry(country);
     _searchController.fetchDistricts();
     // print(_searchController.selectedCountry.value.countryName);
