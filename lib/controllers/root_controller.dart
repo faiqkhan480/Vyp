@@ -19,12 +19,17 @@ class RootController extends GetxController {
   static RootController get to => Get.find();
 
   var currentIndex = 0.obs;
+  var currentTab = 0.obs;
 
   final pages = <String>[AppRoutes.HOME, AppRoutes.HOME, AppRoutes.HOME, AppRoutes.HOME,];
 
   void changePage(int index) {
     currentIndex.value = index;
     Get.toNamed(pages.elementAt(index), id: 1);
+  }
+
+  void changeTab(int index) {
+    currentTab.value = index;
   }
 
   Route? onGenerateRoute(RouteSettings settings) {

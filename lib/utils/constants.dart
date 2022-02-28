@@ -5,7 +5,7 @@ import 'package:vyv/utils/app_colors.dart';
 class Constants {
   static final baseURL = 'https://vyvapi.azurewebsites.net';
   static final appName = 'Vyv';
-  static final imgUrl = 'https://zameenblog.s3.amazonaws.com/blog/wp-content/uploads/2020/07/national-stadium-karachi-E-03-07-1.jpg';
+  static final imgUrl = 'assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg';
   static final appbarHeight = AppBar().preferredSize.height;
 }
 

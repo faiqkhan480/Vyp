@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vyv/components/country_list.dart';
 import 'package:vyv/components/group_list.dart';
 import 'package:vyv/components/map_box.dart';
+import 'package:vyv/components/menu_sheet.dart';
 import 'package:vyv/components/search_sheet.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
@@ -22,6 +23,22 @@ class HomeScreen extends GetView<HomeController> {
 
   SearchController searchController = Get.find<SearchController>();
 
+  handleClick() {
+    Get.bottomSheet(
+      MenuSheet(isLogin: false,),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        // side: BorderSide(
+        //     width: 5,
+        //     color: Colors.black
+        // )
+      ),
+      enableDrag: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,30 +52,32 @@ class HomeScreen extends GetView<HomeController> {
           align: TextAlign.center,
           family: 'GemunuLibre',
         ),
-        actions: [IconButton(onPressed: () => null, icon: Icon(Icons.menu, color: Colors.black,))],
+        actions: [IconButton(onPressed: handleClick, icon: Icon(Icons.menu, color: Colors.black,))],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
           ),
         ),
-        bottom: PreferredSize(
-          child: Container(
-            padding: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(),
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
-              HorizontalSpace(8),
-              TextWidget(
-                text: "lisbon",
-                // color: AppColors.primaryColor,
-                size: 1.8,
-                // align: TextAlign.center,
-              ),
-            ],
-          ),),
-          preferredSize: Size(double.infinity, 30),
+        flexibleSpace: PreferredSize(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.only(bottom: 5),
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
+                HorizontalSpace(8),
+                TextWidget(
+                  text: "lisbon",
+                  // color: AppColors.primaryColor,
+                  size: 1.8,
+                  // align: TextAlign.center,
+                ),
+              ],
+            ),),
+          ),
+          preferredSize: Size(double.infinity, 18),
         ),
       ),
 
@@ -105,9 +124,10 @@ class HomeScreen extends GetView<HomeController> {
                     height: double.infinity,
                     width: double.infinity,
                     child: Text(
-                      index == 0 ?
-                      searchController.selectedCountry.value.countryName ?? ""
-                          : tabs.elementAt(index).tr,
+                      tabs.elementAt(index).tr,
+                      // index == 0 ?
+                      // searchController.selectedCountry.value.countryName ?? ""
+                      //     : tabs.elementAt(index).tr,
                       textAlign: TextAlign.center,
                     ),
                   ),))

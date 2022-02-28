@@ -16,7 +16,7 @@ class ListCard extends StatelessWidget {
 
   handleClick() {
     Get.bottomSheet(
-      MenuSheet(),
+      MenuSheet(isLogin: true,),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -46,7 +46,7 @@ class ListCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(Constants.imgUrl),
+            image: AssetImage(Constants.imgUrl),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4),
                 BlendMode.colorBurn),

@@ -52,7 +52,7 @@ class _InfoScreenState extends State<InfoScreen> {
         child: ListView(
           children: [
             // BANNER IMAGE
-            Image.network(Constants.imgUrl,
+            Image.asset(Constants.imgUrl,
               height: SizeConfig.heightMultiplier * 20,
               fit: BoxFit.cover,
             ),
