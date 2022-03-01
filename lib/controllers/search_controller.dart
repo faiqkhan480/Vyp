@@ -4,8 +4,11 @@ import 'package:vyv/models/district.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
 
+import 'home_controller.dart';
+
 class SearchController extends GetxController {
-  static SearchController get searchController => Get.find();
+  // static SearchController get searchController => Get.find();
+  static HomeController get homeController => Get.find();
 
   RxBool isFetching = false.obs;
   Rx<Country> selectedCountry = Country().obs;
@@ -15,6 +18,7 @@ class SearchController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    fetchDistricts();
   }
 
   void setCountry(Country c) => selectedCountry.value = c;
@@ -22,7 +26,8 @@ class SearchController extends GetxController {
   fetchDistricts() async {
     try{
       isFetching.value = true;
-      var res = await Service.getDistricts(selectedCountry.value.id!);
+      // var res = await Service.getDistricts(selectedCountry.value.id!);
+      var res = await Service.getDistricts(homeController.selectedCountry.value.id!);
       if(res != null) {
         districts.assignAll(res);
         isFetching.value = false;

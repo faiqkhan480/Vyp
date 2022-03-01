@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/countries_controller.dart';
+import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/routes/app_routes.dart';
@@ -15,8 +16,6 @@ import 'package:vyv/widgets/text_component.dart';
 
 class CountriesScreen extends GetView<CountryController> {
   CountriesScreen({Key? key}) : super(key: key);
-
-  SearchController _searchController = Get.put(SearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class CountriesScreen extends GetView<CountryController> {
                 height: SizeConfig.heightMultiplier * 39,
                 child: ListView(
                   shrinkWrap: true,
-                  children: List.generate(controller.countries.length + 3, (index) => Padding(
+                  children: List.generate(controller.countries.length, (index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ListTile(
                       title: Row(
@@ -71,12 +70,12 @@ class CountriesScreen extends GetView<CountryController> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Image.memory(
-                              base64Decode(controller.countries.elementAt(index > 2 ? index ~/ 2 : index).imageStr!),
+                              base64Decode(controller.countries.elementAt(index).imageStr!),
                               height: SizeConfig.heightMultiplier * 3,
                             ),
                           ),
                           TextWidget(
-                            text: controller.countries.elementAt(index > 2 ? index ~/ 2 : index).countryName,
+                            text: controller.countries.elementAt(index).countryName,
                             // color: AppColors.primaryColor,
                             size: 2.4,
                             align: TextAlign.center,
@@ -84,9 +83,8 @@ class CountriesScreen extends GetView<CountryController> {
                           ),
                         ],
                       ),
-                      subtitle: (index > 4) ? null : Divider(color: AppColors.darkGrey,),
-                      // subtitle: (controller.countries.elementAt(index > 2 ? (index -1) : index) == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
-                      onTap: () => handleClick(controller.countries.elementAt(index > 2 ? index ~/ 2 : index)),
+                      subtitle: (controller.countries.elementAt(index > 2 ? (index -1) : index) == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
+                      onTap: () => handleClick(controller.countries.elementAt(index)),
                     ),
                   )),
                 ),
@@ -98,10 +96,10 @@ class CountriesScreen extends GetView<CountryController> {
   }
 
   void handleClick(Country country) {
-    // _searchController.setCountry(country);
+    controller.setCountry(country);
     // _searchController.fetchDistricts();
     // // print(_searchController.selectedCountry.value.countryName);
     // // controller.fetchCountryData(country);
-    Get.offNamed(AppRoutes.ROOT);
+    // Get.offNamed(AppRoutes.ROOT);
   }
 }

@@ -21,7 +21,7 @@ class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
 
-  SearchController searchController = Get.find<SearchController>();
+  // SearchController searchController = Get.find<SearchController>();
 
   handleClick() {
     Get.bottomSheet(
@@ -37,6 +37,17 @@ class HomeScreen extends GetView<HomeController> {
       ),
       enableDrag: false,
     );
+  }
+
+  handleSearch() {
+    Get.bottomSheet(
+      SearchBottomSheet(),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
+      enableDrag: true,
+    );
+    // Get.toNamed(AppRoutes.INFO, id: 1);
   }
 
   @override
@@ -80,97 +91,111 @@ class HomeScreen extends GetView<HomeController> {
           preferredSize: Size(double.infinity, 18),
         ),
       ),
-
-      body: Obx(() => DefaultTabController(
-        length: tabs.length,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InputField(
-              placeHolder: "what_r_u_looking_for",
-              readOnly: true,
-              icon: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
-              ),
-              horizontal: 30,
-              vertical: 15,
-              onTap: handleSearch,
-            ),
-            // VerticalSpace(15),
-            InputField(
-              placeHolder: "where",
-              readOnly: true,
-              icon: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset("assets/images/svgs/location.svg"),
-              ),
-              horizontal: 30,
-              vertical: 0,
-            ),
-            VerticalSpace(20),
-            if(!controller.showMap.value)...[
-              TabBar(
-                  indicatorColor: AppColors.black,
-                  indicatorWeight: 0.9,
-                  labelColor: AppColors.black,
-                  labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
-                  unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
-                  labelPadding: EdgeInsets.zero,
-                  tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
-                    decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(bottom: 5),
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Text(
-                      tabs.elementAt(index).tr,
-                      // index == 0 ?
-                      // searchController.selectedCountry.value.countryName ?? ""
-                      //     : tabs.elementAt(index).tr,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),))
-              ),
-
-              // CountryList(),
-              Flexible(
-                child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    children: [
-                      CountryList(),
-                      GroupList(),
-                      GroupList(),
-                    ]
-                ),
-              )
-            ]
-            else
-              MapBox(),
-
-          ],
-        ),
-      )),
+      body: Obx(body),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Obx(() => InkWell(
-        onTap: () => controller.changeView(),
-        child: Container(
-            decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.darkGrey)),
-            padding: EdgeInsets.all(8.0),
-            child: SvgPicture.asset(controller.showMap.value ? "assets/images/svgs/window.svg" : "assets/images/svgs/paper_map.svg")
-        ),
-      )),
+      floatingActionButton: Obx(mapButton),
     );
   }
 
-  handleSearch() {
-    Get.bottomSheet(
-      SearchBottomSheet(),
-      isDismissible: true,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
-      enableDrag: true,
+  // BODY
+  Widget body() {
+    return DefaultTabController(
+      length: tabs.length,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...searchFields(),
+          VerticalSpace(20),
+          if(!controller.showMap.value)...[
+            // TABS
+            homeTabs(),
+            // COUNTRY LIST,
+            tabViews(),
+          ]
+          else
+            MapBox(),
+        ],
+      ),
     );
-    // Get.toNamed(AppRoutes.INFO, id: 1);
+  }
+
+  // SEARCH FIELDS
+  List<Widget> searchFields() {
+    return [
+      InputField(
+        placeHolder: "what_r_u_looking_for",
+        readOnly: true,
+        icon: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
+        ),
+        horizontal: 30,
+        vertical: 15,
+        onTap: handleSearch,
+      ),
+      // VerticalSpace(15),
+      InputField(
+        placeHolder: "where",
+        readOnly: true,
+        icon: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SvgPicture.asset("assets/images/svgs/location.svg"),
+        ),
+        horizontal: 30,
+        vertical: 0,
+      ),
+    ];
+  }
+
+  // TABS
+  Widget homeTabs() {
+    return TabBar(
+        indicatorColor: AppColors.black,
+        indicatorWeight: 0.9,
+        labelColor: AppColors.black,
+        labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
+        labelPadding: EdgeInsets.zero,
+        tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
+          decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(bottom: 5),
+          height: double.infinity,
+          width: double.infinity,
+          child: Text(
+            // tabs.elementAt(index).tr,
+            index == 0 ?
+            controller.selectedCountry.value.countryName ?? ""
+                : tabs.elementAt(index).tr,
+            textAlign: TextAlign.center,
+          ),
+        ),))
+    );
+  }
+
+  // TABS VIEWS
+  Widget tabViews() {
+    return Flexible(
+      child: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            CountryList(),
+            GroupList( isDistrict: true,),
+            GroupList( isDistrict: false,),
+          ]
+      ),
+    );
+  }
+
+  // FLOAT BUTTON
+  Widget mapButton() {
+    return InkWell(
+      onTap: controller.changeView,
+      child: Container(
+          decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.darkGrey)),
+          padding: EdgeInsets.all(8.0),
+          child: SvgPicture.asset(controller.showMap.value ? "assets/images/svgs/window.svg" : "assets/images/svgs/paper_map.svg")
+      ),
+    );
   }
 }

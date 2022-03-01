@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 import 'country_list.dart';
 
 class GroupList extends StatelessWidget {
-  const GroupList({Key? key}) : super(key: key);
+  final SearchController? controller;
+  final bool isDistrict;
+  const GroupList({Key? key,  this.controller, required this.isDistrict}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

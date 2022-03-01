@@ -30,4 +30,8 @@ class Service {
       return throw Exception(e);
     }
   }
+
+  static search({asd}) async {
+
+  }
 }

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vyv/models/country_model.dart';
+import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
 
 class CountryController extends GetxController {
@@ -8,12 +12,17 @@ class CountryController extends GetxController {
 
   Rx<bool> isLoading = false.obs;
   List<Country> countries = List<Country>.empty(growable: true).obs;
-  Rx<Country?> selectedCountry = Country().obs;
+  GetStorage box = GetStorage();
 
   @override
   void onInit() {
     super.onInit();
     fetchCountries();
+  }
+
+  void setCountry(Country c) {
+    box.write('country', c.toMap());
+    Get.offNamed(AppRoutes.HOME);
   }
 
   fetchCountries() async {

@@ -6,6 +6,7 @@ import 'package:vyv/routes/app_pages.dart';
 import 'package:vyv/routes/app_routes.dart';
 
 // IMPORTING APP UTILS USED IN THIS COMPONENT
+import 'controllers/home_controller.dart';
 import 'utils/app_translation.dart';
 import 'utils/size_config.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Heebo",
               primarySwatch: Colors.red,
             ),
+            // initialBinding: InitialBinding(),
             initialRoute: AppRoutes.COUNTRIES,
             getPages: AppPages.list,
             // home: Countries(),
@@ -47,5 +49,13 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class InitialBinding implements Bindings {
+// default dependency
+  @override
+  void dependencies() {
+    Get.lazyPut(() => HomeController());
   }
 }
