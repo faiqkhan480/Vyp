@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vyv/models/country_model.dart';
+import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district.dart';
 import 'package:vyv/service/apis.dart';
 import 'package:vyv/utils/network.dart';
@@ -27,6 +28,19 @@ class Service {
     } catch(e){
       print("ERROR DISTRICT: $e");
       Get.rawSnackbar(title: "Error district in Request");
+      return throw Exception(e);
+    }
+  }
+
+  static getCounties(int countryId) async {
+    try{
+      var res = await Network.get(url: Api.counties + countryId.toString());
+      if(res != null)
+        return countyFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR COUNTY: $e");
+      Get.rawSnackbar(title: "Error in county request!");
       return throw Exception(e);
     }
   }

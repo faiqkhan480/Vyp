@@ -95,11 +95,5 @@ class CountriesScreen extends GetView<CountryController> {
     );
   }
 
-  void handleClick(Country country) {
-    controller.setCountry(country);
-    // _searchController.fetchDistricts();
-    // // print(_searchController.selectedCountry.value.countryName);
-    // // controller.fetchCountryData(country);
-    // Get.offNamed(AppRoutes.ROOT);
-  }
+  void handleClick(Country country) => controller.setCountry(country);
 }

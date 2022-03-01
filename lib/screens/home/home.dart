@@ -39,6 +39,7 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
+  // SEARCH SHEET
   handleSearch() {
     Get.bottomSheet(
       SearchBottomSheet(),
@@ -46,6 +47,7 @@ class HomeScreen extends GetView<HomeController> {
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
       enableDrag: true,
+      isScrollControlled: true,
     );
     // Get.toNamed(AppRoutes.INFO, id: 1);
   }

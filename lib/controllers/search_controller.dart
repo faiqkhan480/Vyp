@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:vyv/models/country_model.dart';
+import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district.dart';
+import 'package:vyv/models/search_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
 
@@ -10,35 +12,67 @@ class SearchController extends GetxController {
   // static SearchController get searchController => Get.find();
   static HomeController get homeController => Get.find();
 
-  RxBool isFetching = false.obs;
+  RxBool fetchingDistrict = false.obs;
+  RxBool fetchingCounties = false.obs;
   Rx<Country> selectedCountry = Country().obs;
   List<District> districts = List<District>.empty(growable: true).obs;
+  List<County> counties = List<County>.empty(growable: true).obs;
+  List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    fetchDistricts();
+    fetchDistricts().then((value) => fetchCounties());
   }
-
-  void setCountry(Country c) => selectedCountry.value = c;
-
-  fetchDistricts() async {
+  Future fetchDistricts() async {
     try{
-      isFetching.value = true;
+      fetchingDistrict.value = true;
       // var res = await Service.getDistricts(selectedCountry.value.id!);
       var res = await Service.getDistricts(homeController.selectedCountry.value.id!);
       if(res != null) {
         districts.assignAll(res);
-        isFetching.value = false;
-        Get.offNamed(AppRoutes.ROOT);
+        fetchingDistrict.value = false;
+        // Get.offNamed(AppRoutes.ROOT);
       }
       else {
-        isFetching.value = false;
+        fetchingDistrict.value = false;
       }
     }
     catch (e) {
       print(e);
     }
+  }
+
+
+  Future fetchCounties() async {
+    try{
+      fetchingCounties.value = true;
+      var res = await Service.getCounties(homeController.selectedCountry.value.id!);
+      if(res != null) {
+        counties.assignAll(res);
+        fetchingCounties.value = false;
+        setData();
+        // Get.offNamed(AppRoutes.ROOT);
+      }
+      else {
+        fetchingCounties.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+  }
+
+  void setCountry(Country c) => selectedCountry.value = c;
+
+  void setData() {
+    districts.forEach((district) {
+
+      // search.add(SearchModel(
+      //   country: selectedCountry.value,
+      //   districts: SelectedDistricts(districts: districts, counties: ),
+      // ));
+    });
   }
 }
