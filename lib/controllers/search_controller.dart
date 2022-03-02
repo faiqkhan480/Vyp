@@ -18,6 +18,7 @@ class SearchController extends GetxController {
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
+  List<SelectedDistrict> selected = List<SelectedDistrict>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -43,7 +44,6 @@ class SearchController extends GetxController {
       print(e);
     }
   }
-
 
   Future fetchCounties() async {
     try{
@@ -74,5 +74,29 @@ class SearchController extends GetxController {
       //   districts: SelectedDistricts(districts: districts, counties: ),
       // ));
     });
+  }
+
+  void handleDistrict(bool value, District item, List<County> countyItems) {
+    print("fffffff");
+    if(value) {
+      selected.add(SelectedDistrict(district: item, counties: countyItems));
+    }
+    else {
+      selected.removeWhere((element) => element.district.id == item.id);
+    }
+  }
+
+  void handleCounty(bool value, District item, County _county) {
+    print("called:::: @@@@@");
+    List<County> _counties = selected.firstWhere((element) => element.district.id == item.id).counties;
+    if(value) {
+      _counties.add(_county);
+      selected.add(SelectedDistrict(district: item, counties: _counties));
+    }
+    else {
+      print("called:::: ");
+      _counties.removeWhere((element) => element.id == _county.id);
+      selected.firstWhere((d) => d.district.id == item.id).counties = _counties;
+    }
   }
 }

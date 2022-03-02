@@ -46,8 +46,9 @@ class HomeScreen extends GetView<HomeController> {
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
-      enableDrag: true,
+      enableDrag: false,
       isScrollControlled: true,
+      persistent: true,
     );
     // Get.toNamed(AppRoutes.INFO, id: 1);
   }

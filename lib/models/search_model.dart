@@ -4,12 +4,12 @@ import 'district.dart';
 
 class SearchModel {
   Country country;
-  List<SelectedDistricts> districts;
+  List<SelectedDistrict> districts;
   SearchModel({required this.country, required this.districts});
 }
 
-class SelectedDistricts {
+class SelectedDistrict {
   District district;
   List<County> counties;
-  SelectedDistricts({required this.district, required this.counties});
+  SelectedDistrict({required this.district, required this.counties});
 }
