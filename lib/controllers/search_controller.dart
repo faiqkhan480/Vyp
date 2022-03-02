@@ -14,6 +14,7 @@ class SearchController extends GetxController {
 
   RxBool fetchingDistrict = false.obs;
   RxBool fetchingCounties = false.obs;
+  RxBool check = false.obs;
   Rx<Country> selectedCountry = Country().obs;
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
@@ -87,16 +88,19 @@ class SearchController extends GetxController {
   }
 
   void handleCounty(bool value, District item, County _county) {
-    print("called:::: @@@@@");
     List<County> _counties = selected.firstWhere((element) => element.district.id == item.id).counties;
+    check.value = value;
+    // print(value);
     if(value) {
+      // print("called:::: @@@@@");
       _counties.add(_county);
       selected.add(SelectedDistrict(district: item, counties: _counties));
     }
     else {
-      print("called:::: ");
-      _counties.removeWhere((element) => element.id == _county.id);
-      selected.firstWhere((d) => d.district.id == item.id).counties = _counties;
+      print("else:::: ${_counties.length}");
+      // _counties.removeWhere((element) => element.id == _county.id);
+      // selected.firstWhere((d) => d.district.id == item.id).counties = _counties;
+      selected.firstWhere((d) => d.district.id == item.id).counties.removeWhere((element) => element.id == _county.id);
     }
   }
 }

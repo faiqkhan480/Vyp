@@ -46,14 +46,11 @@ class SearchBottomSheet extends GetView<SearchController> {
   }
 
   Widget countiesTile(int index, District district,  County county) {
-    return Obx(() {
-        // SelectedDistrict _selected = controller.selected.firstWhere((element) => element.district.id == district.id);
-        return CheckboxListTile(
-          title: TextWidget(text: county.countyName),
-          value: controller.selected.firstWhere((element) => element.district.id == district.id).counties.any((c) => c.id == county.id),
-          onChanged: (value) => controller.handleCounty(value!, district, county),
-        );
-      },
+    return CheckboxListTile(
+      title: TextWidget(text: county.countyName),
+      // value: controller.check(),
+      value: controller.selected.isNotEmpty ? controller.selected.firstWhere((element) => element.district.id == district.id).counties.any((c) => c.id == county.id) : false,
+      onChanged: (value) => controller.handleCounty(value!, district, county),
     );
   }
 }
