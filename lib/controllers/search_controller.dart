@@ -19,7 +19,7 @@ class SearchController extends GetxController {
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
-  List<SelectedDistrict> selected = List<SelectedDistrict>.empty(growable: true).obs;
+  RxList<SelectedDistrict> selected = List<SelectedDistrict>.empty().obs;
 
   @override
   void onInit() {
@@ -27,6 +27,7 @@ class SearchController extends GetxController {
     super.onInit();
     fetchDistricts().then((value) => fetchCounties());
   }
+
   Future fetchDistricts() async {
     try{
       fetchingDistrict.value = true;
@@ -77,30 +78,60 @@ class SearchController extends GetxController {
     });
   }
 
-  void handleDistrict(bool value, District item, List<County> countyItems) {
+  void handleByCountry() {
+    if(selected.isEmpty) {
+      districts.forEach((d) {
+        selected.add(
+            SelectedDistrict(
+                district: d,
+                counties: counties.where((c) => c.idDistrict == d.id).toList()
+            )
+        );
+      });
+    }
+    else {
+      selected.clear();
+    }
+  }
+
+  void handleByDistrict(bool value, District item, List<County> countyItems) {
     print("fffffff");
     if(value) {
       selected.add(SelectedDistrict(district: item, counties: countyItems));
     }
     else {
-      selected.removeWhere((element) => element.district.id == item.id);
+      selected.removeWhere((element) => element.district!.id == item.id);
     }
   }
 
-  void handleCounty(bool value, District item, County _county) {
-    List<County> _counties = selected.firstWhere((element) => element.district.id == item.id).counties;
-    check.value = value;
-    // print(value);
+  void handleByCounty(bool value, District item, County _county) {
+    // IF CHECK ITEM
     if(value) {
-      // print("called:::: @@@@@");
-      _counties.add(_county);
-      selected.add(SelectedDistrict(district: item, counties: _counties));
+      bool _checkDistrict = selected.any((element) => element.district!.id == item.id);
+      // IF NOT DISTRICT IS SELECTED THAN SELECT ALL
+      if(!_checkDistrict) {
+        selected.add(SelectedDistrict(
+            district: districts.firstWhere((d) => d.id == item.id),
+            counties: counties.where((c) => c.id == _county.id).toList()
+        ));
+        selected.refresh();
+      }
+      // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
+      else {
+        List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.id)?.counties;
+        _counties!.add(_county);
+        // selected.firstWhereOrNull((element) => element.district!.id == item.id)!.counties!.assignAll(_counties);
+        selected.firstWhereOrNull((element) => element.district!.id == item.id)!.counties = _counties;
+        // selected.firstWhere((element) => element.district!.id == item.id).counties!.add(_county);
+        selected.refresh();
+      }
     }
+    // IF UN CHECK ITEM
     else {
-      print("else:::: ${_counties.length}");
-      // _counties.removeWhere((element) => element.id == _county.id);
-      // selected.firstWhere((d) => d.district.id == item.id).counties = _counties;
-      selected.firstWhere((d) => d.district.id == item.id).counties.removeWhere((element) => element.id == _county.id);
+      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.id)?.counties;
+      _counties!.removeWhere((element) => element.id == _county.id);
+      selected.firstWhere((d) => d.district!.id == item.id).counties = _counties;
+      selected.refresh();
     }
   }
 }

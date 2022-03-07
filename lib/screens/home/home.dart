@@ -152,27 +152,30 @@ class HomeScreen extends GetView<HomeController> {
 
   // TABS
   Widget homeTabs() {
-    return TabBar(
-        indicatorColor: AppColors.black,
-        indicatorWeight: 0.9,
-        labelColor: AppColors.black,
-        labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
-        labelPadding: EdgeInsets.zero,
-        tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
-          decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(bottom: 5),
-          height: double.infinity,
-          width: double.infinity,
-          child: Text(
-            // tabs.elementAt(index).tr,
-            index == 0 ?
-            controller.selectedCountry.value.countryName ?? ""
-                : tabs.elementAt(index).tr,
-            textAlign: TextAlign.center,
-          ),
-        ),))
+    return SizedBox(
+      height: Get.height * 0.07,
+      child: TabBar(
+          indicatorColor: AppColors.black,
+          indicatorWeight: 0.9,
+          labelColor: AppColors.black,
+          labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
+          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
+          labelPadding: EdgeInsets.zero,
+          tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
+            decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(bottom: 5),
+            height: double.infinity,
+            width: double.infinity,
+            child: Text(
+              // tabs.elementAt(index).tr,
+              index == 0 ?
+              controller.selectedCountry.value.countryName ?? ""
+                  : tabs.elementAt(index).tr,
+              textAlign: TextAlign.center,
+            ),
+          ),))
+      ),
     );
   }
 
