@@ -28,4 +28,5 @@ class HomeController extends GetxController {
     selectedCountry.value = c;
     // Get.offNamed(AppRoutes.ROOT);
   }
+
 }
