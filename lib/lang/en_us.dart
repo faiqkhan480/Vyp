@@ -49,4 +49,5 @@ const Map<String, String> en_US = {
   "create_upper": "CREATE",
   "name": "Name",
   "add": "Add",
+  "select_all": "Select All",
 };

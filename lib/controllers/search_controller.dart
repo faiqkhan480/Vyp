@@ -20,6 +20,7 @@ class SearchController extends GetxController {
   List<County> counties = List<County>.empty(growable: true).obs;
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
   RxList<SelectedDistrict> selected = List<SelectedDistrict>.empty().obs;
+  RxList selectedItems = List.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -95,12 +96,32 @@ class SearchController extends GetxController {
   }
 
   void handleByDistrict(bool value, District item, List<County> countyItems) {
-    print("fffffff");
     if(value) {
       selected.add(SelectedDistrict(district: item, counties: countyItems));
+      selectedItems.add(item);
     }
     else {
       selected.removeWhere((element) => element.district!.id == item.id);
+      selectedItems.remove(item);
+    }
+  }
+
+  handleAllCountySelection(bool value, District item) {
+    if(value) {
+      selected.removeWhere((element) => element.district!.id == item.id);
+      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.idDistrict == item.id);
+      selected.add(SelectedDistrict(
+          district: item,
+          counties: counties.where((c) => c.idDistrict == item.id).toList()
+      ));
+      // selectedItems.add(item);
+      selectedItems.assignAll(counties.where((c) => c.idDistrict == item.id).toList());
+    }
+    else
+    {
+      selected.removeWhere((element) => element.district!.id == item.id);
+      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.idDistrict == item.id);
+      // selectedItems.remove(item);
     }
   }
 
@@ -125,13 +146,29 @@ class SearchController extends GetxController {
         // selected.firstWhere((element) => element.district!.id == item.id).counties!.add(_county);
         selected.refresh();
       }
+      selectedItems.add(_county);
     }
-    // IF UN CHECK ITEM
+    // IF UNCHECK ITEM
     else {
       List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.id)?.counties;
       _counties!.removeWhere((element) => element.id == _county.id);
       selected.firstWhere((d) => d.district!.id == item.id).counties = _counties;
       selected.refresh();
+      selectedItems.removeWhere((element) => element.id == item.id);
+      selectedItems.remove(_county);
     }
+  }
+
+  void removeSearchItems(item) {
+    if(item.runtimeType == District){
+      selected.removeWhere((element) => element.district!.id == item.id);
+    }
+    else {
+      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.idDistrict)?.counties;
+      _counties!.removeWhere((element) => element.id == item.id);
+      selected.firstWhere((d) => d.district!.id == item.idDistrict).counties = _counties;
+      selected.refresh();
+    }
+    selectedItems.remove(item);
   }
 }
