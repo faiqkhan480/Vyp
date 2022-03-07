@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
-import 'package:vyv/models/country_model.dart';
-import 'package:vyv/models/county_model.dart';
-import 'package:vyv/models/district.dart';
+
 import 'package:vyv/service/apis.dart';
 import 'package:vyv/utils/network.dart';
 
+// IMPORT MODEL CLASSES
+import 'package:vyv/models/category_model.dart';
+import 'package:vyv/models/country_model.dart';
+import 'package:vyv/models/county_model.dart';
+import 'package:vyv/models/district.dart';
+
 class Service {
-  // ALL COUNTRIES
+  // GET ALL COUNTRIES
   static getCountries() async {
     try{
       var res = await Network.get(url: Api.countries);
@@ -19,6 +23,20 @@ class Service {
     }
   }
 
+  // GET ALL CATEGORIES
+  static getCategories() async {
+    try{
+      var res = await Network.get(url: Api.categories);
+      if(res != null)
+        return categoryFromMap(res);
+      return null;
+    } catch(e){
+      print(e);
+      return throw Exception(e);
+    }
+  }
+
+  // ALL COUNTRY DISTRICTS
   static getDistricts(int countryId) async {
     try{
       var res = await Network.get(url: Api.districts + countryId.toString());
@@ -32,6 +50,7 @@ class Service {
     }
   }
 
+  // ALL COUNTRY COUNTIES
   static getCounties(int countryId) async {
     try{
       var res = await Network.get(url: Api.counties + countryId.toString());
