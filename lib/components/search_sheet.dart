@@ -60,11 +60,20 @@ class SearchBottomSheet extends GetView<SearchController> {
                   ),
                 ),
               ),
-              ElevatedButton(onPressed: () => Get.find<HomeController>().handleSearch(), child: TextWidget(text: 'search', color: Colors.white, size: 2.2,),)
+              ElevatedButton(onPressed: handleSubmit, child: TextWidget(text: 'search', color: Colors.white, size: 2.2,),)
             ],
           ),
         ],
       ),
+    );
+  }
+
+  handleSubmit() {
+    Get.find<HomeController>().handleSearch(
+        reqIds: {
+          "countyId": [],
+          "districtId": [],
+        }
     );
   }
 

@@ -65,9 +65,9 @@ class AppService {
     }
   }
 
-  static searchSpot() async {
+  static searchSpot({Map<String, dynamic>? payload}) async {
     try{
-      var res = await Network.get(url: Api.spot);
+      var res = await Network.get(url: Api.spot, params: payload!.map((key, value) => MapEntry(key, value.toString())));
       if(res != null)
         return spotFromMap(res);
       return null;

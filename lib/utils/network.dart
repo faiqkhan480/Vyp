@@ -1,20 +1,25 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:vyv/utils/constants.dart';
+
 class Network {
   static var client = http.Client();
 
-  static get({url,headers}) async {
+  static get({required String url, headers, Map<String, dynamic>? params}) async {
     try{
       Map<String, String> apiHeaders = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       };
+
       if(headers !=null){
         apiHeaders.addAll(headers);
       }
-      print("REQUESTED URL => $url");
-      var response = await client.get(Uri.parse(url.toString()),headers: apiHeaders);
+
+      Uri uri = Uri.https(Constants.baseURL, url, params);
+      print("REQUESTED URL => $uri");
+      var response = await client.get(uri, headers: apiHeaders);
       if(response.statusCode == 200) {
         return response.body;
         // return json.decode(response.body);

@@ -54,7 +54,7 @@ class _InfoScreenState extends State<InfoScreen> {
         ),
       ),
 
-      body: Container(
+      body: CupertinoScrollbar(
         child: ListView(
           children: [
             // BANNER IMAGE

@@ -131,10 +131,10 @@ class HomeScreen extends GetView<HomeController> {
         ),
         horizontal: 30,
         vertical: 15,
-        onTap: handleSearch,
       ),
       // VerticalSpace(15),
       InputField(
+        onTap: handleSearch,
         placeHolder: "where",
         readOnly: true,
         icon: Padding(

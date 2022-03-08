@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/county_model.dart';
@@ -28,24 +29,26 @@ class GroupList extends StatelessWidget {
   Widget build(BuildContext context) {
     if(loading)
       return Center(child: CircularProgressIndicator());
-    return ListView.builder(
-      itemCount: isDistrict ? districts?.length : counties?.length,
-      itemBuilder: (context, index) {
-        String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
-        List _items = spots!.where((element) => handleType(element, index)).toList();
-        if(_items.isNotEmpty)
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextWidget(text: _itemName ?? "", size: 3,),
-              ),
-              CountryList(spots: _items as List<Spot>,),
-            ],
-          );
-        return SizedBox();
-      },
+    return CupertinoScrollbar(
+      child: ListView.builder(
+        itemCount: isDistrict ? districts?.length : counties?.length,
+        itemBuilder: (context, index) {
+          String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
+          List _items = spots!.where((element) => handleType(element, index)).toList();
+          if(_items.isNotEmpty)
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
+                  child: TextWidget(text: _itemName ?? "", size: 3,),
+                ),
+                CountryList(spots: _items as List<Spot>,),
+              ],
+            );
+          return SizedBox();
+        },
+      ),
     );
   }
 

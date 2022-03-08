@@ -11,6 +11,8 @@ class HomeController extends GetxController {
   // static SearchController get searchController => Get.find();
   RxBool showMap = false.obs;
   RxBool loading = false.obs;
+  RxInt pageNum = 1.obs;
+  RxInt pageSize = 5.obs;
   GetStorage box = GetStorage();
   RxList<Spot> spots = List<Spot>.empty(growable: true).obs;
 
@@ -32,11 +34,20 @@ class HomeController extends GetxController {
     // Get.offNamed(AppRoutes.ROOT);
   }
 
-  void handleSearch() async {
-    Get.back();
+  void handleSearch({reqIds}) async {
+    // Get.back();
     try{
       loading.value = true;
-      var res = await AppService.searchSpot();
+      Map<String, dynamic> params = {
+        // "categoryId": categoryIds,
+        // "districtId": districtIds,
+        // "countyId": countyIds,
+        "PageNumber": pageNum.value,
+        "PageSize": pageSize.value
+      };
+      // if(reqIds != null)
+      //   params.addAll(reqIds);
+      var res = await AppService.searchSpot(payload: params);
       if(res != null) {
         spots.assignAll(res);
         loading.value = false;

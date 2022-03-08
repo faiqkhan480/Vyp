@@ -53,11 +53,11 @@ class ListCard extends StatelessWidget {
                 BlendMode.colorBurn),
           ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       // height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextWidget(text: item?.spotName ?? "", color: AppColors.white, weight: FontWeight.w300, ),
           VerticalSpace(20),

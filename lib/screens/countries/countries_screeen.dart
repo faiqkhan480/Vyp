@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -59,34 +60,36 @@ class CountriesScreen extends GetView<CountryController> {
               if(controller.countries.isNotEmpty)
               SizedBox(
                 height: SizeConfig.heightMultiplier * 39,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: List.generate(controller.countries.length, (index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.memory(
-                              base64Decode(controller.countries.elementAt(index).imageStr!),
-                              height: SizeConfig.heightMultiplier * 3,
+                child: CupertinoScrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: List.generate(controller.countries.length, (index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: ListTile(
+                        title: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.memory(
+                                base64Decode(controller.countries.elementAt(index).imageStr!),
+                                height: SizeConfig.heightMultiplier * 3,
+                              ),
                             ),
-                          ),
-                          TextWidget(
-                            text: controller.countries.elementAt(index).countryName,
-                            // color: AppColors.primaryColor,
-                            size: 2.4,
-                            align: TextAlign.center,
-                            // family: 'GemunuLibre',
-                          ),
-                        ],
+                            TextWidget(
+                              text: controller.countries.elementAt(index).countryName,
+                              // color: AppColors.primaryColor,
+                              size: 2.4,
+                              align: TextAlign.center,
+                              // family: 'GemunuLibre',
+                            ),
+                          ],
+                        ),
+                        subtitle: (controller.countries.elementAt(index > 2 ? (index -1) : index) == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
+                        onTap: () => handleClick(controller.countries.elementAt(index)),
                       ),
-                      subtitle: (controller.countries.elementAt(index > 2 ? (index -1) : index) == controller.countries.last) ? null : Divider(color: AppColors.darkGrey,),
-                      onTap: () => handleClick(controller.countries.elementAt(index)),
-                    ),
-                  )),
+                    )),
+                  ),
                 ),
               ),
             ],
