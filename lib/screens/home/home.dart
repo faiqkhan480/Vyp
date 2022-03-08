@@ -183,7 +183,10 @@ class HomeScreen extends GetView<HomeController> {
       child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
-            CountryList(),
+            if(controller.loading())
+              Center(child: CircularProgressIndicator(),)
+            else
+              CountryList(spots: controller.spots,),
             GroupList(
                 isDistrict: true,
                 districts: searchController.districts,

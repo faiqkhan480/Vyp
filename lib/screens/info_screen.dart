@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:vyv/controllers/home_controller.dart';
+import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
@@ -19,11 +22,14 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   bool readMore = false;
 
+  HomeController controller = Get.find<HomeController>();
   void handleState() {
     this.setState(() {
       readMore = !readMore;
     });
   }
+
+  Spot? spot = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,12 @@ class _InfoScreenState extends State<InfoScreen> {
         child: ListView(
           children: [
             // BANNER IMAGE
-            Image.asset(Constants.imgUrl,
+            Image.network(
+              spot?.imageStr ?? "",
+              // Constants.imgUrl,
               height: SizeConfig.heightMultiplier * 20,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => SizedBox(height: 100, child: Icon(Icons.broken_image_rounded, color: AppColors.grey, size: 60,)),
             ),
 
             // CONTENT
@@ -63,7 +72,11 @@ class _InfoScreenState extends State<InfoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextWidget(text: "Tennis de Monte Frio", size: 2.4, weight: FontWeight.w700,),
+                  TextWidget(
+                    text: spot?.spotName ?? "",
+                    size: 2.4,
+                    weight: FontWeight.w700,
+                  ),
                   VerticalSpace(20),
 
                   AnimatedContainer(
@@ -94,7 +107,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                 ),
                                 children: [
                                   TextSpan(
-                                      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                                    text: spot?.longDescription ?? "",
                                     style: TextStyle(
                                       // fontWeight: FontWeight.w700,
                                     ),
@@ -102,8 +115,8 @@ class _InfoScreenState extends State<InfoScreen> {
                                   ),
                                 ]
                             ),
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
+                            // maxLines: 5,
+                            // overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         // GestureDetector(
@@ -121,14 +134,16 @@ class _InfoScreenState extends State<InfoScreen> {
                     index == 0 ? "assets/images/svgs/link_move.svg" :
                     index == 1 ? "assets/images/svgs/phone.svg" :
                     "assets/images/svgs/email.svg",
-                    index == 0 ? "www.website.com" :
-                    index == 1 ? "+351 999999999" :
-                    "email@email.com",
+                    index == 0 ? spot?.website ?? "" :
+                    index == 1 ? spot?.contact ?? "" :
+                    spot?.email ?? "",
                   )),
 
                   ...List.generate(3, (index) => TextWidget(text: index == 0 ? "categories" : index == 1 ? "tips" : "maps", weight: FontWeight.w700, size: 1.7,)),
 
-                  TextWidget(text: "reviews", weight: FontWeight.w700, size: 2.0,),
+                  VerticalSpace(10),
+
+                  TextWidget(text: "reviews", weight: FontWeight.w700, size: 2.2,),
 
                   ...List.generate(5, (index) => progressRow(5.toString(), 456.toString())),
 

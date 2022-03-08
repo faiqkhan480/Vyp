@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
@@ -11,8 +12,8 @@ import 'info_sheet.dart';
 import 'menu_sheet.dart';
 
 class ListCard extends StatelessWidget {
-  final num? index;
-  const ListCard({Key? key, this.index}) : super(key: key);
+  final num? index; final Spot? item;
+  const ListCard({Key? key, this.index, this.item}) : super(key: key);
 
   handleClick() {
     Get.bottomSheet(
@@ -32,7 +33,7 @@ class ListCard extends StatelessWidget {
 
   handleInfoClick() {
     Get.bottomSheet(
-      InfoSheet(),
+      InfoSheet(item: item,),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
@@ -48,7 +49,7 @@ class ListCard extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(Constants.imgUrl),
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4),
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5),
                 BlendMode.colorBurn),
           ),
       ),
@@ -58,9 +59,9 @@ class ListCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextWidget(text: "$index tennis", color: AppColors.white, weight: FontWeight.w300, ),
+          TextWidget(text: item?.spotName ?? "", color: AppColors.white, weight: FontWeight.w300, ),
           VerticalSpace(20),
-          TextWidget(text: "Tennis\nde Aigra Nova", size: 1.7, color: AppColors.white, align: TextAlign.center,),
+          TextWidget(text: item?.spotName ?? "", size: 1.7, color: AppColors.white, align: TextAlign.center,),
           VerticalSpace(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
