@@ -15,7 +15,7 @@ class CountryList extends StatelessWidget {
         width: double.infinity,
         height: SizeConfig.heightMultiplier * 50,
         child: GridView.builder(
-          padding: EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
          shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemCount: 30,

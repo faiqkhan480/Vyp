@@ -2,14 +2,17 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/country_model.dart';
-import 'package:vyv/routes/app_routes.dart';
+import 'package:vyv/models/spot_model.dart';
+import 'package:vyv/service/services.dart';
 
 class HomeController extends GetxController {
   // static HomeController get to => Get.find();
   Rx<Country> selectedCountry = Country().obs;
   // static SearchController get searchController => Get.find();
   RxBool showMap = false.obs;
+  RxBool loading = false.obs;
   GetStorage box = GetStorage();
+  RxList<Spot> spots = List<Spot>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -29,4 +32,24 @@ class HomeController extends GetxController {
     // Get.offNamed(AppRoutes.ROOT);
   }
 
+  void handleSearch() async {
+    Get.back();
+    try{
+      loading.value = true;
+      var res = await AppService.searchSpot();
+      if(res != null) {
+        spots.assignAll(res);
+        loading.value = false;
+      }
+      else {
+        loading.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+    finally {
+      loading.value = false;
+    }
+  }
 }

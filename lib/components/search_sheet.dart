@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/county_model.dart';
-import 'package:vyv/models/district.dart';
+import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/search_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:collection/collection.dart';
@@ -25,33 +25,45 @@ class SearchBottomSheet extends GetView<SearchController> {
       color: AppColors.secondaryColor,
       padding: EdgeInsets.symmetric(vertical: 20),
       height: Get.height * 0.90,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Obx(searchBox),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextWidget(
-                    // text: Get.find<HomeController>().selectedCountry.value.countryName,
-                    text: "select_all",
-                    size: 2.2,
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Obx(searchBox),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextWidget(
+                              // text: Get.find<HomeController>().selectedCountry.value.countryName,
+                              text: "select_all",
+                              size: 2.2,
+                            ),
+                            Obx(() => CustomCheckBox(
+                              isSelected: controller.selected.length == controller.districts.length,
+                              action: () => controller.handleByCountry(),
+                              icon: (controller.selected.isNotEmpty && (controller.selected.length != controller.districts.length || controller.selected.every((element) => element.counties!.length != controller.counties.where((c) => c.districtId == element.district!.id).toList().length))) ?
+                              CupertinoIcons.minus :  Icons.check,
+                            )),
+                          ],
+                        ),
+                      ),
+                      ...List.generate(controller.districts.length, districtTile),
+                    ],
                   ),
-                  Obx(() => CustomCheckBox(
-                    isSelected: controller.selected.length == controller.districts.length,
-                    action: () => controller.handleByCountry(),
-                    icon: (controller.selected.isNotEmpty && (controller.selected.length != controller.districts.length || controller.selected.every((element) => element.counties!.length != controller.counties.where((c) => c.idDistrict == element.district!.id).toList().length))) ?
-                    CupertinoIcons.minus :  Icons.check,
-                  )),
-                ],
+                ),
               ),
-            ),
-            ...List.generate(controller.districts.length, districtTile),
-          ],
-        ),
+              ElevatedButton(onPressed: () => Get.find<HomeController>().handleSearch(), child: TextWidget(text: 'search', color: Colors.white, size: 2.2,),)
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -59,12 +71,12 @@ class SearchBottomSheet extends GetView<SearchController> {
   Widget districtTile(index) {
     return Obx(() {
       District _district = controller.districts.elementAt(index);
-      List<County> _counties = controller.counties.where((c) => c.idDistrict == _district.id).toList();
+      List<County> _counties = controller.counties.where((c) => c.districtId == _district.id).toList();
       bool _value = controller.selected.any((element) => element.district!.id == _district.id);
       return ExpansionTile(
         // title: TextWidget(text: controller.districts.elementAt(index).districtName),
         title: ListTile(
-          title: TextWidget(text: _district.districtName, size: 2.0,),
+          title: TextWidget(text: _district.name, size: 2.0,),
           trailing: CustomCheckBox(
             isSelected: controller.selected.any((element) => element.district!.id == _district.id),
             action: () => controller.handleByDistrict(!_value, _district, _counties),
@@ -100,7 +112,7 @@ class SearchBottomSheet extends GetView<SearchController> {
   void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties);
 
   Widget countyTile(int countyIndex, District _district,  List<County> _counties) {
-    SelectedDistrict? _selected = controller.selected.firstWhereOrNull((element) => element.district!.id == _counties.elementAt(countyIndex).idDistrict);
+    SelectedDistrict? _selected = controller.selected.firstWhereOrNull((element) => element.district!.id == _counties.elementAt(countyIndex).districtId);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -112,7 +124,7 @@ class SearchBottomSheet extends GetView<SearchController> {
           ),
 
         CheckboxListTile(
-          title: TextWidget(text: _counties.elementAt(countyIndex).countyName, size: 1.8,),
+          title: TextWidget(text: _counties.elementAt(countyIndex).name, size: 1.8,),
           value: _selected?.counties?.any((c) => c.id == _counties.elementAt(countyIndex).id) ?? false,
           onChanged: (value) => controller.handleByCounty(value!, _district, _counties.elementAt(countyIndex)),
         ),
@@ -264,8 +276,8 @@ class SearchBottomSheet extends GetView<SearchController> {
                                   children: [
                                     Text(
                                       (controller.selectedItems.elementAt(index).runtimeType == District) ?
-                                      controller.selectedItems.elementAt(index)?.districtName :
-                                      controller.selectedItems.elementAt(index)?.countyName,
+                                      controller.selectedItems.elementAt(index)?.name :
+                                      controller.selectedItems.elementAt(index)?.name,
                                       style: TextStyle(color: Colors.white, fontSize: 16),
                                     ),
                                     SizedBox(width: 5.0,),

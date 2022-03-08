@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
-import 'package:vyv/models/district.dart';
+import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/search_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
@@ -33,7 +33,7 @@ class SearchController extends GetxController {
     try{
       fetchingDistrict.value = true;
       // var res = await Service.getDistricts(selectedCountry.value.id!);
-      var res = await Service.getDistricts(homeController.selectedCountry.value.id!);
+      var res = await AppService.getDistricts(homeController.selectedCountry.value.id!);
       if(res != null) {
         districts.assignAll(res);
         fetchingDistrict.value = false;
@@ -51,7 +51,7 @@ class SearchController extends GetxController {
   Future fetchCounties() async {
     try{
       fetchingCounties.value = true;
-      var res = await Service.getCounties(homeController.selectedCountry.value.id!);
+      var res = await AppService.getCounties(homeController.selectedCountry.value.id!);
       if(res != null) {
         counties.assignAll(res);
         fetchingCounties.value = false;
@@ -85,7 +85,7 @@ class SearchController extends GetxController {
         selected.add(
             SelectedDistrict(
                 district: d,
-                counties: counties.where((c) => c.idDistrict == d.id).toList()
+                counties: counties.where((c) => c.districtId == d.id).toList()
             )
         );
       });
@@ -109,18 +109,18 @@ class SearchController extends GetxController {
   handleAllCountySelection(bool value, District item) {
     if(value) {
       selected.removeWhere((element) => element.district!.id == item.id);
-      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.idDistrict == item.id);
+      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
       selected.add(SelectedDistrict(
           district: item,
-          counties: counties.where((c) => c.idDistrict == item.id).toList()
+          counties: counties.where((c) => c.districtId == item.id).toList()
       ));
       // selectedItems.add(item);
-      selectedItems.assignAll(counties.where((c) => c.idDistrict == item.id).toList());
+      selectedItems.assignAll(counties.where((c) => c.districtId == item.id).toList());
     }
     else
     {
       selected.removeWhere((element) => element.district!.id == item.id);
-      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.idDistrict == item.id);
+      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
       // selectedItems.remove(item);
     }
   }
@@ -164,9 +164,9 @@ class SearchController extends GetxController {
       selected.removeWhere((element) => element.district!.id == item.id);
     }
     else {
-      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.idDistrict)?.counties;
+      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.districtId)?.counties;
       _counties!.removeWhere((element) => element.id == item.id);
-      selected.firstWhere((d) => d.district!.id == item.idDistrict).counties = _counties;
+      selected.firstWhere((d) => d.district!.id == item.districtId).counties = _counties;
       selected.refresh();
     }
     selectedItems.remove(item);

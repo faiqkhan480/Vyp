@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vyv/models/spot_model.dart';
 
 import 'package:vyv/service/apis.dart';
 import 'package:vyv/utils/network.dart';
@@ -7,9 +8,9 @@ import 'package:vyv/utils/network.dart';
 import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
-import 'package:vyv/models/district.dart';
+import 'package:vyv/models/district_model.dart';
 
-class Service {
+class AppService {
   // GET ALL COUNTRIES
   static getCountries() async {
     try{
@@ -64,7 +65,16 @@ class Service {
     }
   }
 
-  static search({asd}) async {
-
+  static searchSpot() async {
+    try{
+      var res = await Network.get(url: Api.spot);
+      if(res != null)
+        return spotFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR SPOT: $e");
+      Get.rawSnackbar(title: "Error in spot request!");
+      return throw Exception(e);
+    }
   }
 }

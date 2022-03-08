@@ -20,9 +20,6 @@ import 'package:vyv/widgets/text_component.dart';
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
-
-  // SearchController searchController = Get.find<SearchController>();
-
   handleClick() {
     Get.bottomSheet(
       MenuSheet(isLogin: false,),
@@ -113,7 +110,7 @@ class HomeScreen extends GetView<HomeController> {
             // TABS
             homeTabs(),
             // COUNTRY LIST,
-            tabViews(),
+            Obx(tabViews),
           ]
           else
             MapBox(),
@@ -181,13 +178,19 @@ class HomeScreen extends GetView<HomeController> {
 
   // TABS VIEWS
   Widget tabViews() {
+    SearchController searchController = Get.find<SearchController>();
     return Flexible(
       child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
             CountryList(),
-            GroupList( isDistrict: true,),
-            GroupList( isDistrict: false,),
+            GroupList(
+                isDistrict: true,
+                districts: searchController.districts,
+                spots: controller.spots,
+                loading: controller.loading()
+            ),
+            GroupList( isDistrict: false, counties: searchController.counties, spots: controller.spots, loading: controller.loading()),
           ]
       ),
     );

@@ -11,23 +11,23 @@ String districtToMap(List<District> data) => json.encode(List<dynamic>.from(data
 class District {
   District({
     this.id,
-    this.districtName,
-    this.idCountry,
+    this.name,
+    this.countryId,
   });
 
   int? id;
-  String? districtName;
-  int? idCountry;
+  String? name;
+  int? countryId;
 
   factory District.fromMap(Map<String, dynamic> json) => District(
     id: json["id"] == null ? null : json["id"],
-    districtName: json["districtName"] == null ? null : json["districtName"],
-    idCountry: json["idCountry"] == null ? null : json["idCountry"],
+    name: json["districtName"] == null ? null : json["districtName"],
+    countryId: json["idCountry"] == null ? null : json["idCountry"],
   );
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
-    "districtName": districtName == null ? null : districtName,
-    "idCountry": idCountry == null ? null : idCountry,
+    "districtName": name == null ? null : name,
+    "idCountry": countryId == null ? null : countryId,
   };
 }

@@ -28,7 +28,7 @@ class CountryController extends GetxController {
   fetchCountries() async {
     try{
       isLoading(true);
-      List<Country>? res = await Service.getCountries();
+      List<Country>? res = await AppService.getCountries();
       if(res != null)
         countries.assignAll(res);
       isLoading(false);
@@ -41,7 +41,7 @@ class CountryController extends GetxController {
   fetchCountryData(Country country) async {
     try{
       isLoading(true);
-      List<Country>? res = await Service.getCountries();
+      List<Country>? res = await AppService.getCountries();
       if(res != null)
         countries.assignAll(res);
       isLoading(false);
