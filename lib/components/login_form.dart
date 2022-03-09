@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:vyv/controllers/auth_controller.dart';
 
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/space.dart';
@@ -8,27 +9,30 @@ import 'package:vyv/widgets/text_component.dart';
 
 import 'button.dart';
 
-class LoginForm extends StatefulWidget {
-  final Function(bool) action;
-  const LoginForm({Key? key, required this.action}) : super(key: key);
+// class LoginForm extends StatefulWidget {
+//   final Function(bool) action;
+//   const LoginForm({Key? key, required this.action}) : super(key: key);
+//
+//   @override
+//   _LoginFormState createState() => _LoginFormState();
+// }
 
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  // TEXT FIELDS CONTROLLERS
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+// class _LoginFormState extends State<LoginForm> {
+class LoginForm extends StatelessWidget {
+  final AuthController controller;
+  const LoginForm({Key? key, required this.controller}) : super(key: key);
+  // // TEXT FIELDS CONTROLLERS
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
+  //
+  // GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: Form(
-        key: formKey,
+        key: controller.loginFormKey,
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
           child: Column(
@@ -44,7 +48,7 @@ class _LoginFormState extends State<LoginForm> {
               VerticalSpace(40),
               // EMAIL FIELD
               TextFormField(
-                controller: emailController,
+                controller: controller.emailController,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -61,8 +65,9 @@ class _LoginFormState extends State<LoginForm> {
               VerticalSpace(10),
               // PASSWORD FIELD
               TextFormField(
-                controller: passwordController,
+                controller: controller.passwordController,
                 obscureText: true,
+                validator: controller.validator,
                 decoration: InputDecoration(
                   isDense: true,
                   prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -81,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
               // LOGIN BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: () => null,),
+                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.login,),
               ),
 
               Padding(
@@ -102,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextWidget(text: "dont_have_account", size: 1.9, align: TextAlign.center,),
-                  InkWell(onTap: () => widget.action(false), child: TextWidget(text: "sign_up", size: 1.9, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
+                  InkWell(onTap: () => controller.handleChange(false), child: TextWidget(text: "sign_up", size: 1.9, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
                 ],
               ),
             ],

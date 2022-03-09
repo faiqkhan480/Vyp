@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:vyv/controllers/auth_controller.dart';
 
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/space.dart';
@@ -10,28 +11,31 @@ import 'package:vyv/widgets/text_component.dart';
 import 'button.dart';
 import 'dialog_component.dart';
 
-class SignupForm extends StatefulWidget {
-  final Function(bool) action;
-  const SignupForm({Key? key, required this.action}) : super(key: key);
+// class SignupForm extends StatefulWidget {
+//   final Function(bool) action;
+//   const SignupForm({Key? key, required this.action}) : super(key: key);
+//
+//   @override
+//   _SignupFormState createState() => _SignupFormState();
+// }
 
-  @override
-  _SignupFormState createState() => _SignupFormState();
-}
-
-class _SignupFormState extends State<SignupForm> {
-  // TEXT FIELDS CONTROLLERS
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController nationalityController = TextEditingController();
-  TextEditingController bDayController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
-
-  String dropdownValue = '';
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class SignupForm extends StatelessWidget {
+  final AuthController controller;
+  const SignupForm({Key? key, required this.controller}) : super(key: key);
+  
+  // // TEXT FIELDS CONTROLLERS
+  // TextEditingController firstNameController = TextEditingController();
+  // TextEditingController lastNameController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
+  // TextEditingController nationalityController = TextEditingController();
+  // TextEditingController bDayController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
+  // TextEditingController confirmController = TextEditingController();
+  //
+  // String dropdownValue = '';
+  //
+  // GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class _SignupFormState extends State<SignupForm> {
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Form(
-        key: formKey,
+        key: controller.signUpFormKey,
         child: CupertinoScrollbar(
           child: ListView(
             shrinkWrap: true,
@@ -51,7 +55,7 @@ class _SignupFormState extends State<SignupForm> {
               Align(
                 alignment: Alignment.centerLeft,
                   child: IconButton(
-                      onPressed: () => widget.action(true),
+                      onPressed: () => controller.handleChange(true),
                       icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg", color: AppColors.primaryColor,)
                   )
               ),
@@ -64,7 +68,7 @@ class _SignupFormState extends State<SignupForm> {
                 child: Row(
                   children: [
                     Expanded(child: TextFormField(
-                      controller: firstNameController,
+                      controller: controller.firstName,
                       decoration: InputDecoration(
                           isDense: true,
                           prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -80,7 +84,7 @@ class _SignupFormState extends State<SignupForm> {
                     ),),
                     HorizontalSpace(20),
                     Expanded( child: TextFormField(
-                      controller: lastNameController,
+                      controller: controller.lastName,
                       decoration: InputDecoration(
                           // isDense: true,
                           // prefixIconConstraints: BoxConstraints(
@@ -102,7 +106,7 @@ class _SignupFormState extends State<SignupForm> {
               ),
               // EMAIL FIELD
               TextFormField(
-                controller: emailController,
+                controller: controller.registerEmail,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -119,7 +123,7 @@ class _SignupFormState extends State<SignupForm> {
               VerticalSpace(10),
               // PHONE FIELD
               TextFormField(
-                controller: phoneController,
+                controller: controller.phone,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -146,7 +150,7 @@ class _SignupFormState extends State<SignupForm> {
                         elevation: 16,
                         style: const TextStyle(color: Colors.deepPurple),
                         onChanged: (String? newValue) {
-                          setState(() => dropdownValue = newValue!);
+                          // setState(() => dropdownValue = newValue!);
                         },
                         items: <String>['One', 'Two', 'Free', 'Four']
                             .map<DropdownMenuItem<String>>((String value) {
@@ -159,7 +163,7 @@ class _SignupFormState extends State<SignupForm> {
                     ),
                     HorizontalSpace(20),
                     Expanded(child: TextFormField(
-                      controller: bDayController,
+                      controller: controller.bDay,
                       decoration: InputDecoration(
                           // isDense: true,
                           // prefixIcon: Padding(
@@ -177,7 +181,7 @@ class _SignupFormState extends State<SignupForm> {
               ),
               // PASSWORD FIELD
               TextFormField(
-                controller: passwordController,
+                controller: controller.passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -194,7 +198,7 @@ class _SignupFormState extends State<SignupForm> {
               ),
               // CONFIRM PASSWORD
               TextFormField(
-                controller: confirmController,
+                controller: controller.confirmPassword,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -219,7 +223,7 @@ class _SignupFormState extends State<SignupForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextWidget(text: "already_have_account", size: 1.5, align: TextAlign.center,),
-                  InkWell(onTap: () => widget.action(true), child: TextWidget(text: "sign_in", size: 1.5, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
+                  InkWell(onTap: () => controller.handleChange(true), child: TextWidget(text: "sign_in", size: 1.5, align: TextAlign.center, weight: FontWeight.w700, color: AppColors.primaryColor,)),
                 ],
               ),
             ],
