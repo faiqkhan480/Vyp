@@ -20,6 +20,7 @@ import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends GetView<HomeController> {
+// class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
   handleClick() {
@@ -51,6 +52,8 @@ class HomeScreen extends GetView<HomeController> {
     );
     // Get.toNamed(AppRoutes.INFO, id: 1);
   }
+
+  // final HomeController controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -188,8 +191,8 @@ class HomeScreen extends GetView<HomeController> {
             if(controller.loading() && controller.spots.isEmpty)
               Center(child: CircularProgressIndicator(),)
             else
-              countryList(),
-              // CountryList(spots: controller.spots,),
+              CountryList(spots: controller.spots,),
+
             // GROUPED BY DISTRICTS
             GroupList(
                 isDistrict: true,
@@ -197,6 +200,8 @@ class HomeScreen extends GetView<HomeController> {
                 spots: controller.spots,
                 loading: (controller.loading() && controller.spots.isEmpty)
             ),
+
+
             // GROUPED BY COUNTIES
             GroupList(
                 isDistrict: false,
@@ -217,66 +222,6 @@ class HomeScreen extends GetView<HomeController> {
           decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.darkGrey)),
           padding: EdgeInsets.all(8.0),
           child: SvgPicture.asset(controller.showMap.value ? "assets/images/svgs/window.svg" : "assets/images/svgs/paper_map.svg")
-      ),
-    );
-  }
-
-  Widget countryList() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SizedBox(
-        width: double.infinity,
-        height: SizeConfig.heightMultiplier * 50,
-        // child: PagedGridView(
-        //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        //       maxCrossAxisExtent: 250,
-        //       childAspectRatio: 1.0,
-        //       crossAxisSpacing: 6,
-        //       mainAxisSpacing: 6),
-        //   scrollDirection: Axis.horizontal,
-        //   pagingController: Get.find<HomeController>().pagingController,
-        //   builderDelegate: PagedChildBuilderDelegate(
-        //       itemBuilder: (context, item, index) => ListCard(index: index, item: item as Spot)
-        //   ),
-        // ),
-        child: Obx(() {
-          return Stack(
-            alignment: AlignmentDirectional.centerEnd,
-            children: [
-              LazyLoadScrollView(
-                scrollDirection: Axis.horizontal,
-                onEndOfPage: () => Get.find<HomeController>().handleSearch(),
-                scrollOffset: 100,
-                isLoading: Get.find<HomeController>().loading(),
-                child: GridView.builder(
-                  padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.spots.length,
-                  // physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      mainAxisExtent: 175,
-                      maxCrossAxisExtent: 250,
-                      // childAspectRatio: 2.0,
-                      crossAxisSpacing: 6,
-                      mainAxisSpacing: 6),
-                  itemBuilder: (context, index) => ListCard(index: index, item: controller.spots.elementAt(index),),
-                ),
-              ),
-
-              if(Get.find<HomeController>().loading())
-                Container(
-                    decoration: BoxDecoration(
-                        color: AppColors.white,
-                        shape: BoxShape.circle),
-                    padding: EdgeInsets.all(8.0),
-                    margin: EdgeInsets.all(20.0),
-                    height: 40,
-                    width: 40,
-                    child: CircularProgressIndicator())
-            ],
-          );
-        }),
       ),
     );
   }

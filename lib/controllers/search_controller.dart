@@ -37,7 +37,6 @@ class SearchController extends GetxController {
       if(res != null) {
         districts.assignAll(res);
         fetchingDistrict.value = false;
-        Get.find<HomeController>().handleSearch();
         // Get.offNamed(AppRoutes.ROOT);
       }
       else {
@@ -62,6 +61,7 @@ class SearchController extends GetxController {
       else {
         fetchingCounties.value = false;
       }
+      Get.find<HomeController>().handleSearch();
     }
     catch (e) {
       print(e);

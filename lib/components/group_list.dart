@@ -30,29 +30,49 @@ class GroupList extends StatelessWidget {
     if(loading)
       return Center(child: CircularProgressIndicator());
     return CupertinoScrollbar(
-      child: ListView.builder(
-        itemCount: isDistrict ? districts?.length : counties?.length,
-        itemBuilder: (context, index) {
-          String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
-          List _items = spots!.where((element) => handleType(element, index)).toList();
-          print("IS DISTRICT $isDistrict");
-          print("IS DISTRICT $_items");
-          if(_items.isNotEmpty)
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
-                  child: TextWidget(text: _itemName ?? "", size: 3,),
-                ),
-                CountryList(spots: _items as List<Spot>,),
-              ],
-            );
-          return SizedBox();
-        },
+      // child: ListView.builder(
+      child: SingleChildScrollView(
+        child: Column(
+          // itemCount: isDistrict ? districts?.length : counties?.length,
+          children: List.generate((isDistrict ? districts?.length : counties?.length) ?? 0, renderChild),
+          // itemBuilder: (context, index) {
+          //   String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
+          //   List _items = spots!.where((element) => handleType(element, index)).toList();
+          //   if(_items.isNotEmpty)
+          //     return Column(
+          //       crossAxisAlignment: CrossAxisAlignment.stretch,
+          //       children: [
+          //         Padding(
+          //           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
+          //           child: TextWidget(text: _itemName ?? "", size: 3,),
+          //         ),
+          //         CountryList(spots: _items as List<Spot>,),
+          //       ],
+          //     );
+          //   return SizedBox();
+          // },
+        ),
       ),
     );
   }
 
   bool handleType(Spot element, index) => isDistrict ? element.idDistrict == districts!.elementAt(index).id : element.idCounty == counties!.elementAt(index).id;
+
+  Widget renderChild(index) {
+    String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
+    List _items = spots!.where((element) => handleType(element, index)).toList();
+    print(_items);
+    if(_items.isNotEmpty)
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
+            child: TextWidget(text: _itemName ?? "", size: 3,),
+          ),
+          CountryList(spots: _items as List<Spot>,),
+        ],
+      );
+    return SizedBox();
+  }
 }
