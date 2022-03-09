@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vyv/components/country_list.dart';
 import 'package:vyv/components/group_list.dart';
+import 'package:vyv/components/list_card.dart';
 import 'package:vyv/components/map_box.dart';
 import 'package:vyv/components/menu_sheet.dart';
 import 'package:vyv/components/search_sheet.dart';
@@ -183,17 +185,25 @@ class HomeScreen extends GetView<HomeController> {
       child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
-            if(controller.loading())
+            if(controller.loading() && controller.spots.isEmpty)
               Center(child: CircularProgressIndicator(),)
             else
-              CountryList(spots: controller.spots,),
+              countryList(),
+              // CountryList(spots: controller.spots,),
+            // GROUPED BY DISTRICTS
             GroupList(
                 isDistrict: true,
                 districts: searchController.districts,
                 spots: controller.spots,
-                loading: controller.loading()
+                loading: (controller.loading() && controller.spots.isEmpty)
             ),
-            GroupList( isDistrict: false, counties: searchController.counties, spots: controller.spots, loading: controller.loading()),
+            // GROUPED BY COUNTIES
+            GroupList(
+                isDistrict: false,
+                counties: searchController.counties,
+                spots: controller.spots,
+                loading: (controller.loading() && controller.spots.isEmpty)
+            ),
           ]
       ),
     );
@@ -207,6 +217,66 @@ class HomeScreen extends GetView<HomeController> {
           decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.darkGrey)),
           padding: EdgeInsets.all(8.0),
           child: SvgPicture.asset(controller.showMap.value ? "assets/images/svgs/window.svg" : "assets/images/svgs/paper_map.svg")
+      ),
+    );
+  }
+
+  Widget countryList() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        width: double.infinity,
+        height: SizeConfig.heightMultiplier * 50,
+        // child: PagedGridView(
+        //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        //       maxCrossAxisExtent: 250,
+        //       childAspectRatio: 1.0,
+        //       crossAxisSpacing: 6,
+        //       mainAxisSpacing: 6),
+        //   scrollDirection: Axis.horizontal,
+        //   pagingController: Get.find<HomeController>().pagingController,
+        //   builderDelegate: PagedChildBuilderDelegate(
+        //       itemBuilder: (context, item, index) => ListCard(index: index, item: item as Spot)
+        //   ),
+        // ),
+        child: Obx(() {
+          return Stack(
+            alignment: AlignmentDirectional.centerEnd,
+            children: [
+              LazyLoadScrollView(
+                scrollDirection: Axis.horizontal,
+                onEndOfPage: () => Get.find<HomeController>().handleSearch(),
+                scrollOffset: 100,
+                isLoading: Get.find<HomeController>().loading(),
+                child: GridView.builder(
+                  padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.spots.length,
+                  // physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisExtent: 175,
+                      maxCrossAxisExtent: 250,
+                      // childAspectRatio: 2.0,
+                      crossAxisSpacing: 6,
+                      mainAxisSpacing: 6),
+                  itemBuilder: (context, index) => ListCard(index: index, item: controller.spots.elementAt(index),),
+                ),
+              ),
+
+              if(Get.find<HomeController>().loading())
+                Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle),
+                    padding: EdgeInsets.all(8.0),
+                    margin: EdgeInsets.all(20.0),
+                    height: 40,
+                    width: 40,
+                    child: CircularProgressIndicator())
+            ],
+          );
+        }),
       ),
     );
   }

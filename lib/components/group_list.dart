@@ -35,6 +35,8 @@ class GroupList extends StatelessWidget {
         itemBuilder: (context, index) {
           String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
           List _items = spots!.where((element) => handleType(element, index)).toList();
+          print("IS DISTRICT $isDistrict");
+          print("IS DISTRICT $_items");
           if(_items.isNotEmpty)
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,5 +54,5 @@ class GroupList extends StatelessWidget {
     );
   }
 
-  bool handleType(Spot element, index) => isDistrict ? element.idDistrict == districts!.elementAt(index).id : element.idCountry == counties!.elementAt(index).id;
+  bool handleType(Spot element, index) => isDistrict ? element.idDistrict == districts!.elementAt(index).id : element.idCounty == counties!.elementAt(index).id;
 }

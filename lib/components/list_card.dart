@@ -12,8 +12,10 @@ import 'info_sheet.dart';
 import 'menu_sheet.dart';
 
 class ListCard extends StatelessWidget {
-  final num? index; final Spot? item;
-  const ListCard({Key? key, this.index, this.item}) : super(key: key);
+  final num? index;
+  final Spot? item;
+  final bool isLast;
+  const ListCard({Key? key, this.index, this.item, this.isLast = false}) : super(key: key);
 
   handleClick() {
     Get.bottomSheet(
@@ -59,7 +61,7 @@ class ListCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextWidget(text: item?.spotName ?? "", color: AppColors.white, weight: FontWeight.w300, ),
+          TextWidget(text: item?.id.toString() ?? "", color: AppColors.white, weight: FontWeight.w300, ),
           VerticalSpace(20),
           TextWidget(text: item?.spotName ?? "", size: 1.7, color: AppColors.white, align: TextAlign.center,),
           VerticalSpace(20),
