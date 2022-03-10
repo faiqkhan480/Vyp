@@ -49,7 +49,7 @@ class LoginForm extends StatelessWidget {
               // EMAIL FIELD
               TextFormField(
                 controller: controller.emailField,
-                validator: controller.validator,
+                validator: controller.textValidator,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -68,7 +68,7 @@ class LoginForm extends StatelessWidget {
               TextFormField(
                 controller: controller.passField,
                 obscureText: true,
-                validator: controller.validator,
+                validator: controller.textValidator,
                 decoration: InputDecoration(
                   isDense: true,
                   prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -87,7 +87,7 @@ class LoginForm extends StatelessWidget {
               // LOGIN BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.login, loading: controller.loading()),
+                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.handleLogin, loading: controller.loading()),
               ),
 
               Padding(

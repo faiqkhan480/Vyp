@@ -31,15 +31,9 @@ class Network {
       print("GET: $e");
       return throw Exception(e);
     }
-
-    // if(response.statusCode != 403) {
-    //   return json.decode(response.body);
-    // } else {
-    //   return null;
-    // }
   }
 
-  static post({url,payload,headers}) async {
+  static post({url,payload,headers, Map<String, dynamic>? params}) async {
     try{
       Map<String, String> apiHeaders = {
         'Content-Type': 'application/json',
@@ -49,16 +43,15 @@ class Network {
         apiHeaders.addAll(headers);
       }
       var body = json.encode(payload);
-      print(url);
-      var response = await client.post(Uri.parse(url),body: body,headers:apiHeaders );
+      Uri uri = Uri.https(Constants.baseURL, url, params);
+      print(uri);
+      var response = await client.post(uri, body: body,headers:apiHeaders );
+      print(response.body);
       if(response.statusCode == 200) {
         return response.body;
-        // return json.decode(response.body);
       }
       if(response.statusCode < 200 || response.statusCode > 400 || json == null) {
-        // return json.decode(response.body);
-        return response.body;
-        // return json.decode(response.body);
+        return null;
       }
     } catch(e){
       print("POST: $e");

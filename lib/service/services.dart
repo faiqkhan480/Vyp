@@ -85,9 +85,11 @@ class AppService {
     }
   }
 
-  static login(String email, String password) async {
+  static formSubmit({String? email, String? password, body}) async {
     try{
-      var res = await Network.get(url: Api.login + email + "&" + password );
+      var res = (body != null) ?
+      await Network.post(url: Api.register + password!, payload: body):
+      await Network.get(url: Api.login + email! + "&" + password! );
       if(res != null) {
         var user = json.decode(res);
         if(user['statusCode'] == 200) {
@@ -99,7 +101,7 @@ class AppService {
       return null;
     } catch(e){
       print("ERROR LOGIN: $e");
-      Get.rawSnackbar(title: "Error in login request!");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
       return throw Exception(e);
     }
   }

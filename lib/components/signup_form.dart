@@ -41,19 +41,18 @@ class SignupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Form(
         key: controller.signUpFormKey,
-        child: CupertinoScrollbar(
-          child: ListView(
-            shrinkWrap: true,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Obx(() => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.center,
             // mainAxisSize: MainAxisSize.min,
             children: [
               // BACK BUTTON
               Align(
-                alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerLeft,
                   child: IconButton(
                       onPressed: () => controller.handleChange(true),
                       icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg", color: AppColors.primaryColor,)
@@ -69,6 +68,7 @@ class SignupForm extends StatelessWidget {
                   children: [
                     Expanded(child: TextFormField(
                       controller: controller.firstName,
+                      validator: controller.textValidator,
                       decoration: InputDecoration(
                           isDense: true,
                           prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -85,16 +85,17 @@ class SignupForm extends StatelessWidget {
                     HorizontalSpace(20),
                     Expanded( child: TextFormField(
                       controller: controller.lastName,
+                      validator: controller.textValidator,
                       decoration: InputDecoration(
-                          // isDense: true,
-                          // prefixIconConstraints: BoxConstraints(
-                          //   minWidth: 5,
-                          //   minHeight: 48,
-                          // ),
-                          // prefixIcon: Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          // // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                          // ),
+                        // isDense: true,
+                        // prefixIconConstraints: BoxConstraints(
+                        //   minWidth: 5,
+                        //   minHeight: 48,
+                        // ),
+                        // prefixIcon: Padding(
+                        //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        // // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
+                        // ),
                           contentPadding: EdgeInsets.zero,
                           alignLabelWithHint: true,
                           labelText: "last_name".tr,
@@ -107,6 +108,7 @@ class SignupForm extends StatelessWidget {
               // EMAIL FIELD
               TextFormField(
                 controller: controller.registerEmail,
+                validator: controller.textValidator,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -124,6 +126,7 @@ class SignupForm extends StatelessWidget {
               // PHONE FIELD
               TextFormField(
                 controller: controller.phone,
+                validator: controller.textValidator,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -139,7 +142,7 @@ class SignupForm extends StatelessWidget {
               ),
               // BIRTHDATE & NATIONALITY
               Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
                   children: [
                     Expanded(
@@ -163,13 +166,15 @@ class SignupForm extends StatelessWidget {
                     ),
                     HorizontalSpace(20),
                     Expanded(child: TextFormField(
-                      controller: controller.bDay,
+                      controller: controller.birthday,
+                      readOnly: true,
+                      onTap: controller.handleDatePicker,
                       decoration: InputDecoration(
-                          // isDense: true,
-                          // prefixIcon: Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          //   // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                          // ),
+                        // isDense: true,
+                        // prefixIcon: Padding(
+                        //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        //   // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
+                        // ),
                           contentPadding: EdgeInsets.zero,
                           alignLabelWithHint: true,
                           labelText: "b_day".tr,
@@ -182,6 +187,7 @@ class SignupForm extends StatelessWidget {
               // PASSWORD FIELD
               TextFormField(
                 controller: controller.registerPassword,
+                validator: controller.textValidator,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -199,6 +205,7 @@ class SignupForm extends StatelessWidget {
               // CONFIRM PASSWORD
               TextFormField(
                 controller: controller.confirmPassword,
+                validator: controller.textValidator,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,
@@ -216,7 +223,7 @@ class SignupForm extends StatelessWidget {
               // LOGIN BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 55.0, vertical: 20),
-                child: Button("create_upper", isFlat: true, color: AppColors.primaryColor, onPressed: () => null,),
+                child: Button("create_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.handleRegister, loading: controller.loading(),),
               ),
 
               Row(
@@ -227,7 +234,7 @@ class SignupForm extends StatelessWidget {
                 ],
               ),
             ],
-          ),
+          )),
         ),
       ),
     );

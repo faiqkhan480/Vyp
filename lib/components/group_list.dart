@@ -61,7 +61,6 @@ class GroupList extends StatelessWidget {
   Widget renderChild(index) {
     String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
     List _items = spots!.where((element) => handleType(element, index)).toList();
-    print(_items);
     if(_items.isNotEmpty)
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
