@@ -11,19 +11,19 @@ String categoryToMap(List<Category> data) => json.encode(List<dynamic>.from(data
 class Category {
   Category({
     this.id,
-    this.categoryName,
+    this.name,
   });
 
   int? id;
-  String? categoryName;
+  String? name;
 
   factory Category.fromMap(Map<String, dynamic> json) => Category(
     id: json["id"] == null ? null : json["id"],
-    categoryName: json["categoryName"] == null ? null : json["categoryName"],
+    name: json["categoryName"] == null ? null : json["categoryName"],
   );
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
-    "categoryName": categoryName == null ? null : categoryName,
+    "categoryName": name == null ? null : name,
   };
 }

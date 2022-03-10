@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vyv/models/spot_model.dart';
+import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/models/user_model.dart';
 
 import 'package:vyv/service/apis.dart';
@@ -37,6 +38,19 @@ class AppService {
       var res = await Network.get(url: Api.categories);
       if(res != null)
         return categoryFromMap(res);
+      return null;
+    } catch(e){
+      print(e);
+      return throw Exception(e);
+    }
+  }
+
+  // GET ALL SUB CATEGORIES
+  static getSubCategories() async {
+    try{
+      var res = await Network.get(url: Api.subCategories);
+      if(res != null)
+        return subCategoryFromMap(res);
       return null;
     } catch(e){
       print(e);

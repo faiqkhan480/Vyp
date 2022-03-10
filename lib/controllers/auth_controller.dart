@@ -68,7 +68,7 @@ class AuthController extends GetxController {
   void handleChange(bool value) => isLogin.value = value;
   
   void handleDatePicker() async {
-    DateTime? date = await showDatePicker(context: Get.context!, initialDate: DateTime.now().subtract(Duration(days: 30)), firstDate: DateTime(1980), lastDate: DateTime(2050));
+    DateTime? date = await showDatePicker(context: Get.context!, initialDate: DateTime.now().subtract(Duration(days: 30)), firstDate: DateTime(1980), lastDate: DateTime.now());
     print(date);
     if(date != null) {
       _date = date.toIso8601String();

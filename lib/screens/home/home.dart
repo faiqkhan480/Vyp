@@ -41,9 +41,9 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   // SEARCH SHEET
-  handleSearch() {
+  handleSearch(bool isCategory) {
     Get.bottomSheet(
-      SearchBottomSheet(),
+      SearchBottomSheet(isCategory),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)),),
@@ -137,10 +137,11 @@ class HomeScreen extends GetView<HomeController> {
         ),
         horizontal: 30,
         vertical: 15,
+        onTap: () => handleSearch(true),
       ),
       // VerticalSpace(15),
       InputField(
-        onTap: handleSearch,
+        onTap: () => handleSearch(false),
         placeHolder: "where",
         readOnly: true,
         icon: Padding(

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
+import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/search_model.dart';
+import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:collection/collection.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -14,9 +16,14 @@ import 'custom_checkbox.dart';
 
 class SearchBottomSheet extends GetView<SearchController> {
 // class SearchBottomSheet extends StatelessWidget {
-  // const SearchBottomSheet({Key? key}) : super(key: key);
+  final bool isCategory;
+  const SearchBottomSheet(this.isCategory, {Key? key}) : super(key: key);
 
   // SearchController controller = Get.put(SearchController());
+
+  handleSubmit() => Get.find<HomeController>().handleSearch(pageKey: 1, extraParams: controller.selectedItems);
+
+  void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties);
 
   @override
   Widget build(BuildContext context) {
@@ -25,117 +32,104 @@ class SearchBottomSheet extends GetView<SearchController> {
       color: AppColors.secondaryColor,
       padding: EdgeInsets.symmetric(vertical: 20),
       height: Get.height * 0.90,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Obx(searchBox),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextWidget(
-                              // text: Get.find<HomeController>().selectedCountry.value.countryName,
-                              text: "select_all",
-                              size: 2.2,
-                            ),
-                            Obx(() => CustomCheckBox(
-                              isSelected: controller.selected.length == controller.districts.length,
-                              action: () => controller.handleByCountry(),
-                              icon: (controller.selected.isNotEmpty && (controller.selected.length != controller.districts.length || controller.selected.every((element) => element.counties!.length != controller.counties.where((c) => c.districtId == element.district!.id).toList().length))) ?
-                              CupertinoIcons.minus :  Icons.check,
-                            )),
-                          ],
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Obx(searchBox),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextWidget(
+                          // text: Get.find<HomeController>().selectedCountry.value.countryName,
+                          text: "select_all",
+                          size: 2.2,
                         ),
-                      ),
-                      ...List.generate(controller.districts.length, districtTile),
-                    ],
+                        Obx(() {
+                          var _length = isCategory ? controller.categories.length : controller.districts.length;
+                          var _items = isCategory ? controller.categories : controller.districts;
+                          var _childItems = isCategory ? controller.subCategories : controller.counties;
+                          return CustomCheckBox(
+                            isSelected: controller.selected.length == _length,
+                            action: () => controller.handleByCountry(),
+                            icon: (controller.selected.isNotEmpty &&
+                                (controller.selected.length != _length || controller.selected.every((element) =>
+                                element.children!.length != (isCategory ? controller.subCategories.where((c) => c.categoryId == element.parent!.id).toList().length : controller.counties.where((c) => c.districtId == element.parent!.id).toList().length)
+                                ))) ?
+                            CupertinoIcons.minus :  Icons.check,
+                          );
+                        }),
+                      ],
+                    ),
                   ),
-                ),
+                  ...List.generate(isCategory ? controller.categories.length : controller.districts.length, parentItem),
+                ],
               ),
-              ElevatedButton(onPressed: handleSubmit, child: TextWidget(text: 'search', color: Colors.white, size: 2.2,),)
-            ],
+            ),
           ),
+          ElevatedButton(onPressed: handleSubmit, child: TextWidget(text: 'search', color: Colors.white, size: 2.2,),)
         ],
       ),
     );
   }
 
-  handleSubmit() {
-    Get.find<HomeController>().handleSearch(
-        reqIds: {
-          "countyId": [],
-          "districtId": [],
-        }
-    );
-  }
-
-  Widget districtTile(index) {
+  Widget parentItem(index) {
     return Obx(() {
-      District _district = controller.districts.elementAt(index);
-      List<County> _counties = controller.counties.where((c) => c.districtId == _district.id).toList();
-      bool _value = controller.selected.any((element) => element.district!.id == _district.id);
+      dynamic _parent = isCategory ? controller.categories.elementAt(index) : controller.districts.elementAt(index);
+      List<dynamic> _children = isCategory ? controller.subCategories.where((c) => c.categoryId == _parent.id).toList() : controller.counties.where((c) => c.districtId == _parent.id).toList();
+      bool _value = controller.selected.any((element) => element.parent!.id == _parent.id);
+      print(_children.length);
+      print(controller.subCategories);
       return ExpansionTile(
         // title: TextWidget(text: controller.districts.elementAt(index).districtName),
         title: ListTile(
-          title: TextWidget(text: _district.name, size: 2.0,),
+          title: TextWidget(text: _parent.name, size: 2.0,),
           trailing: CustomCheckBox(
-            isSelected: controller.selected.any((element) => element.district!.id == _district.id),
-            action: () => controller.handleByDistrict(!_value, _district, _counties),
+            isSelected: controller.selected.any((element) => element.parent!.id == _parent.id),
+            // action: () => controller.handleByDistrict(!_value, _parent, _children),
+            action: () => null,
             icon:
-            (_value && controller.selected.firstWhere((element) => element.district!.id == _district.id).counties!.length != _counties.length) ?
+            (_value && controller.selected.firstWhere((element) => element.parent!.id == _parent.id).children!.length != _children.length) ?
             CupertinoIcons.minus :  Icons.check,
           ),
-          onTap: () => selectAllCounties(!_value, _district, _counties),
+          onTap: () => selectAllCounties(!_value, _parent, _children),
         ),
         children: List.generate(
-            _counties.length,
-            (countyIndex) => countyTile(
-                countyIndex,
-                _district,
-                _counties,
+            _children.length,
+            (itemIndex) => childItem(
+              itemIndex,
+              _parent,
+              _children,
                   // () => selectAllCounties(!_value, _district, _counties),
                 // controller.selected.firstWhere((element) => element.district!.id == _district.id).counties!.length != _counties.length
             )
         ),
-        // children: List.generate(_counties.length, (countyIndex) {
-        //   SelectedDistrict? _selected = controller.selected.firstWhereOrNull((element) => element.district!.id == _counties.elementAt(countyIndex).idDistrict);
-          // return CheckboxListTile(
-          //   title: TextWidget(text: _counties.elementAt(countyIndex).countyName, size: 1.8,),
-          //   value: _selected?.counties?.any((c) => c.id == _counties.elementAt(countyIndex).id) ?? false,
-          //   onChanged: (value) => controller.handleByCounty(value!, _district, _counties.elementAt(countyIndex)),
-          // );
-        // }),
-        // initiallyExpanded: true,
       );
     });
   }
 
-  void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties);
-
-  Widget countyTile(int countyIndex, District _district,  List<County> _counties) {
-    SelectedDistrict? _selected = controller.selected.firstWhereOrNull((element) => element.district!.id == _counties.elementAt(countyIndex).districtId);
+  Widget childItem(int childIndex, dynamic _parentItem,  List<dynamic> _childItems) {
+    SelectedDistrict? _selected = controller.selected.firstWhereOrNull((element) => element.parent!.id == (isCategory ? _childItems.elementAt(childIndex).categoryId : _childItems.elementAt(childIndex).districtId));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if(countyIndex == 0)
+        if(childIndex == 0)
           CheckboxListTile(
             title: TextWidget(text: "select_all", size: 1.8,),
-            value: (_selected?.counties?.length ?? 0) == _counties.length,
-            onChanged: (value) => controller.handleAllCountySelection(value ?? true, _district,),
+            value: (_selected?.children?.length ?? 0) == _childItems.length,
+            onChanged: (value) => controller.handleAllCountySelection(value ?? true, _parentItem,),
           ),
 
         CheckboxListTile(
-          title: TextWidget(text: _counties.elementAt(countyIndex).name, size: 1.8,),
-          value: _selected?.counties?.any((c) => c.id == _counties.elementAt(countyIndex).id) ?? false,
-          onChanged: (value) => controller.handleByCounty(value!, _district, _counties.elementAt(countyIndex)),
+          title: TextWidget(text: _childItems.elementAt(childIndex).name, size: 1.8,),
+          value: _selected?.children?.any((c) => c.id == _childItems.elementAt(childIndex).id) ?? false,
+          onChanged: (value) => controller.handleByCounty(value!, _parentItem, _childItems.elementAt(childIndex), isCategory),
         ),
       ],
     );
@@ -272,7 +266,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () => controller.removeSearchItems(controller.selectedItems.elementAt(index)),
+                          onTap: () => controller.removeSearchItems(controller.selectedItems.elementAt(index), isCategory),
                           child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.green,
@@ -284,7 +278,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      (controller.selectedItems.elementAt(index).runtimeType == District) ?
+                                      (controller.selectedItems.elementAt(index).runtimeType == District || controller.selectedItems.elementAt(index).runtimeType == Category) ?
                                       controller.selectedItems.elementAt(index)?.name :
                                       controller.selectedItems.elementAt(index)?.name,
                                       style: TextStyle(color: Colors.white, fontSize: 16),

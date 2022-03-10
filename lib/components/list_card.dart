@@ -62,9 +62,9 @@ class ListCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextWidget(text: item?.id.toString() ?? "", color: AppColors.white, weight: FontWeight.w300, size: 1.8, ),
-          VerticalSpace(20),
+          // VerticalSpace(20),
           TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
-          VerticalSpace(20),
+          // VerticalSpace(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

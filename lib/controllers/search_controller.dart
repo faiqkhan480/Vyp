@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/search_model.dart';
+import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
 
@@ -14,10 +16,14 @@ class SearchController extends GetxController {
 
   RxBool fetchingDistrict = false.obs;
   RxBool fetchingCounties = false.obs;
+  RxBool fetchingCategories = false.obs;
+  RxBool fetchingSubCategories = false.obs;
   RxBool check = false.obs;
   Rx<Country> selectedCountry = Country().obs;
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
+  List<Category> categories = List<Category>.empty(growable: true).obs;
+  List<SubCategory> subCategories = List<SubCategory>.empty(growable: true).obs;
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
   RxList<SelectedDistrict> selected = List<SelectedDistrict>.empty().obs;
   RxList selectedItems = List.empty(growable: true).obs;
@@ -27,6 +33,7 @@ class SearchController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     fetchDistricts().then((value) => fetchCounties());
+    fetchCategories().then((value) => fetchSubCategories());
   }
 
   Future fetchDistricts() async {
@@ -68,6 +75,45 @@ class SearchController extends GetxController {
     }
   }
 
+  Future fetchCategories() async {
+    try{
+      fetchingCategories.value = true;
+      var res = await AppService.getCategories();
+      if(res != null) {
+        categories.assignAll(res);
+        fetchingCategories.value = false;
+        setData();
+        // Get.offNamed(AppRoutes.ROOT);
+      }
+      else {
+        fetchingCategories.value = false;
+      }
+      // Get.find<HomeController>().handleSearch();
+    }
+    catch (e) {
+      print(e);
+    }
+  }
+
+  Future fetchSubCategories() async {
+    try{
+      fetchingSubCategories.value = true;
+      var res = await AppService.getSubCategories();
+      if(res != null) {
+        subCategories.assignAll(res);
+        fetchingSubCategories.value = false;
+        setData();
+        // Get.offNamed(AppRoutes.ROOT);
+      }
+      else {
+        fetchingSubCategories.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+  }
+
   void setCountry(Country c) => selectedCountry.value = c;
 
   void setData() {
@@ -85,8 +131,8 @@ class SearchController extends GetxController {
       districts.forEach((d) {
         selected.add(
             SelectedDistrict(
-                district: d,
-                counties: counties.where((c) => c.districtId == d.id).toList()
+                parent: d,
+                children: counties.where((c) => c.districtId == d.id).toList()
             )
         );
       });
@@ -98,76 +144,76 @@ class SearchController extends GetxController {
 
   void handleByDistrict(bool value, District item, List<County> countyItems) {
     if(value) {
-      selected.add(SelectedDistrict(district: item, counties: countyItems));
+      selected.add(SelectedDistrict(parent: item, children: countyItems));
       selectedItems.add(item);
     }
     else {
-      selected.removeWhere((element) => element.district!.id == item.id);
+      selected.removeWhere((element) => element.parent!.id == item.id);
       selectedItems.remove(item);
     }
   }
 
   handleAllCountySelection(bool value, District item) {
     if(value) {
-      selected.removeWhere((element) => element.district!.id == item.id);
+      selected.removeWhere((element) => element.parent!.id == item.id);
       selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
       selected.add(SelectedDistrict(
-          district: item,
-          counties: counties.where((c) => c.districtId == item.id).toList()
+          parent: item,
+          children: counties.where((c) => c.districtId == item.id).toList()
       ));
       // selectedItems.add(item);
       selectedItems.assignAll(counties.where((c) => c.districtId == item.id).toList());
     }
     else
     {
-      selected.removeWhere((element) => element.district!.id == item.id);
+      selected.removeWhere((element) => element.parent!.id == item.id);
       selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
       // selectedItems.remove(item);
     }
   }
 
-  void handleByCounty(bool value, District item, County _county) {
+  void handleByCounty(bool value, dynamic parent, dynamic child, bool isCategory) {
     // IF CHECK ITEM
     if(value) {
-      bool _checkDistrict = selected.any((element) => element.district!.id == item.id);
+      bool _checkDistrict = selected.any((element) => element.parent!.id == parent.id);
       // IF NOT DISTRICT IS SELECTED THAN SELECT ALL
       if(!_checkDistrict) {
         selected.add(SelectedDistrict(
-            district: districts.firstWhere((d) => d.id == item.id),
-            counties: counties.where((c) => c.id == _county.id).toList()
+            parent: isCategory ? categories.firstWhere((cat) => cat.id == parent.id) : districts.firstWhere((d) => d.id == parent.id),
+            children: isCategory ? subCategories.where((subCat) => subCat.id == child.id).toList() : counties.where((c) => c.id == child.id).toList()
         ));
         selected.refresh();
       }
       // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
       else {
-        List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.id)?.counties;
-        _counties!.add(_county);
+        List<dynamic>? _children = selected.firstWhereOrNull((element) => element.parent!.id == parent.id)?.children;
+        _children!.add(child);
         // selected.firstWhereOrNull((element) => element.district!.id == item.id)!.counties!.assignAll(_counties);
-        selected.firstWhereOrNull((element) => element.district!.id == item.id)!.counties = _counties;
+        selected.firstWhereOrNull((element) => element.parent!.id == parent.id)!.children = _children;
         // selected.firstWhere((element) => element.district!.id == item.id).counties!.add(_county);
         selected.refresh();
       }
-      selectedItems.add(_county);
+      selectedItems.add(child);
     }
     // IF UNCHECK ITEM
     else {
-      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.id)?.counties;
-      _counties!.removeWhere((element) => element.id == _county.id);
-      selected.firstWhere((d) => d.district!.id == item.id).counties = _counties;
+      List<dynamic>? _children = selected.firstWhereOrNull((element) => element.parent!.id == parent.id)?.children;
+      _children!.removeWhere((element) => element.id == child.id);
+      selected.firstWhere((d) => d.parent!.id == parent.id).children = _children;
       selected.refresh();
-      selectedItems.removeWhere((element) => element.id == item.id);
-      selectedItems.remove(_county);
+      selectedItems.removeWhere((element) => element.id == parent.id);
+      selectedItems.remove(child);
     }
   }
 
-  void removeSearchItems(item) {
-    if(item.runtimeType == District){
-      selected.removeWhere((element) => element.district!.id == item.id);
+  void removeSearchItems(item, isCategory) {
+    if(item.runtimeType == District || item.runtimeType == Category){
+      selected.removeWhere((element) => element.parent!.id == item.id);
     }
     else {
-      List<County>? _counties = selected.firstWhereOrNull((element) => element.district!.id == item.districtId)?.counties;
-      _counties!.removeWhere((element) => element.id == item.id);
-      selected.firstWhere((d) => d.district!.id == item.districtId).counties = _counties;
+      List<dynamic>? _children = selected.firstWhereOrNull((element) => element.parent!.id == (isCategory ? item.categoryId : item.districtId))?.children;
+      _children!.removeWhere((element) => element.id == item.id);
+      selected.firstWhere((d) => d.parent!.id == (isCategory ? item.categoryId : item.districtId)).children = _children;
       selected.refresh();
     }
     selectedItems.remove(item);

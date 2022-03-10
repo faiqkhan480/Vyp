@@ -9,7 +9,7 @@ class SearchModel {
 }
 
 class SelectedDistrict {
-  District? district;
-  List<County>? counties;
-  SelectedDistrict({this.district, this.counties});
+  var parent;
+  List<dynamic>? children;
+  SelectedDistrict({this.parent, this.children});
 }
