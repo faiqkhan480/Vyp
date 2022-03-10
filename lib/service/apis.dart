@@ -7,4 +7,5 @@ class Api {
   static String districts = "/district/country/";
   static String counties = "/county/country/";
   static String spot = "/spot";
+  static String login = "/person/login/";
 }

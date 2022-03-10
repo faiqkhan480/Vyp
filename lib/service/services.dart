@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vyv/models/spot_model.dart';
+import 'package:vyv/models/user_model.dart';
 
 import 'package:vyv/service/apis.dart';
+import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/network.dart';
 
 // IMPORT MODEL CLASSES
@@ -11,6 +16,8 @@ import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 
 class AppService {
+  static GetStorage box = GetStorage();
+
   // GET ALL COUNTRIES
   static getCountries() async {
     try{
@@ -74,6 +81,25 @@ class AppService {
     } catch(e){
       print("ERROR SPOT: $e");
       Get.rawSnackbar(title: "Error in spot request!");
+      return throw Exception(e);
+    }
+  }
+
+  static login(String email, String password) async {
+    try{
+      var res = await Network.get(url: Api.login + email + "&" + password );
+      if(res != null) {
+        var user = json.decode(res);
+        if(user['statusCode'] == 200) {
+          box.write('user', jsonEncode(user['result']));
+          return userFromMap(jsonEncode(user['result']));
+        }
+        Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
+      }
+      return null;
+    } catch(e){
+      print("ERROR LOGIN: $e");
+      Get.rawSnackbar(title: "Error in login request!");
       return throw Exception(e);
     }
   }

@@ -22,7 +22,7 @@ class CountryList extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: SizedBox(
         width: double.infinity,
-        height: spots!.length == 1 ? SizeConfig.heightMultiplier * 25.5 : SizeConfig.heightMultiplier * 50,
+        height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 44,
         // child: PagedGridView(
         //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         //       maxCrossAxisExtent: 250,
@@ -36,9 +36,9 @@ class CountryList extends StatelessWidget {
         //   ),
         // ),
         child: Obx(() {
+          print(SizeConfig.heightMultiplier * 0.12);
           return Stack(
             fit: StackFit.expand,
-            // alignment: AlignmentDirectional.centerEnd,
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
@@ -46,12 +46,12 @@ class CountryList extends StatelessWidget {
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.count(
-                  crossAxisCount: spots!.length > 1 ? 2 : 1,
-                  childAspectRatio: 1.0,
+                  crossAxisCount: spots!.length > 2 ? 2 : 1,
+                  childAspectRatio: SizeConfig.heightMultiplier * 0.13,
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
-                  shrinkWrap: true,
+                  shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
                   children: List.generate(spots?.length ?? 0, (index) => ListCard(index: index, item: spots?.elementAt(index))),
                   // itemCount: spots?.length,

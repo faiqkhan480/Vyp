@@ -79,8 +79,10 @@ class MenuSheet extends StatelessWidget {
           Get.toNamed(AppRoutes.INFO, id: 1);
           Get.back(closeOverlays: true);
         }
-        else
+        else {
+          Get.back(closeOverlays: true);
           Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
+        }
         break;
       case 1:
         // Get.back(closeOverlays: true);

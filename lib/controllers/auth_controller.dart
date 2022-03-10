@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyv/models/user_model.dart';
+import 'package:vyv/service/services.dart';
+import 'package:vyv/utils/app_colors.dart';
 
 class AuthController extends GetxController {
   RxBool isLogin = true.obs;
+  RxBool loading = false.obs;
+  Rx<User> _user = User().obs;
+
+  Rx<User> get user => _user;
+
+  set user(Rx<User> value) {
+    _user = value;
+  } // FORM KEYS
+
   final loginFormKey = GlobalKey<FormState>();
   final signUpFormKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
+
+  final emailController = TextEditingController().obs;
+  final passwordController = TextEditingController().obs;
 
   // SIGNUP FORM FIELDS
   // TEXT FIELDS CONTROLLERS
@@ -20,11 +34,14 @@ class AuthController extends GetxController {
   TextEditingController confirmPassword = TextEditingController();
 
   bool get loginForm => isLogin.value;
+  // User get user => _user.value;
+  TextEditingController get emailField => emailController.value;
+  TextEditingController get passField => passwordController.value;
 
   @override
   void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
+    emailController.value.dispose();
+    passwordController.value.dispose();
     super.onClose();
   }
 
@@ -37,16 +54,27 @@ class AuthController extends GetxController {
 
   void handleChange(bool value) => isLogin.value = value;
 
-  void login() {
+  void login() async {
     if (loginFormKey.currentState!.validate()) {
-      checkUser(emailController.text, passwordController.text).then((auth) {
-        if (auth) {
-          Get.snackbar('Login', 'Login successfully');
-        } else {
-          Get.snackbar('Login', 'Invalid email or password');
+      try{
+        FocusManager.instance.primaryFocus?.unfocus();
+        loading.value = true;
+        var res = await AppService.login(emailField.text, passField.text);
+        if(res != null) {
+          _user.value = res;
+          loading.value = false;
+          Get.back(closeOverlays: true);
         }
-        passwordController.clear();
-      });
+        else {
+          loading.value = false;
+        }
+      }
+      catch (e) {
+        print(e);
+      }
+      finally {
+        loading.value = false;
+      }
     }
   }
 

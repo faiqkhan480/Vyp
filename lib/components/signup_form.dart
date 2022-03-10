@@ -181,7 +181,7 @@ class SignupForm extends StatelessWidget {
               ),
               // PASSWORD FIELD
               TextFormField(
-                controller: controller.passwordController,
+                controller: controller.registerPassword,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,

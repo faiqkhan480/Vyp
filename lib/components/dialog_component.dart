@@ -11,9 +11,20 @@ import 'package:vyv/controllers/auth_controller.dart';
 //   _DialogComponentState createState() => _DialogComponentState();
 // }
 
-class DialogComponent extends StatelessWidget {
+class DialogComponent extends StatefulWidget {
+  @override
+  _DialogComponentState createState() => _DialogComponentState();
+}
 
+class _DialogComponentState extends State<DialogComponent> {
   AuthController controller = Get.put(AuthController());
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    Get.delete<AuthController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

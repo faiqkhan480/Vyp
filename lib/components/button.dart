@@ -7,27 +7,31 @@ class Button extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool? isFlat;
+  final bool? loading;
   final double? radius;
   final Color? color;
   final Widget? icon;
 
-  const Button(this.text, {required this.onPressed, this.isFlat, this.icon, this.radius, this.color});
+  const Button(this.text, {required this.onPressed, this.isFlat, this.icon, this.radius, this.color, this.loading = false});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child: icon != null ? Row(
+      child: loading! ?
+      SizedBox(height: 15, width: 15, child: CircularProgressIndicator(color: AppColors.white, strokeWidth: 1.5,)) :
+      icon != null ?
+      Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 5, top: 0, bottom: 0),
             child: icon!,
           ),
-
           Text(text.tr),
         ],
-      ) : Text(text.tr),
+      ) :
+      Text(text.tr),
       style: TextButton.styleFrom(
           primary: isFlat != null ? AppColors.white : color,
           backgroundColor: color ?? Colors.transparent,

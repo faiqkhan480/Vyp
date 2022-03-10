@@ -35,7 +35,7 @@ class LoginForm extends StatelessWidget {
         key: controller.loginFormKey,
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-          child: Column(
+          child: Obx(() => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -48,7 +48,8 @@ class LoginForm extends StatelessWidget {
               VerticalSpace(40),
               // EMAIL FIELD
               TextFormField(
-                controller: controller.emailController,
+                controller: controller.emailField,
+                validator: controller.validator,
                 decoration: InputDecoration(
                     isDense: true,
                     prefixIconConstraints: BoxConstraints(maxWidth: 40),
@@ -57,7 +58,7 @@ class LoginForm extends StatelessWidget {
                       child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
                     ),
                     contentPadding: EdgeInsets.zero,
-                    alignLabelWithHint: true,
+                    // alignLabelWithHint: true,
                     labelText: "email".tr,
                     labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo')
                 ),
@@ -65,7 +66,7 @@ class LoginForm extends StatelessWidget {
               VerticalSpace(10),
               // PASSWORD FIELD
               TextFormField(
-                controller: controller.passwordController,
+                controller: controller.passField,
                 obscureText: true,
                 validator: controller.validator,
                 decoration: InputDecoration(
@@ -86,7 +87,7 @@ class LoginForm extends StatelessWidget {
               // LOGIN BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.login,),
+                child: Button("login_upper", isFlat: true, color: AppColors.primaryColor, onPressed: controller.login, loading: controller.loading()),
               ),
 
               Padding(
@@ -111,7 +112,7 @@ class LoginForm extends StatelessWidget {
                 ],
               ),
             ],
-          ),
+          )),
         ),
       ),
     );
