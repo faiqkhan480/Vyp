@@ -6,7 +6,7 @@ import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/widgets/text_component.dart';
 
-import 'country_list.dart';
+import 'horizontal_list.dart';
 
 class GroupList extends StatelessWidget {
   final SearchController? controller;
@@ -69,7 +69,7 @@ class GroupList extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
             child: TextWidget(text: _itemName ?? "", size: 3,),
           ),
-          CountryList(spots: _items as List<Spot>,),
+          HorizontalList(spots: _items as List<Spot>,),
         ],
       );
     return SizedBox();

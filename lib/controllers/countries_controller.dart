@@ -10,7 +10,7 @@ import 'package:vyv/service/services.dart';
 class CountryController extends GetxController {
   static CountryController get controller => Get.find();
 
-  Rx<bool> isLoading = false.obs;
+  Rx<bool> isLoading = true.obs;
   List<Country> countries = List<Country>.empty(growable: true).obs;
   GetStorage box = GetStorage();
 
@@ -28,10 +28,14 @@ class CountryController extends GetxController {
   fetchCountries() async {
     try{
       isLoading(true);
-      List<Country>? res = await AppService.getCountries();
-      if(res != null)
-        countries.assignAll(res);
-      isLoading(false);
+      if(box.read('country') != null)
+        Future.delayed(Duration(seconds: 3), () => Get.offNamed(AppRoutes.HOME));
+      else {
+        List<Country>? res = await AppService.getCountries();
+        if(res != null)
+          countries.assignAll(res);
+        isLoading(false);
+      }
     } catch(e) {
       isLoading(false);
       Get.rawSnackbar(message: "$e", backgroundColor: Colors.red);

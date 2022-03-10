@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/dialog_component.dart';
+import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
@@ -12,11 +13,13 @@ import 'info_sheet.dart';
 
 class MenuSheet extends StatelessWidget {
   final bool isLogin;
-  const MenuSheet({Key? key, required this.isLogin}) : super(key: key);
+  final bool isItemMenu;
+  final Spot? spot;
+  const MenuSheet({Key? key, required this.isLogin, this.isItemMenu = false, this.spot}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List menu = isLogin ? loginMenu : guestMenu;
+    List menu = isLogin ? loginMenu : isItemMenu ? itemMenu : guestMenu;
     // List menu = loginMenu;
     return Container(
         color: AppColors.secondaryColor,
@@ -25,10 +28,10 @@ class MenuSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if(isLogin)
+            if(isItemMenu)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextWidget(text: "Tennis de Aigra Nova", size: 2.5,),
+              child: TextWidget(text: spot?.spotName, size: 2.5,),
             ),
 
             Wrap(
@@ -46,7 +49,7 @@ class MenuSheet extends StatelessWidget {
                           // subtitle: Divider(thickness: 1, height: 1,),
                           dense: true,
                           // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
-                          onTap: () => handleClick(index),
+                          onTap: () => handleClick(menu.elementAt(index).entries.first.value.toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 70.0),
@@ -72,23 +75,17 @@ class MenuSheet extends StatelessWidget {
     );
   }
 
-  handleClick(num index) {
-    switch (index) {
-      case 0:
-        if(isLogin) {
-          Get.toNamed(AppRoutes.INFO, id: 1);
-          Get.back(closeOverlays: true);
-        }
-        else {
-          Get.back(closeOverlays: true);
-          Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
-        }
+  handleClick(String item) {
+    switch (item) {
+      case 'more_info':
+        Get.toNamed(AppRoutes.INFO, arguments: spot);
+        Get.back(closeOverlays: true);
         break;
-      case 1:
-        // Get.back(closeOverlays: true);
-        // Get.toNamed(AppRoutes.FAVORITES, id: 1);
+      case "login_signup":
+        Get.back(closeOverlays: true);
+        Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
         break;
-      case 2:
+      case "favorites":
         Get.back(closeOverlays: true);
         Get.toNamed(AppRoutes.FAVORITES, id: 1);
         break;

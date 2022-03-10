@@ -10,9 +10,9 @@ import 'package:vyv/utils/size_config.dart';
 
 import 'list_card.dart';
 
-class CountryList extends StatelessWidget {
+class HorizontalList extends StatelessWidget {
   final List<Spot>? spots;
-  const CountryList({Key? key, this.spots}) : super(key: key);
+  const HorizontalList({Key? key, this.spots}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class CountryList extends StatelessWidget {
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.count(
                   crossAxisCount: spots!.length > 2 ? 2 : 1,
-                  childAspectRatio: SizeConfig.heightMultiplier * 0.13,
+                  childAspectRatio: SizeConfig.heightMultiplier * 0.15,
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),

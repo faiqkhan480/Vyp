@@ -19,7 +19,7 @@ class ListCard extends StatelessWidget {
 
   handleClick() {
     Get.bottomSheet(
-      MenuSheet(isLogin: true,),
+      MenuSheet(isLogin: false, isItemMenu: true, spot: item,),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(

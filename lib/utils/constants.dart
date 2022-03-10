@@ -15,6 +15,13 @@ List<Map<String, dynamic>> guestMenu = [
     "icon" : SvgPicture.asset("assets/images/svgs/card.svg"),
   },
   {
+    "label" : "settings",
+    "icon" : SvgPicture.asset("assets/images/svgs/gear.svg"),
+  }
+];
+
+List<Map<String, dynamic>> loginMenu = [
+  {
     "label" : "account",
     "icon" : SvgPicture.asset("assets/images/svgs/person.svg"),
   },
@@ -28,7 +35,9 @@ List<Map<String, dynamic>> guestMenu = [
   }
 ];
 
-List<Map<String, dynamic>> loginMenu = [
+
+
+List<Map<String, dynamic>> itemMenu = [
   {
     "label" : "more_info",
     "icon" : SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.darkGrey,),

@@ -35,10 +35,10 @@ class CountriesScreen extends GetView<CountryController> {
                 shadow: true,
               ),
 
-              if(controller.isLoading.value)
+              if(controller.isLoading())
                 Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)),
 
-              if(!controller.isLoading.value)
+              if(!controller.isLoading())
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -57,8 +57,8 @@ class CountriesScreen extends GetView<CountryController> {
 
               VerticalSpace(30),
 
-              if(controller.countries.isNotEmpty)
-              SizedBox(
+              if(!controller.isLoading() && controller.countries.isNotEmpty)
+                SizedBox(
                 height: SizeConfig.heightMultiplier * 39,
                 child: CupertinoScrollbar(
                   child: ListView(

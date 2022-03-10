@@ -143,12 +143,12 @@ class _InfoScreenState extends State<InfoScreen> {
 
                   VerticalSpace(10),
 
-                  TextWidget(text: "reviews", weight: FontWeight.w700, size: 2.2,),
-
-                  ...List.generate(5, (index) => progressRow(5.toString(), 456.toString())),
-
-                  VerticalSpace(10),
-                  usersStars()
+                  // TextWidget(text: "reviews", weight: FontWeight.w700, size: 2.2,),
+                  //
+                  // ...List.generate(5, (index) => progressRow(5.toString(), 456.toString())),
+                  //
+                  // VerticalSpace(10),
+                  // usersStars()
                 ],
               ),
             )

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:vyv/components/country_list.dart';
+import 'package:vyv/components/horizontal_list.dart';
 import 'package:vyv/components/group_list.dart';
 import 'package:vyv/components/list_card.dart';
 import 'package:vyv/components/map_box.dart';
@@ -23,9 +23,10 @@ class HomeScreen extends GetView<HomeController> {
 // class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
+
   handleClick() {
     Get.bottomSheet(
-      MenuSheet(isLogin: false,),
+      MenuSheet(isLogin: controller.user != null,),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -191,7 +192,7 @@ class HomeScreen extends GetView<HomeController> {
             if(controller.loading() && controller.spots.isEmpty)
               Center(child: CircularProgressIndicator(),)
             else
-              CountryList(spots: controller.spots,),
+              HorizontalList(spots: controller.spots,),
 
             // GROUPED BY DISTRICTS
             GroupList(
