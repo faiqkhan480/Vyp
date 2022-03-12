@@ -34,8 +34,8 @@ class RootController extends GetxController {
 
   Route? onGenerateRoute(RouteSettings settings) {
     print("ROUTE : ${settings.name}");
-    // if(settings.name == "/" || settings.name == AppRoutes.HOME)
-    if(settings.name == "/")
+    if(settings.name == AppRoutes.HOME)
+    // if(settings.name == "/")
       return GetPageRoute(
         settings: settings,
         binding: HomeBindings(),
@@ -53,53 +53,6 @@ class RootController extends GetxController {
         settings: settings,
         page: () => FavoritesScreen()
       );
-    // return GetPageRoute(
-    //   settings: settings,
-    //   binding: HomeBindings(),
-    //   page: () => HomeScreen(),
-    // );
+    return null;
   }
-
-  // final navMenuIndex = 0.obs;
-  //
-  // ScreenModel get currentScreenModel => screensData[navMenuIndex()];
-  // Color get navMenuItemColor => currentScreenModel.colors!;
-  //
-  // // store the pages stack.
-  // List<Widget>? _pages;
-  //
-  // // get navigators.
-  // List<Widget> get menuPages => _pages ??= screensData.map((e) => _TabNav(e)).toList();
-  //
-  // // widget stuffs.
-  // List<BottomNavigationBarItem> get navMenuItems => screensData
-  //     .map((e) =>
-  //     BottomNavigationBarItem(icon: Icon(Icons.widgets), label: e.name))
-  //     .toList();
-
-  // void openDetails(int shade) {
-  //   final model = currentScreenModel;
-  //   Get.to(
-  //     PageColorDetails(
-  //       title: model.name,
-  //       color: model.colors,
-  //       shade: shade,
-  //     ),
-  //     transition: Transition.fade,
-  //     id: model.navKey,
-  //   );
-  // }
 }
-
-// class _TabNav extends GetView<RootController> {
-//   final ScreenModel model;
-//   _TabNav(this.model);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Navigator(
-//       key: Get.nestedKey(model.navKey),
-//       onGenerateRoute: (settings) =>
-//           MaterialPageRoute(builder: (_) => PageColorList(model: model)),
-//     );
-//   }
-// }

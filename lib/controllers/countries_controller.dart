@@ -22,14 +22,14 @@ class CountryController extends GetxController {
 
   void setCountry(Country c) {
     box.write('country', c.toMap());
-    Get.offNamed(AppRoutes.HOME);
+    Get.offNamed(AppRoutes.ROOT);
   }
 
   fetchCountries() async {
     try{
       isLoading(true);
       if(box.read('country') != null)
-        Future.delayed(Duration(seconds: 3), () => Get.offNamed(AppRoutes.HOME));
+        Future.delayed(Duration(seconds: 3), () => Get.offNamed(AppRoutes.ROOT));
       else {
         List<Country>? res = await AppService.getCountries();
         if(res != null)

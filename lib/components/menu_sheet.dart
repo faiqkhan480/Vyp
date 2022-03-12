@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/dialog_component.dart';
+import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
@@ -62,7 +63,7 @@ class MenuSheet extends StatelessWidget {
 
             if(isLogin)
               TextButton(
-                onPressed: () => null,
+                onPressed: Get.find<HomeController>().handleLogout,
                 child: Text("logout".tr),
                 style: TextButton.styleFrom(
                   primary: AppColors.skyBlue,

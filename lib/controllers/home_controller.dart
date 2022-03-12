@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
+import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/models/user_model.dart';
 import 'package:vyv/service/services.dart';
@@ -54,33 +58,21 @@ class HomeController extends GetxController {
     // Get.back();
     try{
       loading.value = true;
-      Map<String, dynamic> params = {
-        // "categoryId": categoryIds,
-        // "districtId": districtIds,
-        // "countyId": countyIds,
+      Map<String, dynamic> _params = {
         "PageNumber": pageKey ?? _page,
         "PageSize": limit
       };
-      // List b = [];
-      // if(extraParams != null) {
-      //   extraParams.forEach((p) {
-      //     print(p.toMap());
-      //     // params.addIf(p.runtimeType == County, "countyId", p.id);
-      //     b.add(p.id);
-      //     // if(p.runtimeType == County)
-      //     //   params.addAll({"countyId": p.id});
-      //     //
-      //     // else
-      //     //   params.addAll({"districtId": p.id});
-      //   });
-      //   var c = b.map((e) => MapEntry("districtId", e));
-      //   print(c);
-      //   // params.addEntries(b.map((e) => MapEntry("districtId", e)));
-      //   // params.addAll(c as MapEntry);
-      //   print(params);
-      // }
-      //   params.addAll(reqIds);
-      var res = await AppService.searchSpot(payload: params);
+      if(extraParams != null) {
+        for (int i = 0; i < extraParams.length; i++) {
+          if(extraParams.elementAt(i).runtimeType == County)
+            _params['countyId[$i]'] = json.encode(extraParams.elementAt(i).id);
+          else if(extraParams.elementAt(i).runtimeType == Category)
+            _params['categoryId[$i]'] = json.encode(extraParams.elementAt(i).id);
+          else if(extraParams.elementAt(i).runtimeType == District)
+            _params['districtId[$i]'] = json.encode(extraParams.elementAt(i).id);
+        }
+      }
+      var res = await AppService.searchSpot(payload: _params);
       if(res != null) {
         if (res.isEmpty) {
           _lastPage.value = true;
@@ -110,6 +102,12 @@ class HomeController extends GetxController {
     //   val.page = page;
     //   val.limit = limit;
     // });
+  }
+
+  void handleLogout() {
+    box.remove("user");
+    _user.close();
+    Get.back(closeOverlays: true);
   }
 
   void loadNextPage() => _changePaginationFilter(_page + 1, limit);

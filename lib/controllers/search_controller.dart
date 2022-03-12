@@ -126,13 +126,13 @@ class SearchController extends GetxController {
     });
   }
 
-  void handleByCountry() {
+  void handleByCountry(isCategory) {
     if(selected.isEmpty) {
-      districts.forEach((d) {
+      (isCategory ? categories : districts).forEach((dynamic d) {
         selected.add(
             SelectedDistrict(
                 parent: d,
-                children: counties.where((c) => c.districtId == d.id).toList()
+                children: isCategory ? subCategories.where((sub) => sub.id == d.id).toList() : counties.where((c) => c.districtId == d.id).toList()
             )
         );
       });
@@ -142,32 +142,38 @@ class SearchController extends GetxController {
     }
   }
 
-  void handleByDistrict(bool value, District item, List<County> countyItems) {
+  void handleByDistrict(bool value, dynamic parentItem, List<dynamic> childItems, isCategory) {
     if(value) {
-      selected.add(SelectedDistrict(parent: item, children: countyItems));
-      selectedItems.add(item);
+      selected.add(SelectedDistrict(parent: parentItem, children: childItems));
+      selectedItems.add(parentItem);
     }
     else {
-      selected.removeWhere((element) => element.parent!.id == item.id);
-      selectedItems.remove(item);
+      selected.removeWhere((element) => element.parent!.id == parentItem.id);
+      selectedItems.remove(parentItem);
     }
   }
 
-  handleAllCountySelection(bool value, District item) {
+  handleAllCountySelection(bool value, dynamic item, isCategory) {
     if(value) {
       selected.removeWhere((element) => element.parent!.id == item.id);
-      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
+      selectedItems.removeWhere((element) =>
+      element.runtimeType == District || element.runtimeType == Category ?
+      element.id == item.id :
+      (isCategory ? element.categoryId : element.districtId) == item.id);
       selected.add(SelectedDistrict(
           parent: item,
-          children: counties.where((c) => c.districtId == item.id).toList()
+          children: isCategory ? subCategories.where((c) => c.categoryId == item.id).toList() : counties.where((c) => c.districtId == item.id).toList()
       ));
       // selectedItems.add(item);
-      selectedItems.assignAll(counties.where((c) => c.districtId == item.id).toList());
+      selectedItems.assignAll(isCategory ? subCategories.where((c) => c.categoryId == item.id).toList() : counties.where((c) => c.districtId == item.id).toList());
     }
     else
     {
       selected.removeWhere((element) => element.parent!.id == item.id);
-      selectedItems.removeWhere((element) => element.runtimeType == District ? element.id == item.id : element.districtId == item.id);
+      selectedItems.removeWhere((element) =>
+      element.runtimeType == District || element.runtimeType == Category ?
+      element.id == item.id :
+      (isCategory ? element.categoryId : element.districtId) == item.id);
       // selectedItems.remove(item);
     }
   }

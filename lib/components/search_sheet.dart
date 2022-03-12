@@ -23,7 +23,7 @@ class SearchBottomSheet extends GetView<SearchController> {
 
   handleSubmit() => Get.find<HomeController>().handleSearch(pageKey: 1, extraParams: controller.selectedItems);
 
-  void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties);
+  void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties, isCategory);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                           var _childItems = isCategory ? controller.subCategories : controller.counties;
                           return CustomCheckBox(
                             isSelected: controller.selected.length == _length,
-                            action: () => controller.handleByCountry(),
+                            action: () => controller.handleByCountry(isCategory),
                             icon: (controller.selected.isNotEmpty &&
                                 (controller.selected.length != _length || controller.selected.every((element) =>
                                 element.children!.length != (isCategory ? controller.subCategories.where((c) => c.categoryId == element.parent!.id).toList().length : controller.counties.where((c) => c.districtId == element.parent!.id).toList().length)
@@ -84,8 +84,6 @@ class SearchBottomSheet extends GetView<SearchController> {
       dynamic _parent = isCategory ? controller.categories.elementAt(index) : controller.districts.elementAt(index);
       List<dynamic> _children = isCategory ? controller.subCategories.where((c) => c.categoryId == _parent.id).toList() : controller.counties.where((c) => c.districtId == _parent.id).toList();
       bool _value = controller.selected.any((element) => element.parent!.id == _parent.id);
-      print(_children.length);
-      print(controller.subCategories);
       return ExpansionTile(
         // title: TextWidget(text: controller.districts.elementAt(index).districtName),
         title: ListTile(
@@ -123,7 +121,7 @@ class SearchBottomSheet extends GetView<SearchController> {
           CheckboxListTile(
             title: TextWidget(text: "select_all", size: 1.8,),
             value: (_selected?.children?.length ?? 0) == _childItems.length,
-            onChanged: (value) => controller.handleAllCountySelection(value ?? true, _parentItem,),
+            onChanged: (value) => controller.handleAllCountySelection(value ?? true, _parentItem, isCategory),
           ),
 
         CheckboxListTile(

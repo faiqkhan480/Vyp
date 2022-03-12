@@ -93,7 +93,7 @@ class InfoSheet extends StatelessWidget {
 
   handleNavigate() {
     Get.back(closeOverlays: true);
-    // Get.toNamed(AppRoutes.INFO, id: 1);
-    Get.toNamed(AppRoutes.INFO, arguments: item);
+    Get.toNamed(AppRoutes.INFO, id: 1, arguments: item);
+    // Get.toNamed(AppRoutes.INFO, arguments: item);
   }
 }
