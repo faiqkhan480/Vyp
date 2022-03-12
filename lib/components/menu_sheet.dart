@@ -79,7 +79,7 @@ class MenuSheet extends StatelessWidget {
   handleClick(String item) {
     switch (item) {
       case 'more_info':
-        Get.toNamed(AppRoutes.INFO, arguments: spot);
+        Get.toNamed(AppRoutes.INFO, arguments: spot, id: 1);
         Get.back(closeOverlays: true);
         break;
       case "login_signup":

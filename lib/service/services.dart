@@ -17,7 +17,7 @@ import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 
 class AppService {
-  static GetStorage box = GetStorage();
+  static GetStorage _box = GetStorage();
 
   // GET ALL COUNTRIES
   static getCountries() async {
@@ -99,6 +99,19 @@ class AppService {
     }
   }
 
+  static spotDetail({int? spotId}) async {
+    try{
+      var res = await Network.get(url: Api.spotDetail + spotId.toString());
+      if(res != null)
+        return Spot.fromMap(jsonDecode(res));
+      return null;
+    } catch(e){
+      print("ERROR SPOT DETAIL: $e");
+      Get.rawSnackbar(title: "Error in spot detail request!");
+      return throw Exception(e);
+    }
+  }
+
   static formSubmit({String? email, String? password, body}) async {
     try{
       var res = (body != null) ?
@@ -107,7 +120,7 @@ class AppService {
       if(res != null) {
         var user = json.decode(res);
         if(user['statusCode'] == 200) {
-          box.write('user', jsonEncode(user['result']));
+          _box.write('user', jsonEncode(user['result']));
           return userFromMap(jsonEncode(user['result']));
         }
         Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);

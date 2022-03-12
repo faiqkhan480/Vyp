@@ -10,7 +10,8 @@ import 'package:vyv/screens/countries/countries_screeen.dart';
 import 'package:vyv/screens/favorites_screen.dart';
 import 'package:vyv/screens/home/home.dart';
 import 'package:vyv/screens/home/home_bindings.dart';
-import 'package:vyv/screens/info_screen.dart';
+import 'package:vyv/screens/info/info_binding.dart';
+import 'package:vyv/screens/info/info_screen.dart';
 
 // IMPORT ROUTES NAME
 import 'app_routes.dart';
@@ -34,6 +35,7 @@ class AppPages {
     ),
     GetPage(
         name: AppRoutes.INFO,
+        binding: InfoBinding(),
         page: () => InfoScreen()
     ),
     GetPage(

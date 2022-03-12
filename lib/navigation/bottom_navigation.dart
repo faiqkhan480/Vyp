@@ -16,90 +16,106 @@ class BottomNavigation extends GetView<RootController> {
   List<String> pages = ["Home", "Calendar", "Guides", "Events"];
   final TextStyle selectedLabelStyle = TextStyle(color: AppColors.lightGrey, fontSize: 12);
 
+  Future<bool> onWilPop() async {
+    print("onWilPop:::::");
+    final isFirstRouteInCurrentTab = !await Get.nestedKey(1)!.currentState!.maybePop();
+    print(isFirstRouteInCurrentTab);
+    if (isFirstRouteInCurrentTab) {
+      if (controller.currentIndex() != 0) {
+        controller.changeTab(0);
+        return false;
+      }
+    }
+    return isFirstRouteInCurrentTab;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(() => IndexedStack(
-        index: controller.currentTab.value > 0 ? 1 : 0,
-        children: [
-          Navigator(
-            key: Get.nestedKey(1),
-            initialRoute: AppRoutes.HOME,
-            onGenerateRoute: controller.onGenerateRoute,
-          ),
-          CalenderScreen(),
-        ],
-      )),
+    return WillPopScope(
+      onWillPop: onWilPop,
+      child: Scaffold(
+        body: Obx(() => IndexedStack(
+          index: controller.currentTab.value > 0 ? 1 : 0,
+          children: [
+            Navigator(
+              key: Get.nestedKey(1),
+              initialRoute: AppRoutes.HOME,
+              onGenerateRoute: controller.onGenerateRoute,
+            ),
+            CalenderScreen(),
+          ],
+        )),
 
-      // bottomNavigationBar: Obx(
-      //       () => BottomNavigationBar(
-      //     items: const <BottomNavigationBarItem>[
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.search),
-      //         label: 'Browse',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.history),
-      //         label: 'History',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.settings),
-      //         label: 'Settings',
-      //       ),
-      //     ],
-      //     currentIndex: controller.currentIndex.value,
-      //     selectedItemColor: Colors.pink,
-      //     onTap: controller.changePage,
-      //   ),
-      // ),
-      // bottomNavigationBar: buildBottomNavigationMenu(context),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 4.0,
-        color: AppColors.white,
-        child: SizedBox(
-          height: SizeConfig.heightMultiplier * 8,
-          width: double.infinity,
-          // padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(4, (index) => Expanded(
-              child: InkWell(
-                onTap: () => controller.changeTab(index),
-                borderRadius: BorderRadius.circular(100),
-                child: Obx(() => Container(
-                  decoration: controller.currentTab.value == index ? BoxDecoration(border: Border(top: BorderSide(color: Colors.black))) : BoxDecoration(),
-                  padding: EdgeInsets.only(top: 10, bottom: 8),
-                  child: Ink(
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset(
-                            index == 0 ? "assets/images/svgs/house.svg" :
-                            index == 1 ? "assets/images/svgs/calender.svg" :
-                            index == 2 ? "assets/images/svgs/guides.svg" :
-                            "assets/images/svgs/hat.svg"
-                        ),
-                        TextWidget(text: pages[index], align: TextAlign.center,)
-                      ],
+        // bottomNavigationBar: Obx(
+        //       () => BottomNavigationBar(
+        //     items: const <BottomNavigationBarItem>[
+        //       BottomNavigationBarItem(
+        //         icon: Icon(Icons.search),
+        //         label: 'Browse',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Icon(Icons.history),
+        //         label: 'History',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Icon(Icons.settings),
+        //         label: 'Settings',
+        //       ),
+        //     ],
+        //     currentIndex: controller.currentIndex.value,
+        //     selectedItemColor: Colors.pink,
+        //     onTap: controller.changePage,
+        //   ),
+        // ),
+        // bottomNavigationBar: buildBottomNavigationMenu(context),
+        bottomNavigationBar: BottomAppBar(
+          elevation: 4.0,
+          color: AppColors.white,
+          child: SizedBox(
+            height: Get.height * 0.10,
+            width: double.infinity,
+            // padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(4, (index) => Expanded(
+                child: InkWell(
+                  onTap: () => controller.changeTab(index),
+                  borderRadius: BorderRadius.circular(100),
+                  child: Obx(() => Container(
+                    decoration: controller.currentTab.value == index ? BoxDecoration(border: Border(top: BorderSide(color: Colors.black))) : BoxDecoration(),
+                    padding: EdgeInsets.only(top: 10, bottom: 8),
+                    child: Ink(
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset(
+                              index == 0 ? "assets/images/svgs/house.svg" :
+                              index == 1 ? "assets/images/svgs/calender.svg" :
+                              index == 2 ? "assets/images/svgs/guides.svg" :
+                              "assets/images/svgs/hat.svg"
+                          ),
+                          TextWidget(text: pages[index], align: TextAlign.center,)
+                        ],
+                      ),
                     ),
-                  ),
-                )),
-              ),
-            ),),
+                  )),
+                ),
+              ),),
+            ),
           ),
         ),
+        // body: Obx(() => IndexedStack(
+        //   index: controller.tabIndex.value,
+        //   children: [
+        //     HomeScreen(),
+        //     Container(color: Colors.red,),
+        //     Container(color: Colors.blue,),
+        //     Container(color: Colors.amberAccent),
+        //   ],
+        // )),
       ),
-      // body: Obx(() => IndexedStack(
-      //   index: controller.tabIndex.value,
-      //   children: [
-      //     HomeScreen(),
-      //     Container(color: Colors.red,),
-      //     Container(color: Colors.blue,),
-      //     Container(color: Colors.amberAccent),
-      //   ],
-      // )),
     );
   }
 

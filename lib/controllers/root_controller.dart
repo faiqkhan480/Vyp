@@ -5,7 +5,8 @@ import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/favorites_screen.dart';
 import 'package:vyv/screens/home/home.dart';
 import 'package:vyv/screens/home/home_bindings.dart';
-import 'package:vyv/screens/info_screen.dart';
+import 'package:vyv/screens/info/info_binding.dart';
+import 'package:vyv/screens/info/info_screen.dart';
 
 /// screens models list
 final screensData = <ScreenModel>[
@@ -45,6 +46,7 @@ class RootController extends GetxController {
     if (settings.name == AppRoutes.INFO)
       return GetPageRoute(
         settings: settings,
+        binding: InfoBinding(),
         page: () => InfoScreen(),
       );
 

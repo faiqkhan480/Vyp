@@ -14,6 +14,7 @@ class Spot {
     this.idCountry,
     this.idDistrict,
     this.idCounty,
+    this.category,
     this.imageStr,
     this.spotName,
     this.website,
@@ -34,6 +35,7 @@ class Spot {
   int? idCountry;
   int? idDistrict;
   int? idCounty;
+  List? category;
   String? imageStr;
   String? spotName;
   String? website;
@@ -54,6 +56,7 @@ class Spot {
     idCountry: json["idCountry"] == null ? null : json["idCountry"],
     idDistrict: json["idDistrict"] == null ? null : json["idDistrict"],
     idCounty: json["idCounty"] == null ? null : json["idCounty"],
+    category: json["category"] == null ? null : json["category"],
     imageStr: json["imageStr"] == null ? null : json["imageStr"],
     spotName: json["spotName"] == null ? null : json["spotName"],
     website: json["website"] == null ? null : json["website"],
@@ -75,6 +78,7 @@ class Spot {
     "idCountry": idCountry == null ? null : idCountry,
     "idDistrict": idDistrict == null ? null : idDistrict,
     "idCounty": idCounty == null ? null : idCounty,
+    "category": category == null ? null : category,
     "imageStr": imageStr == null ? null : imageStr,
     "spotName": spotName == null ? null : spotName,
     "website": website == null ? null : website,
@@ -86,8 +90,8 @@ class Spot {
     "longDescription": longDescription == null ? null : longDescription,
     "fact1": fact1 == null ? null : fact1,
     "fact2": fact2 == null ? null : fact2,
-    "fact3": fact3,
-    "fact4": fact4,
-    "fact5": fact5,
+    "fact3": fact3 == null ? null : fact3,
+    "fact4": fact4 == null ? null : fact4,
+    "fact5": fact5 == null ? null : fact5,
   };
 }

@@ -23,7 +23,8 @@ class HorizontalList extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
-        height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
+        // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
+        height: spots!.length < 3 ? 140 : 280,
         // child: PagedGridView(
         //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         //       maxCrossAxisExtent: 250,
@@ -50,7 +51,7 @@ class HorizontalList extends StatelessWidget {
                   crossAxisCount: spots!.length > 2 ? 2 : 1,
                   // childAspectRatio: SizeConfig.heightMultiplier * 0.15,
                   // childAspectRatio: Get.width * 0.0028,
-                  childAspectRatio: 1.1,
+                  childAspectRatio: 1.0,
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
