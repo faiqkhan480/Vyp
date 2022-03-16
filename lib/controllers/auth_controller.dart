@@ -83,7 +83,9 @@ class AuthController extends GetxController {
         loading.value = true;
         var res = await AppService.formSubmit(email: emailField.text, password: passField.text);
         if(res != null) {
-          homeController.setUser = res;
+          // homeController.user = res;
+          homeController.setValue(res);
+          // print(homeController.user!.id);
           loading.value = false;
           Get.back(closeOverlays: true);
         }
@@ -117,7 +119,7 @@ class AuthController extends GetxController {
         };
         var res = await AppService.formSubmit(password: registerPassword.text, body: payload);
         if(res != null) {
-          homeController.setUser = res;
+          homeController.user = res;
           loading.value = false;
           Get.back(closeOverlays: true);
           Get.rawSnackbar(message: "Account created!", backgroundColor: AppColors.success);
@@ -127,7 +129,7 @@ class AuthController extends GetxController {
         }
       }
       catch (e) {
-        print(e);
+        print("error: $e");
       }
       finally {
         loading.value = false;

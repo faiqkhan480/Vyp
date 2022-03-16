@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/models/screen_model.dart';
+import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/favorites_screen.dart';
 import 'package:vyv/screens/home/home.dart';
@@ -35,8 +36,8 @@ class RootController extends GetxController {
 
   Route? onGenerateRoute(RouteSettings settings) {
     print("ROUTE : ${settings.name}");
-    if(settings.name == AppRoutes.HOME)
-    // if(settings.name == "/")
+    // if(settings.name == AppRoutes.HOME)
+    if(settings.name == "/")
       return GetPageRoute(
         settings: settings,
         binding: HomeBindings(),
@@ -47,7 +48,7 @@ class RootController extends GetxController {
       return GetPageRoute(
         settings: settings,
         binding: InfoBinding(),
-        page: () => InfoScreen(),
+        page: () => InfoScreen(spot: settings.arguments as Spot),
       );
 
     if (settings.name == AppRoutes.FAVORITES)

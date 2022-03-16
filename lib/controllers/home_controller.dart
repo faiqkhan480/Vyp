@@ -29,8 +29,8 @@ class HomeController extends GetxController {
   int get _page => pageNum.value;
   bool get lastPage => _lastPage.value;
 
-  set setUser(User value) {
-    _user.value = value;
+  set user(User? value) {
+    _user.value = value!;
   }
 
   @override
@@ -38,13 +38,19 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     if(box.read("user") != null)
-      setUser = userFromMap(box.read("user"));
+      user = userFromMap(box.read("user"));
     if(box.read("country") != null)
       selectedCountry.value = Country.fromMap(box.read("country"));
     // ever(pageNum, (_) => handleSearch());
   }
 
-  changeView() {
+  setValue(User _val) {
+    print("Lll::::>, ${_val.id}");
+    _user.value = _val;
+    print("val::::>, ${_user.value.id}");
+  }
+
+  void changeView() {
     print("CALLED::::::");
     showMap.value = !showMap.value;
   }
@@ -107,6 +113,7 @@ class HomeController extends GetxController {
   void handleLogout() {
     box.remove("user");
     _user.close();
+    user = User();
     Get.back(closeOverlays: true);
   }
 

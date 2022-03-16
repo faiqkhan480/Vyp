@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/root_controller.dart';
+import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/calender_screen.dart';
+import 'package:vyv/screens/info/info_binding.dart';
+import 'package:vyv/screens/info/info_screen.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -31,19 +34,31 @@ class BottomNavigation extends GetView<RootController> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      Navigator(
+          key: Get.nestedKey(1), // create a key by index
+          onGenerateRoute: controller.onGenerateRoute,
+          ),
+      Navigator(
+          key: Get.nestedKey(2), // create a key by index
+          onGenerateRoute: (settings) {
+            return GetPageRoute(page: () => CalenderScreen());
+          }),
+    ];
     return WillPopScope(
       onWillPop: onWilPop,
       child: Scaffold(
         body: Obx(() => IndexedStack(
           index: controller.currentTab.value > 0 ? 1 : 0,
-          children: [
-            Navigator(
-              key: Get.nestedKey(1),
-              initialRoute: AppRoutes.HOME,
-              onGenerateRoute: controller.onGenerateRoute,
-            ),
-            CalenderScreen(),
-          ],
+          children: _pages,
+          // children: [
+          //   Navigator(
+          //     key: Get.nestedKey(1),
+          //     initialRoute: AppRoutes.HOME,
+          //     onGenerateRoute: controller.onGenerateRoute,
+          //   ),
+          //   CalenderScreen(),
+          // ],
         )),
 
         // bottomNavigationBar: Obx(
@@ -72,7 +87,8 @@ class BottomNavigation extends GetView<RootController> {
           elevation: 4.0,
           color: AppColors.white,
           child: SizedBox(
-            height: Get.height * 0.10,
+            // height: Get.height * 0.10,
+            height: 70,
             width: double.infinity,
             // padding: const EdgeInsets.all(8.0),
             child: Row(

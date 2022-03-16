@@ -15,7 +15,8 @@ import 'package:vyv/widgets/text_component.dart';
 
 // class InfoScreen extends StatefulWidget {
 class InfoScreen extends GetView<InfoController> {
-  // const InfoScreen({Key? key}) : super(key: key);
+  final Spot? spot;
+  InfoScreen({Key? key, this.spot}) : super(key: key);
 
 //   @override
 //   _InfoScreenState createState() => _InfoScreenState();
@@ -25,7 +26,7 @@ class InfoScreen extends GetView<InfoController> {
 //   bool readMore = false;
 
   HomeController homeController = Get.find<HomeController>();
-  Spot? spot = Get.arguments;
+  // Spot? spot = Get.arguments;
 
   // void handleState() {
   //   this.setState(() {
@@ -36,7 +37,7 @@ class InfoScreen extends GetView<InfoController> {
 
   @override
   Widget build(BuildContext context) {
-    print(Get.arguments);
+    print(Get);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
@@ -49,7 +50,7 @@ class InfoScreen extends GetView<InfoController> {
           align: TextAlign.center,
           family: 'GemunuLibre',
         ),
-        leading: IconButton(onPressed: () => Get.back(canPop: true, id: 1), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
+        leading: IconButton(onPressed: () => Get.back(canPop: true, id: 2), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
         actions: [],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

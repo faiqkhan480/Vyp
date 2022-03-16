@@ -28,19 +28,19 @@ class AppPages {
         binding: RootBinding(),
         page: () => BottomNavigation()
     ),
-    GetPage(
-        name: AppRoutes.HOME,
-        binding: HomeBindings(),
-        page: () => HomeScreen()
-    ),
-    GetPage(
-        name: AppRoutes.INFO,
-        binding: InfoBinding(),
-        page: () => InfoScreen()
-    ),
-    GetPage(
-        name: AppRoutes.FAVORITES,
-        page: () => FavoritesScreen()
-    ),
+    // GetPage(
+    //     name: AppRoutes.HOME,
+    //     binding: HomeBindings(),
+    //     page: () => HomeScreen()
+    // ),
+    // GetPage(
+    //     name: AppRoutes.INFO,
+    //     binding: InfoBinding(),
+    //     page: () => InfoScreen()
+    // ),
+    // GetPage(
+    //     name: AppRoutes.FAVORITES,
+    //     page: () => FavoritesScreen()
+    // ),
   ];
 }

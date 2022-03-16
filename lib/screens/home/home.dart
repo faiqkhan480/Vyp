@@ -25,8 +25,9 @@ class HomeScreen extends GetView<HomeController> {
   List<String> tabs = ["Portugal", "districts", "counties"];
 
   handleClick() {
+    print(controller.user!.id);
     Get.bottomSheet(
-      MenuSheet(isLogin: controller.user != null,),
+      MenuSheet(isLogin: controller.user!.id != null,),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
