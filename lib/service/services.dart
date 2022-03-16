@@ -86,6 +86,7 @@ class AppService {
     }
   }
 
+  // SEARCH SPOTS
   static searchSpot({Map<String, dynamic>? payload}) async {
     try{
       var res = await Network.get(url: Api.spot, params: payload!.map((key, value) => MapEntry(key, value.toString())));
@@ -99,6 +100,7 @@ class AppService {
     }
   }
 
+  // SPOT DETAIL
   static spotDetail({int? spotId}) async {
     try{
       var res = await Network.get(url: Api.spotDetail + spotId.toString());
@@ -112,6 +114,7 @@ class AppService {
     }
   }
 
+  // REGISTER USER
   static formSubmit({String? email, String? password, body}) async {
     try{
       var res = (body != null) ?
@@ -132,4 +135,23 @@ class AppService {
       return throw Exception(e);
     }
   }
+
+  // CREATE FAVORITE FOLDER
+  static createFolder({String? name, num? userId}) async {
+    try{
+      var res = await Network.post(url: "${Api.createFolder}$name/$userId");
+      if(res != null) {
+        var user = json.decode(res);
+        return user['message'].toString();
+        // Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
+      }
+      return null;
+    } catch(e){
+      print("ERROR LOGIN: $e");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
+
 }

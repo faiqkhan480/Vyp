@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:vyv/models/screen_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
-import 'package:vyv/screens/favorites_screen.dart';
+import 'package:vyv/screens/favorites/favorite_binding.dart';
+import 'package:vyv/screens/favorites/favorites_screen.dart';
 import 'package:vyv/screens/home/home.dart';
 import 'package:vyv/screens/home/home_bindings.dart';
 import 'package:vyv/screens/info/info_binding.dart';
@@ -54,6 +55,7 @@ class RootController extends GetxController {
     if (settings.name == AppRoutes.FAVORITES)
       return GetPageRoute(
         settings: settings,
+        binding: FavoriteBinding(),
         page: () => FavoritesScreen()
       );
     return null;

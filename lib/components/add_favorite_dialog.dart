@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,8 @@ import 'package:get/get.dart';
 import 'button.dart';
 
 class AddFavorite extends StatelessWidget {
-  const AddFavorite({Key? key}) : super(key: key);
+  final FavoriteController controller;
+  const AddFavorite(this.controller, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class AddFavorite extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: Form(
-          // key: formKey,
+          key: controller.formKey,
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
             child: Column(
@@ -29,14 +31,9 @@ class AddFavorite extends StatelessWidget {
                 VerticalSpace(10),
                 //  NAME FIELD
                 TextFormField(
-                  // controller: emailController,
+                  controller: controller.name,
+                  validator: _validator,
                   decoration: InputDecoration(
-                      // isDense: true,
-                      // prefixIcon: Padding(
-                      //   padding: const EdgeInsets.all(15.0),
-                      //   child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                      // ),
-                      // contentPadding: EdgeInsets.zero,
                       alignLabelWithHint: true,
                       labelText: "name".tr,
                       labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo')
@@ -47,7 +44,13 @@ class AddFavorite extends StatelessWidget {
                 // LOGIN BUTTON
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Button("add", isFlat: true, color: AppColors.primaryColor, onPressed: () => null,),
+                  child: Button(
+                    "create",
+                    isFlat: true,
+                    color: AppColors.primaryColor,
+                    onPressed: controller.createFolder,
+                    loading: controller.loading(),
+                  ),
                 ),
               ],
             ),
@@ -55,5 +58,12 @@ class AddFavorite extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _validator(String? val) {
+    if(val!.isEmpty)
+      return "Folder name is required!";
+    else
+      return null;
   }
 }

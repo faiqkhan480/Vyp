@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/add_favorite_dialog.dart';
+import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/widgets/appbar_widget.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -13,11 +14,14 @@ const List<String> images = [
   "assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg"
 ];
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({Key? key}) : super(key: key);
+class FavoritesScreen extends GetView<FavoriteController> {
+  // const FavoritesScreen({Key? key}) : super(key: key);
+
+  // FavoriteController controller = Get.put(FavoriteController());
 
   void handleClick() {
-    Get.dialog(AddFavorite(), barrierDismissible: true, useSafeArea: true);
+    print(controller);
+    Get.dialog(AddFavorite(controller), barrierDismissible: true, useSafeArea: true);
   }
 
   @override
