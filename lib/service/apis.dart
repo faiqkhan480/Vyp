@@ -14,4 +14,5 @@ class Api {
   static String createFolder = "/favorite/create/";
   static String allFavorites = "/favorite/user/";
   static String favoriteFolder = "/favorite/folder/";
+  static String userFolders = "/favorite/folder/user/";
 }

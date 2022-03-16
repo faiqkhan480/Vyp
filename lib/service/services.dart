@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/models/user_model.dart';
@@ -141,9 +142,13 @@ class AppService {
     try{
       var res = await Network.post(url: "${Api.createFolder}$name/$userId");
       if(res != null) {
-        var user = json.decode(res);
-        return user['message'].toString();
-        // Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
+        var _folder = json.decode(res);
+        if(_folder['statusCode'] == 200) {
+          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+          return Folder.fromMap(_folder['result']);
+        }
+        else if(_folder['message'] != null)
+          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
       }
       return null;
     } catch(e){
@@ -153,5 +158,19 @@ class AppService {
     }
   }
 
+  // GET FAVORITE FOLDER
+  static getFolders(num? userId) async {
+    try{
+      var res = await Network.get(url: "${Api.userFolders}$userId");
+      print(res);
+      if(res != null)
+        return folderFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR LOGIN: $e");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
 
 }

@@ -31,18 +31,21 @@ class FavoritesScreen extends GetView<FavoriteController> {
         child: IconButton(onPressed: handleClick, icon: SvgPicture.asset("assets/images/svgs/plus.svg"))
       ),
 
-      body: GridView.count(
+      body: Obx(() => (controller.loading() && controller.folders.isEmpty) ?
+      Center(child: CircularProgressIndicator(),) :
+      GridView.count(
         crossAxisCount: 2,
         mainAxisSpacing: 5,
         crossAxisSpacing: 10,
         childAspectRatio: 0.8,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        children: [
-          imagesGrid("All"),
-          imagesGrid("Paddle\nLisboa"),
-        ],
+        children: List.generate(controller.folders.length, (index) => imagesGrid(controller.folders.elementAt(index).folderName)),
+        // children: [
+        //   imagesGrid("All"),
+        //   imagesGrid("Paddle\nLisboa"),
+        // ],
       )
-    );
+      ));
   }
 
   Widget imagesGrid(text) {
