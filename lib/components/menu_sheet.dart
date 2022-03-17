@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/dialog_component.dart';
+import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
@@ -10,6 +11,7 @@ import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
+import 'add_favorite_dialog.dart';
 import 'info_sheet.dart';
 
 class MenuSheet extends StatelessWidget {
@@ -89,6 +91,11 @@ class MenuSheet extends StatelessWidget {
       case "favorites":
         Get.back(closeOverlays: true);
         Get.toNamed(AppRoutes.FAVORITES, id: 1);
+        break;
+      case "add_fav":
+        Get.back(closeOverlays: true);
+        Get.dialog(AddFavorite(controller: Get.put<FavoriteController>(FavoriteController(isFetching: false)), spot: spot,), barrierDismissible: true, useSafeArea: true)
+            .then((value) => Get.delete<FavoriteController>());
         break;
     }
   }

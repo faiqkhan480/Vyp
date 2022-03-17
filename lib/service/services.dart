@@ -137,6 +137,29 @@ class AppService {
     }
   }
 
+  // ADD TO FAVORITE
+  static addFavorite({required num? idSpot, required num? idFolder, required num? idUser, required String? favoriteName, required String? imageStr}) async {
+    try{
+      var res = await Network.post(url: "${Api.addFavorite}$idSpot/$idFolder/$idUser/$favoriteName/${imageStr!.isEmpty ? " " : imageStr}");
+      print(res);
+      if(res != null) {
+        var _folder = json.decode(res);
+        if(_folder['statusCode'] == 200) {
+          // Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+          // return Folder.fromMap(_folder['result']);
+          return _folder['message'];
+        }
+        else if(_folder['message'] != null)
+          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+      }
+      return null;
+    } catch(e){
+      print("ERROR ADD FAV: $e");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
   // CREATE FAVORITE FOLDER
   static createFolder({String? name, num? userId}) async {
     try{
@@ -161,7 +184,7 @@ class AppService {
   // GET FAVORITE FOLDER
   static getFolders(num? userId) async {
     try{
-      var res = await Network.get(url: "${Api.userFolders}$userId");
+      var res = await Network.get(url: "${Api.folderList}$userId");
       print(res);
       if(res != null)
         return folderFromMap(res);

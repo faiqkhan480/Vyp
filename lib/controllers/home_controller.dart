@@ -7,6 +7,7 @@ import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
+import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/models/user_model.dart';
 import 'package:vyv/service/services.dart';
@@ -23,7 +24,9 @@ class HomeController extends GetxController {
   GetStorage box = GetStorage();
   RxList<Spot> spots = List<Spot>.empty(growable: true).obs;
   Rx<User> _user = User().obs;
+  RxList<Folder> _folders = List<Folder>.empty(growable: true).obs;
 
+  List<Folder> get folders => _folders;
   User? get user => _user.value;
   int get limit => pageSize.value;
   int get _page => pageNum.value;
@@ -38,7 +41,7 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     if(box.read("user") != null)
-      user = userFromMap(box.read("user"));
+      setUser();
     if(box.read("country") != null)
       selectedCountry.value = Country.fromMap(box.read("country"));
     // ever(pageNum, (_) => handleSearch());
@@ -53,6 +56,27 @@ class HomeController extends GetxController {
   void changeView() {
     print("CALLED::::::");
     showMap.value = !showMap.value;
+  }
+
+  void setUser() async {
+    user = userFromMap(box.read("user"));
+    if(box.read("folders") == null) {
+      try{
+        loading.value = true;
+        var res = await AppService.getFolders(user!.id);
+        if(res != null ) {
+          box.write("folders", folderToMap(res));
+          folders.assignAll(res);
+        }
+        loading.value = false;
+      }
+      catch (e) {
+        print("error: $e");
+      }
+      finally {
+        loading.value = false;
+      }
+    }
   }
 
   void setCountry(Country c) {

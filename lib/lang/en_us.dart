@@ -50,4 +50,6 @@ const Map<String, String> en_US = {
   "name": "Name",
   "add": "Add",
   "select_all": "Select All",
+  "select_folder": "Select Folder",
+  "select_the_folder": "Select the folder!",
 };

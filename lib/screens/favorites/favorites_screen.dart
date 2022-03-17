@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/add_favorite_dialog.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
+import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/appbar_widget.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -21,7 +22,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
 
   void handleClick() {
     print(controller);
-    Get.dialog(AddFavorite(controller), barrierDismissible: true, useSafeArea: true);
+    Get.dialog(AddFavorite(controller: controller,), barrierDismissible: true, useSafeArea: true);
   }
 
   @override
@@ -51,6 +52,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
   Widget imagesGrid(text) {
     return Column(
       children: [
+        // Icon(Icons.folder_open_rounded, size: 100, color: AppColors.grey,),
         Flexible(
           child: GridView.builder(
             shrinkWrap: true,

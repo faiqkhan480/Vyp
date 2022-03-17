@@ -13,6 +13,7 @@ class Api {
   static String register = "/person/register/";
   static String createFolder = "/favorite/create/";
   static String allFavorites = "/favorite/user/";
-  static String favoriteFolder = "/favorite/folder/";
-  static String userFolders = "/favorite/folder/user/";
+  static String folder = "/favorite/folder/";
+  static String folderList = "/favorite/folder/user/";
+  static String addFavorite = "favorite/add/favorite/";
 }
