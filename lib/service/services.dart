@@ -196,4 +196,18 @@ class AppService {
     }
   }
 
+  static getAllNationality() async {
+    try{
+      var res = await Network.get(url: Api.nationality);
+      // print(res);
+      if(res != null)
+        return jsonDecode(res);
+      return null;
+    } catch(e){
+      print("ERROR NATIONALITY: $e");
+      Get.rawSnackbar(message: "Error in nationality request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
 }

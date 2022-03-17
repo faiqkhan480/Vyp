@@ -146,39 +146,44 @@ class SignupForm extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<String>(
+                      child: controller.fetching() ?
+                      Center(child: CircularProgressIndicator(),) :
+                      DropdownButtonFormField<String>(
                         hint: Text("nationality".tr, style: TextStyle(color: AppColors.greyScale.withOpacity(0.7), fontFamily: 'Heebo', fontWeight: FontWeight.w300),),
-                        // value: dropdownValue,
+                        value: controller.selectedNationality,
                         icon:  SvgPicture.asset("assets/images/svgs/arrow_down.svg"),
                         elevation: 16,
                         style: const TextStyle(color: Colors.deepPurple),
-                        onChanged: (String? newValue) {
+                        onChanged: (newValue) {
+                          controller.selectedNationality = newValue!;
                           // setState(() => dropdownValue = newValue!);
                         },
-                        items: <String>['One', 'Two', 'Free', 'Four']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                        items: controller.nationalities!.keys.toList().map<DropdownMenuItem<String>>((String? entry) {
+                          return DropdownMenuItem(
+                            value: entry,
+                            child: Text(controller.nationalities![entry]),
                           );
                         }).toList(),
                       ),
                     ),
-                    HorizontalSpace(20),
-                    Expanded(child: TextFormField(
-                      controller: controller.birthday,
-                      readOnly: true,
-                      onTap: controller.handleDatePicker,
-                      decoration: InputDecoration(
-                        // isDense: true,
-                        // prefixIcon: Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        //   // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                        // ),
-                          contentPadding: EdgeInsets.zero,
-                          alignLabelWithHint: true,
-                          labelText: "b_day".tr,
-                          labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
+                    // HorizontalSpace(20),
+                    Expanded(child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: TextFormField(
+                        controller: controller.birthday,
+                        readOnly: true,
+                        onTap: controller.handleDatePicker,
+                        decoration: InputDecoration(
+                          // isDense: true,
+                          // prefixIcon: Padding(
+                          //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          //   // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
+                          // ),
+                            contentPadding: EdgeInsets.zero,
+                            alignLabelWithHint: true,
+                            labelText: "b_day".tr,
+                            labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
+                        ),
                       ),
                     ),),
                   ],

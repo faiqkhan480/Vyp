@@ -12,8 +12,11 @@ class AuthController extends GetxController {
 
   RxBool isLogin = true.obs;
   RxBool loading = false.obs;
+  RxBool fetching = true.obs;
 
   var _date;
+  Map<String, dynamic>? nationalities;
+  var selectedNationality;
 
   final loginFormKey = GlobalKey<FormState>();
   final signUpFormKey = GlobalKey<FormState>();
@@ -39,10 +42,32 @@ class AuthController extends GetxController {
   TextEditingController get passField => passwordController.value;
 
   @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    fetchNationalities();
+  }
+
+  @override
   void onClose() {
     emailController.value.dispose();
     passwordController.value.dispose();
     super.onClose();
+  }
+
+  void fetchNationalities() async {
+    try {
+      var res = await AppService.getAllNationality();
+      if(res != null)
+        nationalities = res;
+      fetching.value = false;
+    }
+    catch(e){
+      print("Error: $e");
+    }
+    finally {
+      fetching.value = false;
+    }
   }
 
   String? textValidator(String? value) {
@@ -111,7 +136,7 @@ class AuthController extends GetxController {
           "id": 0,
           "firstName": firstName.text,
           "lastName": lastName.text,
-          "nationality": 0,
+          "nationality": selectedNationality,
           "email": registerEmail.text,
           "birthday": _date,
           "phoneNumber": phone.text,
