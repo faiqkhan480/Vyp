@@ -24,7 +24,7 @@ class HorizontalList extends StatelessWidget {
         width: double.infinity,
         // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
         // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
-        height: spots!.length < 3 ? 140 : 280,
+        height: spots!.length < 3 ? 140 : 300,
         // child: PagedGridView(
         //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         //       maxCrossAxisExtent: 250,
@@ -38,7 +38,6 @@ class HorizontalList extends StatelessWidget {
         //   ),
         // ),
         child: Obx(() {
-          print(SizeConfig.heightMultiplier * 0.12);
           return Stack(
             // fit: StackFit.expand,
             children: [
@@ -47,11 +46,11 @@ class HorizontalList extends StatelessWidget {
                 onEndOfPage: () => Get.find<HomeController>().handleSearch(),
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
-                child: GridView.count(
-                  crossAxisCount: spots!.length > 2 ? 2 : 1,
-                  // childAspectRatio: SizeConfig.heightMultiplier * 0.15,
-                  // childAspectRatio: Get.width * 0.0028,
-                  childAspectRatio: 1.0,
+                child: GridView.extent(
+                  maxCrossAxisExtent: 280,
+                  // maxCrossAxisExtent: spots!.length > 2 ? 2 : 1,
+                  // crossAxisCount: spots!.length > 2 ? 2 : 1,
+                  childAspectRatio: 0.9,
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),

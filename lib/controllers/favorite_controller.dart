@@ -31,11 +31,31 @@ class FavoriteController extends GetxController {
     super.onInit();
     print(isFetching);
     if(isFetching) {
-      fetchFolders();
+      fetchAllFavorites().then((value) => fetchFolders());
     }
     else if(_box.read('folders') != null)
       folders.assignAll(folderFromMap(_box.read('folders')));
   }
+
+  Future fetchFolders() async {
+    try{
+      loading.value = true;
+      var res = await AppService.getFolders(homeController.user!.id);
+      if(res != null ) {
+        _box.write("folders", folderToMap(res));
+        folders.assignAll(res);
+      }
+      loading.value = false;
+    }
+    catch (e) {
+      print("error: $e");
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  Future fetchAllFavorites() async {}
 
   Future addToFav(Spot _spot) async {
     try{
@@ -79,24 +99,4 @@ class FavoriteController extends GetxController {
       loading.value = false;
     }
   }
-
-  Future fetchFolders() async {
-    try{
-      loading.value = true;
-      var res = await AppService.getFolders(homeController.user!.id);
-      if(res != null ) {
-        _box.write("folders", folderToMap(res));
-        folders.assignAll(res);
-      }
-      loading.value = false;
-    }
-    catch (e) {
-      print("error: $e");
-    }
-    finally {
-      loading.value = false;
-    }
-  }
-
-  Future fetchFavorites() async {}
 }

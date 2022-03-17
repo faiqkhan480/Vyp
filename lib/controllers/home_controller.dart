@@ -136,8 +136,9 @@ class HomeController extends GetxController {
 
   void handleLogout() {
     box.remove("user");
-    _user.close();
+    // _user.close();
     user = User();
+    _user.refresh();
     Get.back(closeOverlays: true);
   }
 
