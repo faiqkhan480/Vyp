@@ -194,7 +194,7 @@ class HomeScreen extends GetView<HomeController> {
             Obx(() =>
               (controller.loading() && controller.spots.isEmpty) ?
               Center(child: CircularProgressIndicator(),) :
-              HorizontalList(spots: controller.spots,)
+              SingleChildScrollView(child: HorizontalList(spots: controller.spots,))
             ),
 
             // GROUPED BY DISTRICTS

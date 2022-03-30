@@ -22,50 +22,31 @@ class HorizontalList extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: SizedBox(
         width: double.infinity,
-        // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
-        // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
+        // // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
+        // // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
         height: spots!.length < 3 ? 160 : 300,
-        // child: PagedGridView(
-        //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        //       maxCrossAxisExtent: 250,
-        //       childAspectRatio: 1.0,
-        //       crossAxisSpacing: 6,
-        //       mainAxisSpacing: 6),
-        //   scrollDirection: Axis.horizontal,
-        //   pagingController: Get.find<HomeController>().pagingController,
-        //   builderDelegate: PagedChildBuilderDelegate(
-        //       itemBuilder: (context, item, index) => ListCard(index: index, item: item as Spot)
-        //   ),
-        // ),
         child: Obx(() {
           return Stack(
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
-                // onEndOfPage: () => Get.find<HomeController>().handleSearch(),
                 onEndOfPage: () => Get.find<HomeController>().loadMore(),
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
-                child: GridView.extent(
-                  maxCrossAxisExtent: 250,
-                  // maxCrossAxisExtent: spots!.length > 2 ? 2 : 1,
-                  // crossAxisCount: spots!.length > 2 ? 2 : 1,
-                  childAspectRatio: 1.0,
-                  crossAxisSpacing: 6,
-                  mainAxisSpacing: 6,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    // maxCrossAxisExtent: 250,
+                    crossAxisCount: spots!.length < 3 ? 1 : 2,
+                    childAspectRatio: 1.0,
+                    crossAxisSpacing: 6,
+                    mainAxisSpacing: 6,
+                  ),
+                  itemCount: spots?.length ?? 0,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
-                  children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
-                  // itemCount: spots?.length,
-                  // physics: NeverScrollableScrollPhysics(),
-                  // gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  //     // mainAxisExtent: 175,
-                  //     maxCrossAxisExtent: 250,
-                  //     childAspectRatio: 1.0,
-                  //     crossAxisSpacing: 6,
-                  //     mainAxisSpacing: 6),
-                  // itemBuilder: (context, index) => ListCard(index: index, item: spots?.elementAt(index),),
+                  itemBuilder: (context, index) => SpotCard(index: index, item: spots?.elementAt(index)),
+                  // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
                 ),
               ),
 
