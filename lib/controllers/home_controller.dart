@@ -23,8 +23,11 @@ class HomeController extends GetxController {
   RxInt pageSize = 10.obs;
   GetStorage box = GetStorage();
   RxList<Spot> spots = List<Spot>.empty(growable: true).obs;
+  RxList<Spot> districts = List<Spot>.empty(growable: true).obs;
+  RxList<Spot> counties = List<Spot>.empty(growable: true).obs;
   Rx<User> _user = User().obs;
   RxList<Folder> _folders = List<Folder>.empty(growable: true).obs;
+  int _currentTab = 0;
 
   List<Folder> get folders => _folders;
   User? get user => _user.value;
@@ -44,7 +47,6 @@ class HomeController extends GetxController {
       setUser();
     if(box.read("country") != null)
       selectedCountry.value = Country.fromMap(box.read("country"));
-    // ever(pageNum, (_) => handleSearch());
   }
 
   setValue(User _val) {
@@ -56,6 +58,22 @@ class HomeController extends GetxController {
   void changeView() {
     print("CALLED::::::");
     showMap.value = !showMap.value;
+  }
+
+  void changeTab(tab) {
+    print("TAB::::::$tab");
+    if(_currentTab == tab)
+      return;
+    else if(tab == 0) {
+      fetchCountry();
+    }
+    else if(tab == 1) {
+      fetchDistricts();
+    }
+    else if(tab == 2) {
+      fetchCounty();
+    }
+    _currentTab = tab;
   }
 
   void setUser() async {
@@ -111,6 +129,75 @@ class HomeController extends GetxController {
         else spots.addAll(res);
         if(res.isNotEmpty)
           pageNum.value += 1;
+        loading.value = false;
+      }
+      else {
+        loading.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  // FETCH COUNTRY TAB DATA
+  void fetchCountry() async {
+    try{
+      spots.clear();
+      loading.value = true;
+      var res = await AppService.getCountryData();
+      if(res != null) {
+        if(spots.isEmpty) spots.assignAll(res);
+        else spots.addAll(res);
+        loading.value = false;
+      }
+      else {
+        loading.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  // FETCH DISTRICT TAB DATA
+  void fetchDistricts() async {
+    try{
+      spots.clear();
+      loading.value = true;
+      var res = await AppService.getDistrictData();
+      if(res != null) {
+        if(spots.isEmpty) spots.assignAll(res);
+        else spots.addAll(res);
+        loading.value = false;
+      }
+      else {
+        loading.value = false;
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  // FETCH COUNTY TAB DATA
+  void fetchCounty() async {
+    try{
+      spots.clear();
+      loading.value = true;
+      var res = await AppService.getCountyData();
+      if(res != null) {
+        if(spots.isEmpty) spots.assignAll(res);
+        else spots.addAll(res);
         loading.value = false;
       }
       else {

@@ -50,7 +50,7 @@ class InfoScreen extends GetView<InfoController> {
           align: TextAlign.center,
           family: 'GemunuLibre',
         ),
-        leading: IconButton(onPressed: () => Get.back(canPop: true, id: 2), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
+        leading: IconButton(onPressed: () => Get.back(canPop: true, id: 1), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
         actions: [],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

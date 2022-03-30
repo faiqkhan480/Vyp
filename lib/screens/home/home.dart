@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vyv/components/horizontal_list.dart';
 import 'package:vyv/components/group_list.dart';
-import 'package:vyv/components/list_card.dart';
+import 'package:vyv/components/spot_card.dart';
 import 'package:vyv/components/map_box.dart';
 import 'package:vyv/components/menu_sheet.dart';
 import 'package:vyv/components/search_sheet.dart';
@@ -20,7 +20,6 @@ import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends GetView<HomeController> {
-// class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   List<String> tabs = ["Portugal", "districts", "counties"];
 
@@ -117,7 +116,7 @@ class HomeScreen extends GetView<HomeController> {
             // TABS
             homeTabs(),
             // COUNTRY LIST,
-            Obx(tabViews),
+            tabViews(),
           ]
           else
             MapBox(),
@@ -166,6 +165,7 @@ class HomeScreen extends GetView<HomeController> {
           labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.textMultiplier * 2.0),
           unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: SizeConfig.textMultiplier * 1.8),
           labelPadding: EdgeInsets.zero,
+          onTap: controller.changeTab,
           tabs: List.generate(tabs.length, (index) => Tab(child:  Container(
             decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: AppColors.black, width: 0.1))),
             alignment: Alignment.center,
@@ -191,27 +191,27 @@ class HomeScreen extends GetView<HomeController> {
       child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
-            if(controller.loading() && controller.spots.isEmpty)
-              Center(child: CircularProgressIndicator(),)
-            else
-              HorizontalList(spots: controller.spots,),
+            Obx(() =>
+              (controller.loading() && controller.spots.isEmpty) ?
+              Center(child: CircularProgressIndicator(),) :
+              HorizontalList(spots: controller.spots,)
+            ),
 
             // GROUPED BY DISTRICTS
-            GroupList(
+            Obx(() => GroupList(
                 isDistrict: true,
                 districts: searchController.districts,
                 spots: controller.spots,
                 loading: (controller.loading() && controller.spots.isEmpty)
-            ),
-
+            )),
 
             // GROUPED BY COUNTIES
-            GroupList(
+            Obx(() => GroupList(
                 isDistrict: false,
                 counties: searchController.counties,
                 spots: controller.spots,
                 loading: (controller.loading() && controller.spots.isEmpty)
-            ),
+            )),
           ]
       ),
     );

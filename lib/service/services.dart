@@ -87,6 +87,48 @@ class AppService {
     }
   }
 
+  // COUNTRY TAB
+  static getCountryData() async {
+    try{
+      var res = await Network.get(url: Api.countryTab);
+      if(res != null)
+        return spotFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR COUNTRY: $e");
+      Get.rawSnackbar(title: "Error in country tab request!");
+      return throw Exception(e);
+    }
+  }
+
+  // DISTRICT TAB
+  static getDistrictData() async {
+    try{
+      var res = await Network.get(url: Api.districtTab);
+      if(res != null)
+        return spotFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR DISTRICT: $e");
+      Get.rawSnackbar(title: "Error in district tab request!");
+      return throw Exception(e);
+    }
+  }
+
+  // COUNTY TAB
+  static getCountyData() async {
+    try{
+      var res = await Network.get(url: Api.countyTab);
+      if(res != null)
+        return spotFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR COUNTY: $e");
+      Get.rawSnackbar(title: "Error in county tab request!");
+      return throw Exception(e);
+    }
+  }
+
   // SEARCH SPOTS
   static searchSpot({Map<String, dynamic>? payload}) async {
     try{

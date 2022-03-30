@@ -1,5 +1,55 @@
 {
   "app_name": "Vyv",
   "lisbon": "Lisbon",
-  "what_r_u_looking_for": "What are you looking for?"
+  "what_r_u_looking_for": "What are you looking for?",
+  "where": "Where?",
+  "districts": "Districts",
+  "counties": "Counties",
+
+  "login_signup": "Login / Signup",
+  "account": "Account",
+  "favorites": "Favorites",
+  "settings": "Settings",
+  "more_info": "More information",
+  "add_fav": "Add to favorites",
+  "add_calender": "Add to calendar",
+  "share": "Share",
+  "logout": "Logout",
+
+  "free": "Free",
+  "go_to_web": "Go to website",
+
+  "categories": "Categories",
+  "tips": "Tips",
+  "maps": "Maps",
+  "reviews": "Reviews",
+
+  "all": "All",
+
+
+  "welcome_back": "Welcome back!",
+  "login_text": "Log in to your existent account of App",
+  "email": "Email",
+  "password": "Password",
+  "forgot": "Forgot?",
+  "login_upper": "LOG IN",
+  "connect_using": "Or connect using",
+  "dont_have_account": "Don’t have an account? ",
+  "already_have_account": "Already have an account? ",
+  "sign_up": "Sign up",
+  "sign_in": "Sign In",
+  "let_get_started": "Let’s get started!",
+  "signup_text": "Create an account to App to get all features",
+  "first_name": "FirstName",
+  "last_name": "LastName",
+  "phone": "Phone",
+  "nationality": "Nationality",
+  "b_day": "Bd yyyy/mm/dd",
+  "confirm_password": "Confirm password",
+  "create_upper": "CREATE",
+  "name": "Name",
+  "add": "Add",
+  "select_all": "Select All",
+  "select_folder": "Select Folder",
+  "select_the_folder": "Select the folder!"
 }

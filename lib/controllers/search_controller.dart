@@ -68,7 +68,8 @@ class SearchController extends GetxController {
       else {
         fetchingCounties.value = false;
       }
-      Get.find<HomeController>().handleSearch();
+      // Get.find<HomeController>().handleSearch();
+      Get.find<HomeController>().fetchCountry();
     }
     catch (e) {
       print(e);

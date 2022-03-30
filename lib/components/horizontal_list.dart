@@ -8,7 +8,7 @@ import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/size_config.dart';
 
-import 'list_card.dart';
+import 'spot_card.dart';
 
 class HorizontalList extends StatelessWidget {
   final List<Spot>? spots;
@@ -24,7 +24,7 @@ class HorizontalList extends StatelessWidget {
         width: double.infinity,
         // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
         // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
-        height: spots!.length < 3 ? 140 : 300,
+        height: spots!.length < 3 ? 160 : 300,
         // child: PagedGridView(
         //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         //       maxCrossAxisExtent: 250,
@@ -43,20 +43,21 @@ class HorizontalList extends StatelessWidget {
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
-                onEndOfPage: () => Get.find<HomeController>().handleSearch(),
+                // onEndOfPage: () => Get.find<HomeController>().handleSearch(),
+                onEndOfPage: () => null,
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.extent(
-                  maxCrossAxisExtent: 280,
+                  maxCrossAxisExtent: 250,
                   // maxCrossAxisExtent: spots!.length > 2 ? 2 : 1,
                   // crossAxisCount: spots!.length > 2 ? 2 : 1,
-                  childAspectRatio: 0.9,
+                  childAspectRatio: 1.0,
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
-                  children: List.generate(spots?.length ?? 0, (index) => ListCard(index: index, item: spots?.elementAt(index))),
+                  children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
                   // itemCount: spots?.length,
                   // physics: NeverScrollableScrollPhysics(),
                   // gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

@@ -4,6 +4,7 @@ import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
+import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 import 'package:get/get.dart';
@@ -11,11 +12,11 @@ import 'package:get/get.dart';
 import 'info_sheet.dart';
 import 'menu_sheet.dart';
 
-class ListCard extends StatelessWidget {
+class SpotCard extends StatelessWidget {
   final num? index;
   final Spot? item;
   final bool isLast;
-  const ListCard({Key? key, this.index, this.item, this.isLast = false}) : super(key: key);
+  const SpotCard({Key? key, this.index, this.item, this.isLast = false}) : super(key: key);
 
   handleClick() {
     Get.bottomSheet(
@@ -61,7 +62,13 @@ class ListCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextWidget(text: item?.id.toString() ?? "", color: AppColors.white, weight: FontWeight.w300, size: 1.8, ),
+          RichText(
+            text: TextSpan(
+                style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+                children: List.generate(item!.category!.length, (index) => TextSpan(text: item!.category?.elementAt(index) ?? ""))
+            ),
+          ),
+          // TextWidget(text: item?.id.toString() ?? "", color: AppColors.white, weight: FontWeight.w300, size: 1.8, ),
           // VerticalSpace(20),
           TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
           // VerticalSpace(20),

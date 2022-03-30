@@ -8,6 +8,9 @@ class Api {
   static String districts = "/district/country/";
   static String counties = "/county/country/";
   static String spot = "/spot";
+  static String countryTab = "/spot/countryTab";
+  static String districtTab = "/spot/districtTab";
+  static String countyTab = "/spot/countyTab";
   static String spotDetail = "/spot/spot/";
   static String login = "/person/login/";
   static String register = "/person/register/";
