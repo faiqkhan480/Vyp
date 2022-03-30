@@ -33,24 +33,7 @@ class GroupList extends StatelessWidget {
       // child: ListView.builder(
       child: SingleChildScrollView(
         child: Column(
-          // itemCount: isDistrict ? districts?.length : counties?.length,
           children: List.generate((isDistrict ? districts?.length : counties?.length) ?? 0, renderChild),
-          // itemBuilder: (context, index) {
-          //   String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
-          //   List _items = spots!.where((element) => handleType(element, index)).toList();
-          //   if(_items.isNotEmpty)
-          //     return Column(
-          //       crossAxisAlignment: CrossAxisAlignment.stretch,
-          //       children: [
-          //         Padding(
-          //           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
-          //           child: TextWidget(text: _itemName ?? "", size: 3,),
-          //         ),
-          //         CountryList(spots: _items as List<Spot>,),
-          //       ],
-          //     );
-          //   return SizedBox();
-          // },
         ),
       ),
     );
@@ -60,6 +43,7 @@ class GroupList extends StatelessWidget {
 
   Widget renderChild(index) {
     String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
+    int? _itemId = isDistrict ? districts?.elementAt(index).id : counties?.elementAt(index).id;
     List _items = spots!.where((element) => handleType(element, index)).toList();
     if(_items.isNotEmpty)
       return Column(
@@ -69,7 +53,7 @@ class GroupList extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
             child: TextWidget(text: _itemName ?? "", size: 3,),
           ),
-          HorizontalList(spots: _items as List<Spot>,),
+          HorizontalList(spots: _items as List<Spot>, isCountry: false, parentId: _itemId,),
         ],
       );
     return SizedBox();

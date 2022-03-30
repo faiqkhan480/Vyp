@@ -11,6 +11,8 @@ class Api {
   static String countryTab = "/spot/countryTab";
   static String districtTab = "/spot/districtTab";
   static String countyTab = "/spot/countyTab";
+  static String district = "/spot/district/";
+  static String county = "/spot/county/";
   static String spotDetail = "/spot/spot/";
   static String login = "/person/login/";
   static String register = "/person/register/";

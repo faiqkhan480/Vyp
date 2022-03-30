@@ -12,12 +12,13 @@ import 'spot_card.dart';
 
 class HorizontalList extends StatelessWidget {
   final List<Spot>? spots;
-  const HorizontalList({Key? key, this.spots}) : super(key: key);
+  final bool? isCountry;
+  final int? parentId;
+  HorizontalList({Key? key, this.spots, this.isCountry = true, this.parentId}) : super(key: key);
+  int _page = 0;
 
   @override
   Widget build(BuildContext context) {
-    // if(spots!.isEmpty)
-    //   return SizedBox();
     return Align(
       alignment: Alignment.topCenter,
       child: SizedBox(
@@ -30,12 +31,20 @@ class HorizontalList extends StatelessWidget {
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
-                onEndOfPage: () => Get.find<HomeController>().loadMore(),
+                onEndOfPage: () async {
+                  if(isCountry!) {
+                    Get.find<HomeController>().loadMore();
+                  }
+                  else {
+                    var res = await Get.find<HomeController>().loadMore(pageKey: _page+1, id: parentId);
+                    if(res != null)
+                      _page = res;
+                  }
+                },
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    // maxCrossAxisExtent: 250,
                     crossAxisCount: spots!.length < 3 ? 1 : 2,
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 6,

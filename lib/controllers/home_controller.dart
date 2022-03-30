@@ -143,13 +143,28 @@ class HomeController extends GetxController {
     }
   }
 
-  void loadMore({List? extraParams, pageKey}) async {
+  Future loadMore({int? id, pageKey}) async {
     // Get.back();
     try{
       loading.value = true;
       if(_currentTab == 0) {
         Map<String, dynamic> _params = {"PageNumber": pageKey ?? _page};
         await fetchCountry();
+      }
+      else if(_currentTab == 1) {
+        Map<String, dynamic> _params = {"pageNumber": pageKey};
+        var res = await AppService.districtItems(id!, _params);
+        if(res != null) {
+          if (res.isEmpty)
+            _lastPage.value = true;
+          if (spots.isEmpty)
+            spots.assignAll(res);
+          else
+            spots.addAll(res);
+          if (res.isNotEmpty)
+            return pageKey;
+          loading.value = false;
+        }
       }
     }
     catch (e) {

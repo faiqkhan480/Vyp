@@ -54,8 +54,6 @@ class HomeScreen extends GetView<HomeController> {
     // Get.toNamed(AppRoutes.INFO, id: 1);
   }
 
-  // final HomeController controller = Get.find<HomeController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
