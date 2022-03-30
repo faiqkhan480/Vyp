@@ -39,12 +39,11 @@ class HorizontalList extends StatelessWidget {
         // ),
         child: Obx(() {
           return Stack(
-            // fit: StackFit.expand,
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
                 // onEndOfPage: () => Get.find<HomeController>().handleSearch(),
-                onEndOfPage: () => null,
+                onEndOfPage: () => Get.find<HomeController>().loadMore(),
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.extent(

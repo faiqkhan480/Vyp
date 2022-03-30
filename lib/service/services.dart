@@ -88,15 +88,15 @@ class AppService {
   }
 
   // COUNTRY TAB
-  static getCountryData() async {
+  static getCountryData(Map<String, dynamic> payload) async {
     try{
-      var res = await Network.get(url: Api.countryTab);
+      var res = await Network.get(url: Api.countryTab, params: payload.map((key, value) => MapEntry(key, value.toString())));
       if(res != null)
         return spotFromMap(res);
       return null;
     } catch(e){
       print("ERROR COUNTRY: $e");
-      Get.rawSnackbar(title: "Error in country tab request!");
+      Get.rawSnackbar(message: "Error in country tab request!");
       return throw Exception(e);
     }
   }
@@ -110,7 +110,7 @@ class AppService {
       return null;
     } catch(e){
       print("ERROR DISTRICT: $e");
-      Get.rawSnackbar(title: "Error in district tab request!");
+      Get.rawSnackbar(message: "Error in district tab request!");
       return throw Exception(e);
     }
   }
@@ -124,7 +124,7 @@ class AppService {
       return null;
     } catch(e){
       print("ERROR COUNTY: $e");
-      Get.rawSnackbar(title: "Error in county tab request!");
+      Get.rawSnackbar(message: "Error in county tab request!");
       return throw Exception(e);
     }
   }

@@ -65,7 +65,7 @@ class HomeController extends GetxController {
     if(_currentTab == tab)
       return;
     else if(tab == 0) {
-      fetchCountry();
+      fetchCountry(page: 1);
     }
     else if(tab == 1) {
       fetchDistricts();
@@ -143,15 +143,42 @@ class HomeController extends GetxController {
     }
   }
 
-  // FETCH COUNTRY TAB DATA
-  void fetchCountry() async {
+  void loadMore({List? extraParams, pageKey}) async {
+    // Get.back();
     try{
-      spots.clear();
       loading.value = true;
-      var res = await AppService.getCountryData();
+      if(_currentTab == 0) {
+        Map<String, dynamic> _params = {"PageNumber": pageKey ?? _page};
+        await fetchCountry();
+      }
+    }
+    catch (e) {
+      print(e);
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  // FETCH COUNTRY TAB DATA
+  Future fetchCountry({int? page}) async {
+    try{
+      Map<String, dynamic> _params = {
+        "PageNumber": page ?? _page,
+      };
+     if(page != null) {
+       spots.clear();
+       pageNum.value = 1;
+     }
+      loading.value = true;
+      var res = await AppService.getCountryData(_params);
       if(res != null) {
+        if (res.isEmpty)
+          _lastPage.value = true;
         if(spots.isEmpty) spots.assignAll(res);
         else spots.addAll(res);
+        if(res.isNotEmpty)
+          pageNum.value += 1;
         loading.value = false;
       }
       else {
