@@ -76,21 +76,22 @@ class HomeScreen extends GetView<HomeController> {
         flexibleSpace: PreferredSize(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.only(bottom: 5),
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
-                HorizontalSpace(8),
-                TextWidget(
-                  text: "lisbon",
-                  // color: AppColors.primaryColor,
-                  size: 1.8,
-                  // align: TextAlign.center,
-                ),
-              ],
-            ),),
+            child: Obx(() => Container(
+                padding: EdgeInsets.only(bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
+                    HorizontalSpace(8),
+                    TextWidget(
+                      text: controller.placeMarks.isNotEmpty ? controller.placeMarks.first.locality : "",
+                      // color: AppColors.primaryColor,
+                      size: 1.8,
+                      // align: TextAlign.center,
+                    ),
+                  ],
+                )
+            )),
           ),
           preferredSize: Size(double.infinity, 18),
         ),
