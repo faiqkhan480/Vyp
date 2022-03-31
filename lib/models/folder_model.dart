@@ -10,24 +10,56 @@ String folderToMap(List<Folder> data) => json.encode(List<dynamic>.from(data.map
 
 class Folder {
   Folder({
-    this.id,
+    this.folderId,
     this.folderName,
+    this.favorites,
+  });
+
+  int? folderId;
+  String? folderName;
+  List<Favorite>? favorites;
+
+  factory Folder.fromMap(Map<String, dynamic> json) => Folder(
+    folderId: json["folderId"] == null ? null : json["folderId"],
+    folderName: json["folderName"] == null ? null : json["folderName"],
+    favorites: json["favorites"] == null ? null : List<Favorite>.from(json["favorites"].map((x) => Favorite.fromMap(x))),
+  );
+
+  Map<String, dynamic> toMap() => {
+    "folderId": folderId == null ? null : folderId,
+    "folderName": folderName == null ? null : folderName,
+    "favorites": favorites == null ? null : List<dynamic>.from(favorites!.map((x) => x.toMap())),
+  };
+}
+
+class Favorite {
+  Favorite({
+    this.id,
+    this.idSpot,
     this.idUser,
+    this.favoriteName,
+    this.imageStr,
   });
 
   int? id;
-  String? folderName;
+  int? idSpot;
   int? idUser;
+  String? favoriteName;
+  String? imageStr;
 
-  factory Folder.fromMap(Map<String, dynamic> json) => Folder(
+  factory Favorite.fromMap(Map<String, dynamic> json) => Favorite(
     id: json["id"] == null ? null : json["id"],
-    folderName: json["folderName"] == null ? null : json["folderName"],
+    idSpot: json["idSpot"] == null ? null : json["idSpot"],
     idUser: json["idUser"] == null ? null : json["idUser"],
+    favoriteName: json["favoriteName"] == null ? null : json["favoriteName"],
+    imageStr: json["imageStr"] == null ? null : json["imageStr"],
   );
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
-    "folderName": folderName == null ? null : folderName,
+    "idSpot": idSpot == null ? null : idSpot,
     "idUser": idUser == null ? null : idUser,
+    "favoriteName": favoriteName == null ? null : favoriteName,
+    "imageStr": imageStr == null ? null : imageStr,
   };
 }

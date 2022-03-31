@@ -104,8 +104,8 @@ class HomeController extends GetxController {
 
   void changeView() {
     // print("CALLED::::::");
-    // showMap.value = !showMap.value;
-    _determinePosition();
+    showMap.value = !showMap.value;
+    // _determinePosition();
   }
 
   void changeTab(tab) {

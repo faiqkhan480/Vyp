@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/add_favorite_dialog.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
+import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/appbar_widget.dart';
 import 'package:vyv/widgets/space.dart';
@@ -21,7 +22,6 @@ class FavoritesScreen extends GetView<FavoriteController> {
   // FavoriteController controller = Get.put(FavoriteController());
 
   void handleClick() {
-    print(controller);
     Get.dialog(AddFavorite(controller: controller,), barrierDismissible: true, useSafeArea: true);
   }
 
@@ -40,7 +40,12 @@ class FavoritesScreen extends GetView<FavoriteController> {
         crossAxisSpacing: 10,
         childAspectRatio: 0.8,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        children: List.generate(controller.folders.length, (index) => imagesGrid(controller.folders.elementAt(index).folderName)),
+        children: List.generate(
+            controller.folders.length + 1,
+                (index) => index == 0 ?
+                imagesGrid(controller.folders.elementAt(0), isAll: true) :
+                imagesGrid(controller.folders.elementAt(index-1))
+        ),
         // children: [
         //   imagesGrid("All"),
         //   imagesGrid("Paddle\nLisboa"),
@@ -49,7 +54,13 @@ class FavoritesScreen extends GetView<FavoriteController> {
       ));
   }
 
-  Widget imagesGrid(text) {
+  Widget imagesGrid(Folder folder, {bool? isAll}) {
+    List<Favorite> _listFav = [];
+    if(isAll == true) {
+      controller.folders.forEach((element) {
+
+      });
+    }
     return Column(
       children: [
         // Icon(Icons.folder_open_rounded, size: 100, color: AppColors.grey,),
@@ -57,12 +68,16 @@ class FavoritesScreen extends GetView<FavoriteController> {
           child: GridView.builder(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
-            itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
-            itemCount: images.length,
+            // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
+            itemBuilder: (context, index) => folder.favorites!.length > index ?
+            Image.network(folder.favorites!.elementAt(index).imageStr!,
+              errorBuilder: (context, error, stackTrace) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
+            ) : Image.asset(images.elementAt(index), fit: BoxFit.cover,),
+            itemCount: 4,
           ),
         ),
         VerticalSpace(5),
-        TextWidget(text: text, size: 1.8,)
+        TextWidget(text: isAll == true ? "All" : folder.folderName, size: 1.8,)
       ],
     );
   }
