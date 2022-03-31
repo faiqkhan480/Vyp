@@ -166,6 +166,21 @@ class HomeController extends GetxController {
           loading.value = false;
         }
       }
+      else if(_currentTab == 2) {
+        Map<String, dynamic> _params = {"pageNumber": pageKey};
+        var res = await AppService.countyItems(id!, _params);
+        if(res != null) {
+          if (res.isEmpty)
+            _lastPage.value = true;
+          if (spots.isEmpty)
+            spots.assignAll(res);
+          else
+            spots.addAll(res);
+          if (res.isNotEmpty)
+            return pageKey;
+          loading.value = false;
+        }
+      }
     }
     catch (e) {
       print(e);

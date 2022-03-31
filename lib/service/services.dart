@@ -142,6 +142,19 @@ class AppService {
     }
   }
 
+  static countyItems(int countyId, Map<String, dynamic> payload) async {
+    try{
+      var res = await Network.get(url: "${Api.county}$countyId", params: payload.map((key, value) => MapEntry(key, value.toString())));
+      if(res != null)
+        return spotFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR DISTRICT: $e");
+      Get.rawSnackbar(message: "Error in district request!");
+      return throw Exception(e);
+    }
+  }
+
   // SEARCH SPOTS
   static searchSpot({Map<String, dynamic>? payload}) async {
     try{

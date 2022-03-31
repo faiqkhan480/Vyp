@@ -10,11 +10,17 @@ import 'package:vyv/utils/size_config.dart';
 
 import 'spot_card.dart';
 
-class HorizontalList extends StatelessWidget {
+class HorizontalList extends StatefulWidget {
   final List<Spot>? spots;
   final bool? isCountry;
   final int? parentId;
   HorizontalList({Key? key, this.spots, this.isCountry = true, this.parentId}) : super(key: key);
+
+  @override
+  _HorizontalListState createState() => _HorizontalListState();
+}
+
+class _HorizontalListState extends State<HorizontalList> {
   int _page = 0;
 
   @override
@@ -25,18 +31,18 @@ class HorizontalList extends StatelessWidget {
         width: double.infinity,
         // // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
         // // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
-        height: spots!.length < 3 ? 160 : 300,
+        height: widget.spots!.length < 3 ? 160 : 300,
         child: Obx(() {
           return Stack(
             children: [
               LazyLoadScrollView(
                 scrollDirection: Axis.horizontal,
                 onEndOfPage: () async {
-                  if(isCountry!) {
+                  if(widget.isCountry!) {
                     Get.find<HomeController>().loadMore();
                   }
                   else {
-                    var res = await Get.find<HomeController>().loadMore(pageKey: _page+1, id: parentId);
+                    var res = await Get.find<HomeController>().loadMore(pageKey: _page+1, id: widget.parentId);
                     if(res != null)
                       _page = res;
                   }
@@ -45,16 +51,16 @@ class HorizontalList extends StatelessWidget {
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: spots!.length < 3 ? 1 : 2,
+                    crossAxisCount: widget.spots!.length < 3 ? 1 : 2,
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 6,
                     mainAxisSpacing: 6,
                   ),
-                  itemCount: spots?.length ?? 0,
+                  itemCount: widget.spots?.length ?? 0,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SpotCard(index: index, item: spots?.elementAt(index)),
+                  itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
                   // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
                 ),
               ),
