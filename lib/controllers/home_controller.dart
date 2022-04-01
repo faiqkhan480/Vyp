@@ -17,6 +17,7 @@ import 'package:vyv/service/services.dart';
 class HomeController extends GetxController {
   // static HomeController get to => Get.find();
   Rx<Country> selectedCountry = Country().obs;
+  List<Country> countries = List<Country>.empty(growable: true).obs;
   // static SearchController get searchController => Get.find();
   RxBool showMap = false.obs;
   RxBool loading = true.obs;
@@ -56,6 +57,8 @@ class HomeController extends GetxController {
       setUser();
     if(box.read("country") != null)
       selectedCountry.value = Country.fromMap(box.read("country"));
+    if(box.read("countries") != null)
+    countries.assignAll(countryFromMap(box.read("countries")));
   }
 
   Future _determinePosition() async {
@@ -243,7 +246,8 @@ class HomeController extends GetxController {
        pageNum.value = 1;
      }
       loading.value = true;
-      var res = await AppService.getCountryData(_params);
+     _params.addAll(_districtParams);
+     var res = await AppService.getCountryData(_params);
       if(res != null) {
         if (res.isEmpty)
           _lastPage.value = true;

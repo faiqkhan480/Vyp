@@ -24,6 +24,7 @@ class AppService {
   static getCountries() async {
     try{
       var res = await Network.get(url: Api.countries);
+      _box.write("countries", res);
       if(res != null)
         return countryFromMap(res);
       return null;
@@ -197,7 +198,10 @@ class AppService {
         }
         Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
       }
-      return null;
+      else {
+        Get.rawSnackbar(title: "Unable to register", message: "Please contact app admin", backgroundColor: AppColors.danger);
+        return null;
+      }
     } catch(e){
       print("ERROR LOGIN: $e");
       Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);

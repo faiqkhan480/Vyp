@@ -136,7 +136,7 @@ class AuthController extends GetxController {
           "id": 0,
           "firstName": firstName.text,
           "lastName": lastName.text,
-          "nationality": selectedNationality,
+          "nationality": int.parse(selectedNationality),
           "email": registerEmail.text,
           "birthday": _date,
           "phoneNumber": phone.text,
