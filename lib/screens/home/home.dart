@@ -50,7 +50,10 @@ class HomeScreen extends GetView<HomeController> {
       enableDrag: false,
       isScrollControlled: true,
       persistent: true,
-    );
+    ).then((value) {
+      // Get.find<SearchController>().selectedDistricts.clear();
+      // Get.find<SearchController>().selectedItems.clear();
+    });
     // Get.toNamed(AppRoutes.INFO, id: 1);
   }
 

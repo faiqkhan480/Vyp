@@ -33,6 +33,9 @@ class HomeController extends GetxController {
   RxDouble lat = 0.0.obs;
   RxDouble long = 0.0.obs;
   List<Placemark> placeMarks = List<Placemark>.empty().obs;
+  Map<String, dynamic> _countryParams = {};
+  Map<String, dynamic> _districtParams = {};
+  Map<String, dynamic> _countyParams = {};
 
   List<Folder> get folders => _folders;
   User? get user => _user.value;
@@ -150,44 +153,39 @@ class HomeController extends GetxController {
     // Get.offNamed(AppRoutes.ROOT);
   }
 
-  void handleSearch({List? extraParams, pageKey}) async {
+  void handleSearch({List? extraParams, pageKey, bool? isCategory}) async {
     // Get.back();
     try{
-      loading.value = true;
-      Map<String, dynamic> _params = {
-        "PageNumber": pageKey ?? _page,
-        "PageSize": limit
-      };
+      _districtParams = {};
+      _countyParams = {};
+      _countryParams = {"PageNumber": 1,};
       if(extraParams != null) {
         for (int i = 0; i < extraParams.length; i++) {
-          if(extraParams.elementAt(i).runtimeType == County)
-            _params['countyId[$i]'] = json.encode(extraParams.elementAt(i).id);
-          else if(extraParams.elementAt(i).runtimeType == Category)
-            _params['categoryId[$i]'] = json.encode(extraParams.elementAt(i).id);
-          else if(extraParams.elementAt(i).runtimeType == District)
-            _params['districtId[$i]'] = json.encode(extraParams.elementAt(i).id);
+          if(isCategory == true) {
+            if(extraParams.elementAt(i).runtimeType == Category)
+              _countryParams['categoryId[$i]'] = json.encode(extraParams.elementAt(i).id);
+          }
+          else {
+            if(extraParams.elementAt(i).runtimeType == County)
+              _countyParams['countiesId[${_countyParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+            if(extraParams.elementAt(i).runtimeType == District)
+              _districtParams['districtsId[${_districtParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+          }
         }
       }
-      var res = await AppService.searchSpot(payload: _params);
-      if(res != null) {
-        if (res.isEmpty) {
-          _lastPage.value = true;
-        }
-        if(spots.isEmpty) spots.assignAll(res);
-        else spots.addAll(res);
-        if(res.isNotEmpty)
-          pageNum.value += 1;
-        loading.value = false;
-      }
-      else {
-        loading.value = false;
-      }
+      if(_currentTab == 0)
+        fetchCountry(page: 1);
+      else if(_currentTab == 1)
+        fetchDistricts();
+      else if(_currentTab == 2)
+        fetchCounty();
+      Get.back();
     }
     catch (e) {
       print(e);
     }
     finally {
-      loading.value = false;
+      // loading.value = false;
     }
   }
 
@@ -276,7 +274,7 @@ class HomeController extends GetxController {
     try{
       spots.clear();
       loading.value = true;
-      var res = await AppService.getDistrictData();
+      var res = await AppService.getDistrictData(payload: _districtParams);
       if(res != null) {
         if(spots.isEmpty) spots.assignAll(res);
         else spots.addAll(res);
@@ -299,7 +297,7 @@ class HomeController extends GetxController {
     try{
       spots.clear();
       loading.value = true;
-      var res = await AppService.getCountyData();
+      var res = await AppService.getCountyData(payload: _countyParams);
       if(res != null) {
         if(spots.isEmpty) spots.assignAll(res);
         else spots.addAll(res);

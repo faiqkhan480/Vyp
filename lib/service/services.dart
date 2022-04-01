@@ -102,9 +102,9 @@ class AppService {
   }
 
   // DISTRICT TAB
-  static getDistrictData() async {
+  static getDistrictData({Map<String, dynamic>? payload}) async {
     try{
-      var res = await Network.get(url: Api.districtTab);
+      var res = await Network.get(url: Api.districtTab, params: payload);
       if(res != null)
         return spotFromMap(res);
       return null;
@@ -116,9 +116,9 @@ class AppService {
   }
 
   // COUNTY TAB
-  static getCountyData() async {
+  static getCountyData({Map<String, dynamic>? payload}) async {
     try{
-      var res = await Network.get(url: Api.countyTab);
+      var res = await Network.get(url: Api.countyTab, params: payload);
       if(res != null)
         return spotFromMap(res);
       return null;
@@ -277,5 +277,4 @@ class AppService {
       return throw Exception(e);
     }
   }
-
 }
