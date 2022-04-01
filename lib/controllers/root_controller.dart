@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/screen_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/favorites/favorite_binding.dart';
 import 'package:vyv/screens/favorites/favorites_screen.dart';
+import 'package:vyv/screens/favorites/folder_screen.dart';
 import 'package:vyv/screens/home/home.dart';
 import 'package:vyv/screens/home/home_bindings.dart';
 import 'package:vyv/screens/info/info_binding.dart';
@@ -57,6 +59,12 @@ class RootController extends GetxController {
         settings: settings,
         binding: FavoriteBinding(),
         page: () => FavoritesScreen()
+      );
+
+    if (settings.name == AppRoutes.FOLDER)
+      return GetPageRoute(
+          settings: settings,
+          page: () => settings.arguments.runtimeType == Folder ? FolderScreen(folder: settings.arguments as Folder) : FolderScreen(favorites: settings.arguments as List<Favorite>)
       );
     return null;
   }
