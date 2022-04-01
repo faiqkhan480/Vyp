@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/dialog_component.dart';
+import 'package:vyv/components/setting_sheet.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
@@ -22,38 +23,7 @@ class MenuSheet extends StatelessWidget {
 
   openSettings() {
     Get.bottomSheet(
-      Container(
-          color: AppColors.secondaryColor,
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child:Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ListTile(
-                leading: Icon(Icons.language),
-                title: TextWidget(
-                  text: 'change_country',
-                  size: 1.8,
-                ),
-                // subtitle: Divider(thickness: 1, height: 1,),
-                dense: true,
-                // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
-                onTap: () => null,
-              ),
-              ListTile(
-                leading: Icon(Icons.settings_display),
-                title: TextWidget(
-                  text: 'change_lang',
-                  size: 1.8,
-                ),
-                // subtitle: Divider(thickness: 1, height: 1,),
-                dense: true,
-                // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
-                onTap: () => null,
-              ),
-            ],
-          )
-      ),
+      SettingsSheet(controller: Get.find<HomeController>()),
       isDismissible: true,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -141,8 +111,11 @@ class MenuSheet extends StatelessWidget {
         break;
       case "add_fav":
         Get.back(closeOverlays: true);
+        if(Get.find<HomeController>().user?.id != null)
         Get.dialog(AddFavorite(controller: Get.put<FavoriteController>(FavoriteController(isFetching: false)), spot: spot,), barrierDismissible: true, useSafeArea: true)
             .then((value) => Get.delete<FavoriteController>());
+        else
+          Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
         break;
       case "settings":
         openSettings();
