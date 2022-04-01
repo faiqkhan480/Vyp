@@ -16,6 +16,7 @@ class Api {
   static String spotDetail = "/spot/spot/";
   static String login = "/person/login/";
   static String register = "/person/register/";
+  static String resetPass = "/person/update/password/";
   static String createFolder = "/favorite/create/";
   static String allFavorites = "/favorite/user/";
   static String folder = "/favorite/folder/";

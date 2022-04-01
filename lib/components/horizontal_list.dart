@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:pagination_view/pagination_view.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/utils/app_colors.dart';
-import 'package:vyv/utils/size_config.dart';
 
 import 'spot_card.dart';
 

@@ -4,6 +4,7 @@ import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/components/setting_sheet.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
+import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';

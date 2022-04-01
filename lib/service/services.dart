@@ -209,6 +209,27 @@ class AppService {
     }
   }
 
+  static resetPass({num? userId, Map<String, dynamic>? payload}) async {
+    try{
+      var res = await Network.put(url: "${Api.resetPass}$userId", params: payload!.map((key, value) => MapEntry(key, value.toString())));
+      if(res != null) {
+        var user = json.decode(res);
+        if(user['statusCode'] == 200)
+          return user['message'].toString();
+        Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
+        return null;
+      }
+      else {
+        Get.rawSnackbar(title: "Unable to reset password", message: "Please contact app admin", backgroundColor: AppColors.danger);
+        return null;
+      }
+    } catch(e){
+      print("ERROR RESET: $e");
+      Get.rawSnackbar(message: "Error in reset pass request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
   // ADD TO FAVORITE
   static addFavorite({required num? idSpot, required num? idFolder, required num? idUser, required String? favoriteName, required String? imageStr}) async {
     try{

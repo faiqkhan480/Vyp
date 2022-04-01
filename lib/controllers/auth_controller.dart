@@ -20,6 +20,7 @@ class AuthController extends GetxController {
 
   final loginFormKey = GlobalKey<FormState>();
   final signUpFormKey = GlobalKey<FormState>();
+  final resetFormKey = GlobalKey<FormState>();
 
 
   final emailController = TextEditingController().obs;
@@ -155,6 +156,34 @@ class AuthController extends GetxController {
       }
       catch (e) {
         print("error: $e");
+      }
+      finally {
+        loading.value = false;
+      }
+    }
+  }
+
+  void handleReset() async {
+    if (resetFormKey.currentState!.validate()) {
+      try{
+        FocusManager.instance.primaryFocus?.unfocus();
+        loading.value = true;
+        Map<String, dynamic> _params = {
+          "oldPassword": passField.text,
+          "newPassword": confirmPassword.text,
+        };
+        var res = await AppService.resetPass(userId: homeController.user!.id, payload: _params);
+        if(res != null) {
+          loading.value = false;
+          Get.back(closeOverlays: true);
+          Get.rawSnackbar(message: res, backgroundColor: AppColors.success);
+        }
+        else {
+          loading.value = false;
+        }
+      }
+      catch (e) {
+        print(e);
       }
       finally {
         loading.value = false;
