@@ -24,7 +24,6 @@ class HomeScreen extends GetView<HomeController> {
   List<String> tabs = ["Portugal", "districts", "counties"];
 
   handleClick() {
-    print(controller.user!.id);
     Get.bottomSheet(
       MenuSheet(isLogin: controller.user!.id != null,),
       isDismissible: true,

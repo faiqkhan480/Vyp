@@ -99,11 +99,7 @@ class HomeController extends GetxController {
     placeMarks.assignAll(_placeMarks);
   }
 
-  setValue(User _val) {
-    print("Lll::::>, ${_val.id}");
-    _user.value = _val;
-    print("val::::>, ${_user.value.id}");
-  }
+  setValue(User _val) => _user.value = _val;
 
   void changeView() {
     // print("CALLED::::::");

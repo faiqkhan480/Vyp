@@ -20,6 +20,53 @@ class MenuSheet extends StatelessWidget {
   final Spot? spot;
   const MenuSheet({Key? key, required this.isLogin, this.isItemMenu = false, this.spot}) : super(key: key);
 
+  openSettings() {
+    Get.bottomSheet(
+      Container(
+          color: AppColors.secondaryColor,
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child:Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListTile(
+                leading: Icon(Icons.language),
+                title: TextWidget(
+                  text: 'change_country',
+                  size: 1.8,
+                ),
+                // subtitle: Divider(thickness: 1, height: 1,),
+                dense: true,
+                // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
+                onTap: () => null,
+              ),
+              ListTile(
+                leading: Icon(Icons.settings_display),
+                title: TextWidget(
+                  text: 'change_lang',
+                  size: 1.8,
+                ),
+                // subtitle: Divider(thickness: 1, height: 1,),
+                dense: true,
+                // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
+                onTap: () => null,
+              ),
+            ],
+          )
+      ),
+      isDismissible: true,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        // side: BorderSide(
+        //     width: 5,
+        //     color: Colors.black
+        // )
+      ),
+      enableDrag: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List menu = isLogin ? loginMenu : isItemMenu ? itemMenu : guestMenu;
@@ -96,6 +143,9 @@ class MenuSheet extends StatelessWidget {
         Get.back(closeOverlays: true);
         Get.dialog(AddFavorite(controller: Get.put<FavoriteController>(FavoriteController(isFetching: false)), spot: spot,), barrierDismissible: true, useSafeArea: true)
             .then((value) => Get.delete<FavoriteController>());
+        break;
+      case "settings":
+        openSettings();
         break;
     }
   }
