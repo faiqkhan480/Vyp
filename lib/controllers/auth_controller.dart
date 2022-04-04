@@ -13,6 +13,7 @@ class AuthController extends GetxController {
   RxBool isLogin = true.obs;
   RxBool loading = false.obs;
   RxBool fetching = true.obs;
+  RxBool isForgot = false.obs;
 
   var _date;
   Map<String, dynamic>? nationalities;
@@ -104,7 +105,9 @@ class AuthController extends GetxController {
   }
   
   void handleLogin() async {
-    if (loginFormKey.currentState!.validate()) {
+    if(isForgot.isTrue)
+      handleForgot();
+    else if (loginFormKey.currentState!.validate()) {
       try{
         FocusManager.instance.primaryFocus?.unfocus();
         loading.value = true;
@@ -182,6 +185,22 @@ class AuthController extends GetxController {
         else {
           loading.value = false;
         }
+      }
+      catch (e) {
+        print(e);
+      }
+      finally {
+        loading.value = false;
+      }
+    }
+  }
+
+  void changeForm(bool val) => isForgot.value = val;
+
+  void handleForgot() async {
+    if (loginFormKey.currentState!.validate()) {
+      try{
+
       }
       catch (e) {
         print(e);
