@@ -35,6 +35,7 @@ class AuthController extends GetxController {
   TextEditingController nationality = TextEditingController();
   TextEditingController birthday = TextEditingController();
   TextEditingController registerPassword = TextEditingController();
+  TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
   bool get loginForm => isLogin.value;

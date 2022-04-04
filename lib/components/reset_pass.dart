@@ -28,7 +28,7 @@ class ResetPassDialog extends StatelessWidget {
               VerticalSpace(40),
               // PASSWORD FIELD
               TextFormField(
-                controller: controller.passField,
+                controller: controller.newPassword,
                 obscureText: true,
                 validator: controller.textValidator,
                 decoration: InputDecoration(
@@ -45,9 +45,9 @@ class ResetPassDialog extends StatelessWidget {
                 ),
               ),
               VerticalSpace(10),
-              // CONFIRM PASSWORD FIELD
+              // NEW PASSWORD FIELD
               TextFormField(
-                controller: controller.confirmPassword,
+                controller: controller.passField,
                 obscureText: true,
                 validator: controller.textValidator,
                 decoration: InputDecoration(
@@ -60,6 +60,25 @@ class ResetPassDialog extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   alignLabelWithHint: true,
                   labelText: "new_password".tr,
+                  labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo'),
+                ),
+              ),
+              VerticalSpace(10),
+              // CONFIRM PASSWORD FIELD
+              TextFormField(
+                controller: controller.confirmPassword,
+                obscureText: true,
+                validator: controller.confirmPassValidator,
+                decoration: InputDecoration(
+                  isDense: true,
+                  prefixIconConstraints: BoxConstraints(maxWidth: 40),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
+                    child: SvgPicture.asset("assets/images/svgs/lock_open.svg"),
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  alignLabelWithHint: true,
+                  labelText: "confirm_password".tr,
                   labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo'),
                 ),
               ),

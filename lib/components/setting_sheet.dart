@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/reset_pass.dart';
 import 'package:vyv/controllers/home_controller.dart';
+import 'package:vyv/models/country_model.dart';
+import 'package:vyv/models/county_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/widgets/text_component.dart';
 
@@ -16,11 +18,14 @@ class SettingsSheet extends StatelessWidget {
     // print(controller.selectedCountry.value);
     // print(controller.countries);
     // print(controller.countries.contains(controller.selectedCountry.value));
-    controller.countries.forEach((element) {
-      print(controller.selectedCountry.value == element);
-      print(element == controller.countries.elementAt(0));
+    // controller.countries.forEach((element) {
+      print(controller.selectedCountry.value.countryName);
+      print(controller.countries.elementAt(0).countryName);
+    //   print(controller.selectedCountry.value.runtimeType == controller.countries.elementAt(0).runtimeType);
+      print(controller.selectedCountry.value == controller.countries.elementAt(0));
+      // print(element == controller.countries.elementAt(0));
       print(":::::::::");
-    });
+    // });
     return Container(
         color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -28,18 +33,18 @@ class SettingsSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
+            Obx(() => ListTile(
               leading: Icon(Icons.language),
               // title: TextWidget(
               //   text: 'change_country',
               //   size: 1.8,
               // ),
-              title: DropdownButton(
-                // value: controller.selectedCountry.value,
+              title: DropdownButton<Country>(
+                value: controller.countries.firstWhere((element) => element.id == controller.selectedCountry.value.id),
                 elevation: 16,
                 isExpanded: true,
-                onChanged: (newValue) {},
-                items: List.generate(controller.countries.length, (index) => DropdownMenuItem(
+                onChanged: (Country? value) => controller.setCountry(value!),
+                items: List.generate(controller.countries.length, (index) => DropdownMenuItem<Country>(
                   value: controller.countries.elementAt(index),
                   child: Text(controller.countries.elementAt(index).countryName.toString()),
                 )),
@@ -52,7 +57,7 @@ class SettingsSheet extends StatelessWidget {
               ),
               dense: true,
               onTap: () => null,
-            ),
+            )),
             ListTile(
               leading: Icon(Icons.settings_display),
               title: TextWidget(
@@ -68,7 +73,7 @@ class SettingsSheet extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.person),
               title: TextWidget(
-                text: 'reset_pass',
+                text: 'reset_password',
                 size: 1.8,
               ),
               // subtitle: Divider(thickness: 1, height: 1,),

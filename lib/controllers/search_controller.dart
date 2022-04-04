@@ -27,6 +27,8 @@ class SearchController extends GetxController {
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
   RxList<SelectedDistrict> selectedDistricts = List<SelectedDistrict>.empty().obs;
   RxList selectedItems = List.empty(growable: true).obs;
+  List<District> selectedParents = List<District>.empty(growable: true).obs;
+  List<County> selectedChildren = List<County>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -147,10 +149,14 @@ class SearchController extends GetxController {
     if(value) {
       selectedDistricts.add(SelectedDistrict(parent: parentItem, children: childItems));
       selectedItems.add(parentItem);
+      selectedParents.add(parentItem);
+      selectedChildren.assignAll(childItems as List<County>);
     }
     else {
       selectedDistricts.removeWhere((element) => element.parent!.id == parentItem.id);
       selectedItems.remove(parentItem);
+      selectedParents.remove(parentItem);
+      selectedChildren.removeWhere((element) => element.districtId == parentItem.id);
     }
   }
 
@@ -193,7 +199,6 @@ class SearchController extends GetxController {
       }
       // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
       else {
-        print("called");
         List<dynamic>? _children = selectedDistricts.firstWhereOrNull((element) => element.parent!.id == parent.id)?.children;
         _children!.add(child);
         // selected.firstWhereOrNull((element) => element.district!.id == item.id)!.counties!.assignAll(_counties);
@@ -201,9 +206,11 @@ class SearchController extends GetxController {
         // selected.firstWhere((element) => element.district!.id == item.id).counties!.add(_county);
         selectedDistricts.refresh();
       }
-      if(!selectedItems.contains(parent))
-        selectedItems.add(parent);
+      if(!selectedItems.contains(parent) && selectedParents.any((element) => element.id != parent.id))
+        selectedParents.add(parent);
+      //   selectedItems.add(parent);
       selectedItems.add(child);
+      selectedChildren.add(child);
       print(selectedItems);
     }
     // IF UNCHECK ITEM
@@ -212,21 +219,31 @@ class SearchController extends GetxController {
       _children!.removeWhere((element) => element.id == child.id);
       selectedDistricts.firstWhere((d) => d.parent!.id == parent.id).children = _children;
       selectedDistricts.refresh();
-      selectedItems.removeWhere((element) => element.id == parent.id);
+      // selectedItems.removeWhere((element) => element.id == parent.id);
       selectedItems.remove(child);
+      selectedChildren.remove(child);
+      if(selectedItems.isEmpty){
+        selectedParents.remove(parent);
+        selectedDistricts.clear();
+      }
     }
   }
 
   void removeSearchItems(item, isCategory) {
     if(item.runtimeType == District || item.runtimeType == Category){
       selectedDistricts.removeWhere((element) => element.parent!.id == item.id);
+      selectedParents.removeWhere((element) => element.id == item.id);
     }
     else {
       List<dynamic>? _children = selectedDistricts.firstWhereOrNull((element) => element.parent!.id == (isCategory ? item.categoryId : item.districtId))?.children;
       _children!.removeWhere((element) => element.id == item.id);
       selectedDistricts.firstWhere((d) => d.parent!.id == (isCategory ? item.categoryId : item.districtId)).children = _children;
       selectedDistricts.refresh();
+      selectedChildren.removeWhere((element) => element.id == item.id);
     }
     selectedItems.remove(item);
+    if(selectedItems.isEmpty){
+      selectedDistricts.clear();
+    }
   }
 }

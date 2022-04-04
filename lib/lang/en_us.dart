@@ -52,4 +52,6 @@ const Map<String, String> en_US = {
   "select_all": "Select All",
   "select_folder": "Select Folder",
   "select_the_folder": "Select the folder!",
+  "reset_password": "Reset Password",
+  "change_lang": "Change Language",
 };

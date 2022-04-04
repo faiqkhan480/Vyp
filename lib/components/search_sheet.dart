@@ -21,7 +21,12 @@ class SearchBottomSheet extends GetView<SearchController> {
 
   // SearchController controller = Get.put(SearchController());
 
-  handleSubmit() => Get.find<HomeController>().handleSearch(pageKey: 1, extraParams: controller.selectedItems, isCategory: isCategory);
+  handleSubmit() {
+    Get.find<HomeController>().handleSearch(
+        pageKey: 1,
+        extraParams: [...controller.selectedParents, ...controller.selectedChildren],
+        isCategory: isCategory);
+  }
 
   void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties, isCategory);
 
@@ -95,7 +100,8 @@ class SearchBottomSheet extends GetView<SearchController> {
             // action: () => null,
             icon:
             (_value && controller.selectedDistricts.firstWhere((element) => element.parent!.id == _parent.id).children!.length != _children.length) ?
-            CupertinoIcons.minus :  Icons.check,
+            CupertinoIcons.minus :
+            Icons.check,
           ),
           onTap: () => selectAllCounties(!_value, _parent, _children),
         ),
