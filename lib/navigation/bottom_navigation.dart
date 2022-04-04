@@ -6,6 +6,7 @@ import 'package:vyv/controllers/root_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/screens/calender_screen.dart';
+import 'package:vyv/screens/guides_screen.dart';
 import 'package:vyv/screens/info/info_binding.dart';
 import 'package:vyv/screens/info/info_screen.dart';
 import 'package:vyv/utils/app_colors.dart';
@@ -44,12 +45,22 @@ class BottomNavigation extends GetView<RootController> {
           onGenerateRoute: (settings) {
             return GetPageRoute(page: () => CalenderScreen());
           }),
+      Navigator(
+          key: Get.nestedKey(3), // create a key by index
+          onGenerateRoute: (settings) {
+            return GetPageRoute(page: () => GuidesListing(title: "Guides",));
+          }),
+      Navigator(
+          key: Get.nestedKey(4), // create a key by index
+          onGenerateRoute: (settings) {
+            return GetPageRoute(page: () => GuidesListing(title: "Events",));
+          }),
     ];
     return WillPopScope(
       onWillPop: onWilPop,
       child: Scaffold(
         body: Obx(() => IndexedStack(
-          index: controller.currentTab.value > 0 ? 1 : 0,
+          index: controller.currentTab.value,
           children: _pages,
           // children: [
           //   Navigator(
@@ -167,3 +178,4 @@ class BottomNavigation extends GetView<RootController> {
     );
   }
 }
+

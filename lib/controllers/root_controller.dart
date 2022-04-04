@@ -38,7 +38,6 @@ class RootController extends GetxController {
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
-    print("ROUTE : ${settings.name}");
     // if(settings.name == AppRoutes.HOME)
     if(settings.name == "/")
       return GetPageRoute(

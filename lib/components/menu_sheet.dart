@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/components/setting_sheet.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
@@ -120,6 +121,9 @@ class MenuSheet extends StatelessWidget {
         break;
       case "settings":
         openSettings();
+        break;
+      case "share":
+        Share.share('check out my website https://example.com');
         break;
     }
   }
