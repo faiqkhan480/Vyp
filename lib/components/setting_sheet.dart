@@ -15,17 +15,6 @@ class SettingsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(controller.selectedCountry.value);
-    // print(controller.countries);
-    // print(controller.countries.contains(controller.selectedCountry.value));
-    // controller.countries.forEach((element) {
-      print(controller.selectedCountry.value.countryName);
-      print(controller.countries.elementAt(0).countryName);
-    //   print(controller.selectedCountry.value.runtimeType == controller.countries.elementAt(0).runtimeType);
-      print(controller.selectedCountry.value == controller.countries.elementAt(0));
-      // print(element == controller.countries.elementAt(0));
-      print(":::::::::");
-    // });
     return Container(
         color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -60,9 +49,20 @@ class SettingsSheet extends StatelessWidget {
             )),
             ListTile(
               leading: Icon(Icons.settings_display),
-              title: TextWidget(
-                text: 'change_lang',
-                size: 1.8,
+              title: DropdownButton<String>(
+                value: Get.locale!.languageCode,
+                elevation: 16,
+                isExpanded: true,
+                onChanged: (String? value) {
+                  var locale = value == "en" ? Locale('en', 'US') : Locale('pt', 'POR');
+                  Get.updateLocale(locale);
+                },
+                items: ["en", "pt"].map<DropdownMenuItem<String>>((lang) {
+                  return DropdownMenuItem(
+                    value: lang,
+                    child: Text(lang == "en" ? "English" : "Portuguese"),
+                  );
+                }).toList(),
               ),
               // subtitle: Divider(thickness: 1, height: 1,),
               dense: true,
@@ -70,7 +70,8 @@ class SettingsSheet extends StatelessWidget {
               onTap: () => null,
             ),
 
-            ListTile(
+            if(controller.user?.id != null)
+              ListTile(
               leading: Icon(Icons.person),
               title: TextWidget(
                 text: 'reset_password',
