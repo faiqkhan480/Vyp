@@ -26,11 +26,12 @@ class SearchController extends GetxController {
   List<SubCategory> subCategories = List<SubCategory>.empty(growable: true).obs;
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
   RxList<SelectedDistrict> selectedDistricts = List<SelectedDistrict>.empty().obs;
+  RxList<SelectedDistrict> selectedCategories = List<SelectedDistrict>.empty().obs;
   RxList selectedItems = List.empty(growable: true).obs;
   List<District> selectedParents = List<District>.empty(growable: true).obs;
-  List<Category> selectedCategories = List<Category>.empty(growable: true).obs;
+  List<Category> categoryParents = List<Category>.empty(growable: true).obs;
   List<County> selectedChildren = List<County>.empty(growable: true).obs;
-  List<SubCategory> selectedSubCategories = List<SubCategory>.empty(growable: true).obs;
+  List<SubCategory> categoryChildren = List<SubCategory>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -224,7 +225,6 @@ class SearchController extends GetxController {
       selectedDistricts.refresh();
       selectedItems.remove(child);
       selectedChildren.remove(child);
-      selectedSubCategories.remove(child);
       if(selectedItems.isEmpty || !selectedItems.any((element) => element.districtId == parent.id)) {
         selectedParents.remove(parent);
         selectedDistricts.clear();
@@ -247,6 +247,86 @@ class SearchController extends GetxController {
     selectedItems.remove(item);
     if(selectedItems.isEmpty){
       selectedDistricts.clear();
+    }
+  }
+
+  void handleByCategory(bool value, Category parentItem, List<SubCategory> childItems) {
+    if(value) {
+      selectedCategories.add(SelectedDistrict(parent: parentItem, children: childItems));
+      selectedItems.add(parentItem);
+      categoryParents.add(parentItem);
+      categoryChildren.assignAll(childItems);
+    }
+    else {
+      selectedCategories.removeWhere((element) => element.parent!.id == parentItem.id);
+      selectedItems.remove(parentItem);
+      categoryParents.remove(parentItem);
+      selectedItems.removeWhere((element) => element.categoryId == parentItem.id);
+      categoryChildren.removeWhere((element) => element.categoryId == parentItem.id);
+    }
+  }
+
+  void handleBySubCategory(bool value, Category parent, SubCategory child) {
+    // IF CHECK ITEM
+    if(value) {
+      bool _checkDistrict = selectedCategories.any((element) => element.parent!.id == parent.id);
+      // IF NOT DISTRICT IS SELECTED THAN SELECT ALL
+      if(!_checkDistrict) {
+        selectedCategories.add(SelectedDistrict(
+            parent: categories.firstWhere((cat) => cat.id == parent.id),
+            children: subCategories.where((subCat) => subCat.id == child.id).toList()
+        ));
+        selectedCategories.refresh();
+        categoryParents.add(parent);
+      }
+      // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
+      else {
+        List<dynamic>? _children = selectedCategories.firstWhereOrNull((element) => element.parent!.id == parent.id)?.children;
+        _children!.add(child);
+        selectedCategories.firstWhereOrNull((element) => element.parent!.id == parent.id)!.children = _children;
+        selectedCategories.refresh();
+      }
+      if(!selectedItems.contains(parent) && categoryParents.any((element) => element.id != parent.id))
+        categoryParents.add(parent);
+      //   selectedItems.add(parent);
+      selectedItems.add(child);
+      categoryChildren.add(child);
+    }
+    // IF UNCHECK ITEM
+    else {
+      List<dynamic>? _children = selectedCategories.firstWhereOrNull((element) => element.parent!.id == parent.id)?.children;
+      _children!.removeWhere((element) => element.id == child.id);
+      selectedCategories.firstWhere((d) => d.parent!.id == parent.id).children = _children;
+      selectedCategories.refresh();
+      selectedItems.remove(child);
+      categoryChildren.remove(child);
+      if(selectedItems.isEmpty || !selectedItems.any((element) => element.districtId == parent.id)) {
+        categoryParents.remove(parent);
+        selectedCategories.clear();
+      }
+    }
+  }
+
+  void handleAllSubCategorySelection(bool value, dynamic item) {
+    if(value) {
+      selectedCategories.removeWhere((element) => element.parent!.id == item.id);
+      selectedItems.removeWhere((element) =>
+      element.runtimeType == Category ?
+      element.id == item.id :
+      element.categoryId == item.id);
+      selectedCategories.add(SelectedDistrict(
+          parent: item,
+          children: subCategories.where((c) => c.categoryId == item.id).toList()
+      ));
+      selectedItems.assignAll(subCategories.where((c) => c.categoryId == item.id).toList());
+    }
+    else
+    {
+      selectedCategories.removeWhere((element) => element.parent!.id == item.id);
+      selectedItems.removeWhere((element) =>
+      element.runtimeType == Category ?
+      element.id == item.id :
+      element.categoryId == item.id);
     }
   }
 }
