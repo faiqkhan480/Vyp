@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vyv/models/spot_model.dart';
-import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
-import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 import 'package:get/get.dart';
 

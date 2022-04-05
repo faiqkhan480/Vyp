@@ -154,6 +154,7 @@ class HomeController extends GetxController {
 
   void handleSearch({List? extraParams, pageKey, bool? isCategory}) async {
     // Get.back();
+    print(extraParams?.length);
     try{
       _districtParams = {};
       _countyParams = {};

@@ -28,7 +28,9 @@ class SearchController extends GetxController {
   RxList<SelectedDistrict> selectedDistricts = List<SelectedDistrict>.empty().obs;
   RxList selectedItems = List.empty(growable: true).obs;
   List<District> selectedParents = List<District>.empty(growable: true).obs;
+  List<Category> selectedCategories = List<Category>.empty(growable: true).obs;
   List<County> selectedChildren = List<County>.empty(growable: true).obs;
+  List<SubCategory> selectedSubCategories = List<SubCategory>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -156,6 +158,7 @@ class SearchController extends GetxController {
       selectedDistricts.removeWhere((element) => element.parent!.id == parentItem.id);
       selectedItems.remove(parentItem);
       selectedParents.remove(parentItem);
+      selectedItems.removeWhere((element) => element.districtId == parentItem.id);
       selectedChildren.removeWhere((element) => element.districtId == parentItem.id);
     }
   }
@@ -196,6 +199,7 @@ class SearchController extends GetxController {
             children: isCategory ? subCategories.where((subCat) => subCat.id == child.id).toList() : counties.where((c) => c.id == child.id).toList()
         ));
         selectedDistricts.refresh();
+        selectedParents.add(parent);
       }
       // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
       else {
@@ -211,7 +215,6 @@ class SearchController extends GetxController {
       //   selectedItems.add(parent);
       selectedItems.add(child);
       selectedChildren.add(child);
-      print(selectedItems);
     }
     // IF UNCHECK ITEM
     else {
@@ -219,10 +222,10 @@ class SearchController extends GetxController {
       _children!.removeWhere((element) => element.id == child.id);
       selectedDistricts.firstWhere((d) => d.parent!.id == parent.id).children = _children;
       selectedDistricts.refresh();
-      // selectedItems.removeWhere((element) => element.id == parent.id);
       selectedItems.remove(child);
       selectedChildren.remove(child);
-      if(selectedItems.isEmpty){
+      selectedSubCategories.remove(child);
+      if(selectedItems.isEmpty || !selectedItems.any((element) => element.districtId == parent.id)) {
         selectedParents.remove(parent);
         selectedDistricts.clear();
       }

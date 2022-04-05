@@ -22,10 +22,12 @@ class SearchBottomSheet extends GetView<SearchController> {
   // SearchController controller = Get.put(SearchController());
 
   handleSubmit() {
-    Get.find<HomeController>().handleSearch(
-        pageKey: 1,
-        extraParams: [...controller.selectedParents, ...controller.selectedChildren],
-        isCategory: isCategory);
+    print(controller.selectedParents);
+    print(controller.selectedChildren);
+    // Get.find<HomeController>().handleSearch(
+    //     pageKey: 1,
+    //     extraParams: [...controller.selectedParents, ...controller.selectedChildren],
+    //     isCategory: isCategory);
   }
 
   void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties, isCategory);
@@ -60,6 +62,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                           var _length = isCategory ? controller.categories.length : controller.districts.length;
                           var _items = isCategory ? controller.categories : controller.districts;
                           var _childItems = isCategory ? controller.subCategories : controller.counties;
+                          var _selected = controller.selectedDistricts.where((e) => isCategory ? e.runtimeType == Category : e.runtimeType == District).toList();
                           return CustomCheckBox(
                             isSelected: controller.selectedDistricts.length == _length,
                             action: () => controller.handleByCountry(isCategory),
@@ -122,13 +125,18 @@ class SearchBottomSheet extends GetView<SearchController> {
   // CHILD ITEM SELECTION
   Widget childItem(int childIndex, dynamic _parentItem,  List<dynamic> _childItems) {
     SelectedDistrict? _selected = controller.selectedDistricts.firstWhereOrNull((element) => element.parent!.id == (isCategory ? _childItems.elementAt(childIndex).categoryId : _childItems.elementAt(childIndex).districtId));
+    List _selectedSubCat = controller.selectedDistricts.firstWhereOrNull((cat) => cat.parent.runtimeType == _parentItem.runtimeType && cat.parent.id == _parentItem.id)?.children ?? [];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if(childIndex == 0)
           CheckboxListTile(
             title: TextWidget(text: "select_all", size: 1.8,),
-            value: (_selected?.children?.length ?? 0) == _childItems.length,
+            // value: false,
+            value: _selectedSubCat.length == _childItems.length,
+            // value: (_selectedAll?.length ?? 0) == _childItems.length,
+            // onChanged: (value) => print(value),
             onChanged: (value) => controller.handleAllCountySelection(value ?? true, _parentItem, isCategory),
           ),
 
@@ -142,7 +150,7 @@ class SearchBottomSheet extends GetView<SearchController> {
   }
 
   Widget searchBox() {
-    List _items = controller.selectedItems.where((e) => isCategory ? e.runtimeType == Category : true).toList();
+    List _items = controller.selectedItems.where((e) => isCategory ? (e.runtimeType == Category || e.runtimeType == SubCategory) : (e.runtimeType == District || e.runtimeType == County)).toList();
     return Container(
         child: Wrap(
             children: [
