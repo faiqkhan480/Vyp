@@ -22,13 +22,13 @@ class Folder {
   factory Folder.fromMap(Map<String, dynamic> json) => Folder(
     folderId: json["folderId"] == null ? null : json["folderId"],
     folderName: json["folderName"] == null ? null : json["folderName"],
-    favorites: json["favorites"] == null ? null : List<Favorite>.from(json["favorites"].map((x) => Favorite.fromMap(x))),
+    favorites: json["favorites"] == null ? [] : List<Favorite>.from(json["favorites"].map((x) => Favorite.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
     "folderId": folderId == null ? null : folderId,
     "folderName": folderName == null ? null : folderName,
-    "favorites": favorites == null ? null : List<dynamic>.from(favorites!.map((x) => x.toMap())),
+    "favorites": favorites == null ? [] : List<dynamic>.from(favorites!.map((x) => x.toMap())),
   };
 }
 

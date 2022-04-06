@@ -11,6 +11,7 @@ import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/spot_model.dart';
+import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/models/user_model.dart';
 import 'package:vyv/service/services.dart';
 
@@ -162,8 +163,14 @@ class HomeController extends GetxController {
       if(extraParams != null) {
         for (int i = 0; i < extraParams.length; i++) {
           if(isCategory == true) {
-            if(extraParams.elementAt(i).runtimeType == Category)
-              _countryParams['categoryId[$i]'] = json.encode(extraParams.elementAt(i).id);
+            if(extraParams.elementAt(i).runtimeType == Category){
+              _districtParams['categoriesId[${_districtParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+              _countryParams['categoriesId[${_countyParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+            }
+            if(extraParams.elementAt(i).runtimeType == SubCategory){
+              _districtParams['subCategoriesId[${_districtParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+              _countryParams['subCategoriesId[${_countyParams.length}]'] = json.encode(extraParams.elementAt(i).id);
+            }
           }
           else {
             if(extraParams.elementAt(i).runtimeType == County)

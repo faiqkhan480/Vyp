@@ -42,7 +42,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
         childAspectRatio: 0.8,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         children: List.generate(
-            controller.folders.length + 1,
+            controller.folders.isEmpty ? 0 : controller.folders.length + 1,
                 (index) => index == 0 ?
                 imagesGrid(controller.folders.elementAt(0), isAll: true) :
                 imagesGrid(controller.folders.elementAt(index-1))
@@ -59,7 +59,8 @@ class FavoritesScreen extends GetView<FavoriteController> {
     List<Favorite> _listFav = [];
     if(isAll == true) {
       controller.folders.forEach((element) {
-        _listFav.addAll(element.favorites!);
+        if(element.favorites != null)
+          _listFav.addAll(element.favorites!);
       });
     }
     return InkWell(
@@ -68,7 +69,9 @@ class FavoritesScreen extends GetView<FavoriteController> {
         children: [
           // Icon(Icons.folder_open_rounded, size: 100, color: AppColors.grey,),
           Flexible(
-            child: GridView.builder(
+            child: folder.favorites!.isEmpty ?
+            Icon(Icons.inbox, color: AppColors.grey, size: 60,) :
+            GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
               // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),

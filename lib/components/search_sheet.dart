@@ -24,11 +24,11 @@ class SearchBottomSheet extends GetView<SearchController> {
   handleSubmit() {
     Get.find<HomeController>().handleSearch(
         pageKey: 1,
-        extraParams: [...controller.selectedParents, ...controller.selectedChildren],
+        extraParams: isCategory ? [...controller.categoryParents, ...controller.categoryChildren] : [...controller.selectedParents, ...controller.selectedChildren],
         isCategory: isCategory);
   }
 
-  void selectAllCounties(_value, _district, _counties) => controller.handleByDistrict(_value, _district, _counties, isCategory);
+  void selectAllCounties(_value, _parent, _children) => isCategory ? controller.handleByCategory(_value, _parent, _children) : controller.handleByDistrict(_value, _parent, _children, isCategory);
 
   @override
   Widget build(BuildContext context) {
@@ -90,16 +90,15 @@ class SearchBottomSheet extends GetView<SearchController> {
     return Obx(() {
       dynamic _parent = isCategory ? controller.categories.elementAt(index) : controller.districts.elementAt(index);
       List<dynamic> _children = isCategory ? controller.subCategories.where((c) => c.categoryId == _parent.id).toList() : controller.counties.where((c) => c.districtId == _parent.id).toList();
-      bool _value = controller.selectedDistricts.any((element) => element.parent!.id == _parent.id);
+      bool _value = isCategory ? controller.selectedCategories.any((element) => element.parent!.id == _parent.id) : controller.selectedDistricts.any((element) => element.parent!.id == _parent.id);
       return ExpansionTile(
-        // title: TextWidget(text: controller.districts.elementAt(index).districtName),
         title: ListTile(
           title: TextWidget(text: _parent.name, size: 2.0,),
           trailing: CustomCheckBox(
-            isSelected: controller.selectedDistricts.any((element) => element.parent.runtimeType == _parent.runtimeType && element.parent!.id == _parent.id),
+            isSelected: _value,
             action: () => isCategory ? controller.handleByCategory(!_value, _parent, _children as List<SubCategory>) : controller.handleByDistrict(!_value, _parent, _children, isCategory),
             icon:
-            (_value && controller.selectedDistricts.firstWhere((element) => element.parent!.id == _parent.id).children!.length != _children.length) ?
+            (_value && (isCategory ? controller.selectedCategories.firstWhere((e) => e.parent!.id == _parent.id) : controller.selectedDistricts.firstWhere((e) => e.parent!.id == _parent.id)).children!.length != _children.length) ?
             CupertinoIcons.minus :
             Icons.check,
           ),
@@ -121,7 +120,9 @@ class SearchBottomSheet extends GetView<SearchController> {
 
   // CHILD ITEM SELECTION
   Widget childItem(int childIndex, dynamic _parentItem,  List<dynamic> _childItems) {
-    SelectedDistrict? _selected = controller.selectedDistricts.firstWhereOrNull((element) => element.parent!.id == (isCategory ? _childItems.elementAt(childIndex).categoryId : _childItems.elementAt(childIndex).districtId));
+    SelectedDistrict? _selected = !isCategory ?
+    controller.selectedDistricts.firstWhereOrNull((element) => element.parent!.id == _childItems.elementAt(childIndex).districtId) :
+    controller.selectedCategories.firstWhereOrNull((element) => element.parent!.id == _childItems.elementAt(childIndex).categoryId);
     List _selectedSubCat = controller.selectedDistricts.firstWhereOrNull((cat) => cat.parent.runtimeType == _parentItem.runtimeType && cat.parent.id == _parentItem.id)?.children ?? [];
 
     return Column(
@@ -130,16 +131,13 @@ class SearchBottomSheet extends GetView<SearchController> {
         if(childIndex == 0)
           CheckboxListTile(
             title: TextWidget(text: "select_all", size: 1.8,),
-            // value: false,
-            value: _selectedSubCat.length == _childItems.length,
-            // value: (_selectedAll?.length ?? 0) == _childItems.length,
-            // onChanged: (value) => print(value),
+            value: (_selected?.children?.length ?? 0) == _childItems.length,
             onChanged: (value) => isCategory ? controller.handleAllSubCategorySelection(value ?? true, _parentItem) : controller.handleAllCountySelection(value ?? true, _parentItem, isCategory),
           ),
 
         CheckboxListTile(
           title: TextWidget(text: _childItems.elementAt(childIndex).name, size: 1.8,),
-          value: _selected?.children?.any((c) => c.runtimeType == _childItems.elementAt(childIndex).runtimeType && c.id == _childItems.elementAt(childIndex).id) ?? false,
+          value: _selected?.children?.any((c) => c.id == _childItems.elementAt(childIndex).id) ?? false,
           onChanged: (value) => isCategory ? controller.handleBySubCategory(value!, _parentItem, _childItems.elementAt(childIndex),) : controller.handleByCounty(value!, _parentItem, _childItems.elementAt(childIndex), isCategory),
         ),
       ],

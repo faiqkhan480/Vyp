@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -43,10 +44,17 @@ class GuidesListing extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-          itemBuilder: (context, index) => card(),
-          itemCount: 10,
+      body: Center(
+        child: TextWidget(
+          text: "Coming Soon..!",
+          size: 5,
+          weight: FontWeight.w600,
+        ),
       ),
+      // body: ListView.builder(
+      //     itemBuilder: (context, index) => card(),
+      //     itemCount: 10,
+      // ),
     );
   }
 
