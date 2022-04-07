@@ -62,7 +62,7 @@ class FavoriteController extends GetxController {
       if(formKey.currentState!.validate()) {
         FocusManager.instance.primaryFocus?.unfocus();
         loading.value = true;
-        var res = await AppService.addFavorite(idUser: homeController.user?.id, idSpot: _spot.id, imageStr: _spot.imageStr, favoriteName: selectedFolder?.folderName, idFolder: selectedFolder?.folderId);
+        var res = await AppService.addFavorite(idUser: homeController.user?.id, idSpot: _spot.id, imageStr: _spot.imageStr ?? " ", favoriteName: selectedFolder?.folderName, idFolder: selectedFolder?.folderId);
         if(res != null) {
           Get.back(closeOverlays: true);
           Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);

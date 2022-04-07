@@ -14,12 +14,25 @@ class CalenderScreen extends StatelessWidget {
         backgroundColor: AppColors.secondaryColor,
         elevation: 0,
         centerTitle: true,
-        title: TextWidget(
-          text: Constants.appName,
-          color: AppColors.primaryColor,
-          size: 5,
-          align: TextAlign.center,
-          family: 'GemunuLibre',
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextWidget(
+              text: Constants.appName,
+              color: AppColors.primaryColor,
+              size: 5,
+              align: TextAlign.center,
+              family: 'GemunuLibre',
+            ),
+            TextWidget(
+              text: "Calender",
+              // color: AppColors.primaryColor,
+              size: 3,
+              align: TextAlign.center,
+              // family: 'GemunuLibre',
+            ),
+          ],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
