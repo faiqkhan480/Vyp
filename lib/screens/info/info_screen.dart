@@ -72,10 +72,9 @@ class InfoScreen extends GetView<InfoController> {
                  // BANNER IMAGE
                  Image.network(
                    snapshot.data?.imageStr ?? "",
-                   // Constants.imgUrl,
                    height: SizeConfig.heightMultiplier * 20,
                    fit: BoxFit.cover,
-                   errorBuilder: (context, error, stackTrace) => SizedBox(height: 100, child: Icon(Icons.broken_image_rounded, color: AppColors.grey, size: 60,)),
+                   errorBuilder: (context, error, stackTrace) => SizedBox(height: 100, child: Image.asset("assets/images/svgs/no_img.png")),
                  ),
 
                  // CONTENT

@@ -62,7 +62,7 @@ class InfoSheet extends StatelessWidget {
                     width: 80,
                     height: SizeConfig.heightMultiplier * 14,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => SizedBox(height: SizeConfig.heightMultiplier * 14, width: 80, child: Icon(Icons.broken_image_rounded, color: AppColors.grey, size: 60,)),
+                    errorBuilder: (context, error, stackTrace) => SizedBox(height: SizeConfig.heightMultiplier * 14, width: 80, child: Image.asset("assets/images/svgs/no_img.png")),
                   ),
                 ),
                 HorizontalSpace(8),
