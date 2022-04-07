@@ -47,7 +47,7 @@ class ResetPassDialog extends StatelessWidget {
               VerticalSpace(10),
               // NEW PASSWORD FIELD
               TextFormField(
-                controller: controller.passField,
+                controller: controller.registerPassword,
                 obscureText: true,
                 validator: controller.textValidator,
                 decoration: InputDecoration(

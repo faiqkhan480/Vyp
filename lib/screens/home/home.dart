@@ -86,7 +86,7 @@ class HomeScreen extends GetView<HomeController> {
                     SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
                     HorizontalSpace(8),
                     TextWidget(
-                      text: controller.placeMarks.isNotEmpty ? controller.placeMarks.first.locality : "",
+                      text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.subLocality} ${controller.placeMarks.first.locality}" : "",
                       // color: AppColors.primaryColor,
                       size: 1.8,
                       // align: TextAlign.center,

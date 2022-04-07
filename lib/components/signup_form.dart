@@ -210,7 +210,7 @@ class SignupForm extends StatelessWidget {
               // CONFIRM PASSWORD
               TextFormField(
                 controller: controller.confirmPassword,
-                validator: controller.textValidator,
+                validator: controller.confirmPassValidator,
                 obscureText: true,
                 decoration: InputDecoration(
                   isDense: true,

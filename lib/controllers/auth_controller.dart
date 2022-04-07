@@ -87,7 +87,7 @@ class AuthController extends GetxController {
     if (value!.isEmpty) {
       return 'Please this field must be filled';
     }
-    else if (value != passField.text) {
+    else if (value != registerPassword.text) {
     return "confirm password not matching";
     }
     return null;
@@ -173,7 +173,7 @@ class AuthController extends GetxController {
         FocusManager.instance.primaryFocus?.unfocus();
         loading.value = true;
         Map<String, dynamic> _params = {
-          "oldPassword": passField.text,
+          "oldPassword": newPassword.text,
           "newPassword": confirmPassword.text,
         };
         var res = await AppService.resetPass(userId: homeController.user!.id, payload: _params);
