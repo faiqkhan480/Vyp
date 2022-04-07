@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
@@ -149,8 +150,11 @@ class HomeController extends GetxController {
     }
   }
 
-  void setCountry(Country c) {
+  void setCountry(Country c) async {
+    box.write('country', c.toMap());
     selectedCountry.value = c;
+    await Get.find<SearchController>().fetchDistricts();
+    await Get.find<SearchController>().fetchCounties();
     // Get.offNamed(AppRoutes.ROOT);
   }
 
