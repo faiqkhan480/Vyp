@@ -44,7 +44,7 @@ class AddFavorite extends StatelessWidget {
                         value: controller!.selectedFolder,
                         icon:  SvgPicture.asset("assets/images/svgs/arrow_down.svg"),
                         elevation: 16,
-                        validator: (value) => value == null ? "select_the_folder" : null,
+                        validator: (value) => value == null ? "select_the_folder".tr : null,
                         style: const TextStyle(color: Colors.deepPurple),
                         onChanged: (Folder? newValue) {
                           controller!.selectedFolder = newValue!;

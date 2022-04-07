@@ -69,18 +69,23 @@ class FavoritesScreen extends GetView<FavoriteController> {
         children: [
           // Icon(Icons.folder_open_rounded, size: 100, color: AppColors.grey,),
           Flexible(
-            child: folder.favorites!.isEmpty ?
-            Icon(Icons.inbox, color: AppColors.grey, size: 60,) :
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
-              // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
-              itemBuilder: (context, index) => folder.favorites!.length > index ?
-              Image.network(folder.favorites!.elementAt(index).imageStr!,
-                errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image_rounded, color: AppColors.grey, size: 60,),
-              ) : Icon(Icons.wallpaper_rounded, color: AppColors.grey, size: 60,),
-              // itemCount: folder.favorites!.length >= 4 ? 4 : folder.favorites!.length,
-              itemCount: 4,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                  // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
+                  itemBuilder: (context, index) => folder.favorites!.length > index ?
+                  Image.network(folder.favorites!.elementAt(index).imageStr!,
+                    errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
+                  ) : SizedBox(),
+                  // itemCount: folder.favorites!.length >= 4 ? 4 : folder.favorites!.length,
+                  itemCount: 4,
+                ),
+                if(folder.favorites!.isEmpty)
+                  Icon(Icons.inbox, color: AppColors.grey, size: 60,)
+              ],
             ),
           ),
           VerticalSpace(5),

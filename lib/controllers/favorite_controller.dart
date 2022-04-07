@@ -88,7 +88,11 @@ class FavoriteController extends GetxController {
           _box.write("folders", folderToMap(folders));
           loading.value = false;
           Get.back(closeOverlays: true);
-          Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
+          if(res is String)
+            Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
+          else
+            Get.rawSnackbar(message: "Folder created", backgroundColor: AppColors.success);
+          name.clear();
         }
       }
     }

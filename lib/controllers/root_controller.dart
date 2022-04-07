@@ -4,6 +4,7 @@ import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/screen_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
+import 'package:vyv/screens/account_screen.dart';
 import 'package:vyv/screens/favorites/favorite_binding.dart';
 import 'package:vyv/screens/favorites/favorites_screen.dart';
 import 'package:vyv/screens/favorites/folder_screen.dart';
@@ -64,6 +65,13 @@ class RootController extends GetxController {
       return GetPageRoute(
           settings: settings,
           page: () => settings.arguments.runtimeType == Folder ? FolderScreen(folder: settings.arguments as Folder) : FolderScreen(favorites: settings.arguments as List<Favorite>)
+      );
+
+    if (settings.name == AppRoutes.ACCOUNT)
+      return GetPageRoute(
+          settings: settings,
+          // binding: FavoriteBinding(),
+          page: () => AccountScreen()
       );
     return null;
   }

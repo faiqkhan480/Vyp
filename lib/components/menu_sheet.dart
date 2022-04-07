@@ -111,6 +111,10 @@ class MenuSheet extends StatelessWidget {
         Get.back(closeOverlays: true);
         Get.toNamed(AppRoutes.FAVORITES, id: 1);
         break;
+      case "account":
+        Get.back(closeOverlays: true);
+        Get.toNamed(AppRoutes.ACCOUNT, id: 1);
+        break;
       case "add_fav":
         Get.back(closeOverlays: true);
         if(Get.find<HomeController>().user?.id != null)
