@@ -14,6 +14,7 @@ import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/models/user_model.dart';
 import 'package:vyv/service/services.dart';
+import 'package:vyv/utils/app_colors.dart';
 
 class HomeController extends GetxController {
   // static HomeController get to => Get.find();
@@ -338,6 +339,7 @@ class HomeController extends GetxController {
     user = User();
     _user.refresh();
     Get.back(closeOverlays: true);
+    Get.rawSnackbar(message: "Successfully logout!", backgroundColor: AppColors.success);
   }
 
   void loadNextPage() => _changePaginationFilter(_page + 1, limit);
