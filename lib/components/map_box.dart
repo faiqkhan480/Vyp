@@ -21,17 +21,15 @@ class _MapBoxState extends State<MapBox> {
   Map<MarkerId, Marker> markers = {};
 
   CameraPosition _kGooglePlex = CameraPosition(
-      bearing: 192.8334901395799,
+      // bearing: 192.8334901395799,
       target: LatLng(0.0, 0.0),
-      // target: LatLng(double.parse(s.latitude!.replaceAll(",", ".")), double.parse(homeController.spots.first.longitude!.replaceAll(",", "."))),
-      tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
   @override
   void initState() {
     _kGooglePlex = CameraPosition(
       target: LatLng(double.parse(homeController.spots.first.latitude!.replaceAll(",", ".")), double.parse(homeController.spots.first.longitude!.replaceAll(",", "."))),
-      zoom: 18,
+      zoom: 15,
       // bearing: 25,
       // tilt: 75,
     );

@@ -118,6 +118,7 @@ class AuthController extends GetxController {
           // print(homeController.user!.id);
           loading.value = false;
           Get.back(closeOverlays: true);
+          Get.rawSnackbar(message: "Successfully login!", backgroundColor: AppColors.success);
         }
         else {
           loading.value = false;
