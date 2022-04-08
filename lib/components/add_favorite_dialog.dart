@@ -88,8 +88,11 @@ class AddFavorite extends StatelessWidget {
           ),
 
           Positioned(
-              right: 5,
-              child: IconButton(icon: Icon(Icons.close_rounded), onPressed: () => Get.back(closeOverlays: true),))
+              right: 10,
+              top: 10,
+              child: InkWell(child: SvgPicture.asset("assets/images/svgs/close_square.svg"), onTap: () => Get.back(closeOverlays: true),)
+              // child: IconButton(icon: Icon(Icons.close_rounded), onPressed: () => Get.back(closeOverlays: true),)
+          )
         ],
       ),
     );
