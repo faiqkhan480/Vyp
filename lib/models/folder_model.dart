@@ -32,6 +32,8 @@ class Folder {
   };
 }
 
+List<Favorite> favoriteFromMap(String str) => List<Favorite>.from(json.decode(str).map((x) => Favorite.fromMap(x)));
+
 class Favorite {
   Favorite({
     this.id,

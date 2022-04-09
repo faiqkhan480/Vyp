@@ -64,7 +64,10 @@ class FavoritesScreen extends GetView<FavoriteController> {
       });
     }
     return InkWell(
-      onTap: () => Get.toNamed(AppRoutes.FOLDER, arguments: isAll == true ? _listFav : folder, id: 1),
+      onTap: () {
+        controller.fetchAllFavorites(folderId: isAll == true ? null : folder.folderId);
+        Get.toNamed(AppRoutes.FOLDER, arguments: isAll == true ? _listFav : folder, id: 1);
+      },
       child: Column(
         children: [
           // Icon(Icons.folder_open_rounded, size: 100, color: AppColors.grey,),
@@ -82,7 +85,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
                   //   errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
                   // ) :
                   SizedBox(),
-                  itemCount: 4,
+                  itemCount: folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
                 ),
                 if(folder.favorites!.isEmpty)
                   Icon(Icons.inbox, color: AppColors.grey, size: 60,)

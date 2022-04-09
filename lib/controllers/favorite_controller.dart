@@ -18,6 +18,7 @@ class FavoriteController extends GetxController {
   GetStorage _box = GetStorage();
   final formKey = GlobalKey<FormState>();
   RxList<Folder> _folders = List<Folder>.empty(growable: true).obs;
+  RxList<Favorite> _favorites = List<Favorite>.empty(growable: true).obs;
   Folder? selectedFolder;
 
   // TEXT FIELDS CONTROLLERS
@@ -25,14 +26,14 @@ class FavoriteController extends GetxController {
 
   TextEditingController get name => _nameController.value;
   List<Folder> get folders => _folders;
+  List<Favorite> get favorites => _favorites;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print(isFetching);
     if(isFetching) {
-      fetchAllFavorites().then((value) => fetchFolders());
+      fetchFolders();
     }
     else if(_box.read('folders') != null)
       folders.assignAll(folderFromMap(_box.read('folders')));
@@ -56,7 +57,24 @@ class FavoriteController extends GetxController {
     }
   }
 
-  Future fetchAllFavorites() async {}
+  Future fetchAllFavorites({num? folderId}) async {
+    try{
+      loading.value = true;
+      var res = await AppService.getFavorites(folderId: folderId);
+      if(res != null ) {
+        _favorites.assignAll(res);
+      }
+      loading.value = false;
+    }
+    catch (e) {
+      print("error: $e");
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  void clearFavorites() => _favorites.clear();
 
   Future addToFav(Spot _spot) async {
     try{
@@ -112,7 +130,8 @@ class FavoriteController extends GetxController {
       Get.back(closeOverlays: true);
       var res = await AppService.deleteFavorite(favId: item.id, folderId: folderId);
       if(res != null) {
-        _folders.firstWhere((_folder) => _folder.folderId == folderId).favorites!.removeWhere((_fav) => _fav.id == folderId);
+        _folders.firstWhere((_folder) => _folder.folderId == folderId).favorites!.removeWhere((_fav) => _fav.id == item.id);
+        favorites.removeWhere((_fav) => _fav.id == item.id);
         loading.value = false;
         Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
       }
