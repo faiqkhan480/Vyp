@@ -60,7 +60,7 @@ class FavoriteController extends GetxController {
   Future fetchAllFavorites({num? folderId}) async {
     try{
       loading.value = true;
-      var res = await AppService.getFavorites(folderId: folderId);
+      var res = folderId == null ? await AppService.getALLFavorites(homeController.user!.id!) : await AppService.getFavorites(folderId: folderId);
       if(res != null ) {
         _favorites.assignAll(res);
       }

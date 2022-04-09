@@ -55,4 +55,5 @@ const Map<String, String> en_US = {
   "reset_password": "Reset Password",
   "change_lang": "Change Language",
   "submit": "Submit",
+  "no_fav_items": "No Items",
 };

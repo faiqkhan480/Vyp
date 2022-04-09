@@ -11,7 +11,7 @@ import 'package:vyv/widgets/text_component.dart';
 
 class FavoriteItem extends StatelessWidget {
   final num? index;
-  final num folderId;
+  final int folderId;
   final Favorite? item;
   const FavoriteItem(this.folderId, {Key? key, this.item, this.index}) : super(key: key);
 

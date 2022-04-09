@@ -63,6 +63,9 @@ class FavoritesScreen extends GetView<FavoriteController> {
           _listFav.addAll(element.favorites!);
       });
     }
+
+    if(_listFav.length > 4)
+      _listFav.length = 4;
     return InkWell(
       onTap: () {
         controller.fetchAllFavorites(folderId: isAll == true ? null : folder.folderId);
@@ -77,15 +80,18 @@ class FavoritesScreen extends GetView<FavoriteController> {
               children: [
                 GridView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
                   // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
-                  itemBuilder: (context, index) => folder.favorites!.length > index ?
+                  itemBuilder: (context, index) => isAll == true ?
+                  Image.asset("assets/images/svgs/no_img.png") :
+                  folder.favorites!.length > index ?
                   Image.asset("assets/images/svgs/no_img.png") :
                   // Image.network(folder.favorites!.elementAt(index).imageStr!,
                   //   errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
                   // ) :
                   SizedBox(),
-                  itemCount: folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
+                  itemCount: isAll == true ? _listFav.length : folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
                 ),
                 if(folder.favorites!.isEmpty)
                   Icon(Icons.inbox, color: AppColors.grey, size: 60,)

@@ -309,6 +309,20 @@ class AppService {
     }
   }
 
+  // GET ALL FAVORITES
+  static getALLFavorites(num userId) async {
+    try{
+      var res = await Network.get(url: "${Api.allFavorites}$userId");
+      if(res != null)
+        return favoriteFromMap(res);
+      return null;
+    } catch(e){
+      print("ERROR LOGIN: $e");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
   // GET FAVORITES
   static getFavorites({num? folderId}) async {
     try{
