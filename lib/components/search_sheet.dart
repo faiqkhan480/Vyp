@@ -145,7 +145,7 @@ class SearchBottomSheet extends GetView<SearchController> {
   }
 
   Widget searchBox() {
-    List _items = controller.selectedItems.where((e) => isCategory ? (e.runtimeType == Category || e.runtimeType == SubCategory) : (e.runtimeType == District || e.runtimeType == County)).toList();
+    List _items = controller.selectedItems.where((e) => isCategory ? (e is Category || e is SubCategory) : (e is District || e is County)).toList();
     return Container(
         child: Wrap(
             children: [

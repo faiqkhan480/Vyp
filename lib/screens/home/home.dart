@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -11,6 +12,10 @@ import 'package:vyv/components/menu_sheet.dart';
 import 'package:vyv/components/search_sheet.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
+import 'package:vyv/models/category_model.dart';
+import 'package:vyv/models/county_model.dart';
+import 'package:vyv/models/district_model.dart';
+import 'package:vyv/models/sub_category_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 
 import 'package:vyv/utils/constants.dart';
@@ -129,30 +134,131 @@ class HomeScreen extends GetView<HomeController> {
 
   // SEARCH FIELDS
   List<Widget> searchFields() {
+    List categories = Get.find<SearchController>().selectedItems.where((e) => e is Category || e is SubCategory).toList();
+    List districts = Get.find<SearchController>().selectedItems.where((e) => e is District || e is County).toList();
     return [
-      InputField(
-        placeHolder: "what_r_u_looking_for",
-        readOnly: true,
-        icon: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
-        ),
-        horizontal: 30,
-        vertical: 15,
-        onTap: () => handleSearch(true),
-      ),
+      // InputField(
+      //   placeHolder: "what_r_u_looking_for",
+      //   readOnly: true,
+      //   icon: Padding(
+      //     padding: const EdgeInsets.all(10.0),
+      //     child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
+      //   ),
+      //   horizontal: 30,
+      //   vertical: 15,
+      //   onTap: () => handleSearch(true),
+      // ),
       // VerticalSpace(15),
-      InputField(
-        onTap: () => handleSearch(false),
-        placeHolder: "where",
-        readOnly: true,
-        icon: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SvgPicture.asset("assets/images/svgs/location.svg"),
+      // InputField(
+      //   onTap: () => handleSearch(false),
+      //   placeHolder: "where",
+      //   readOnly: true,
+      //   icon: Padding(
+      //     padding: const EdgeInsets.all(10.0),
+      //     child: SvgPicture.asset("assets/images/svgs/location.svg"),
+      //   ),
+      //   horizontal: 30,
+      //   vertical: 0,
+      // ),
+
+      InkWell(
+        onTap: () => handleSearch(true),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(5.0)
+              ),
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0,),
+              padding: EdgeInsets.fromLTRB(34, 0, 0, 0),
+              width: double.infinity,
+              height: 50,
+              child: categories.isEmpty ?
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: TextWidget(text: "what_r_u_looking_for", size: 2.0, color: AppColors.greyScale,),
+                  )) :
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(categories.length, (index) => Container(
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3),
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    child: Text( categories.elementAt(index)?.name,
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),)
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 30,
+              top: 12,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
+              ),
+            )
+          ],
         ),
-        horizontal: 30,
-        vertical: 0,
       ),
+      InkWell(
+        onTap: () => handleSearch(false),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(5.0)
+              ),
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0,),
+              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+              // alignment: Alignment.center,
+              width: double.infinity,
+              height: 50,
+              child: districts.isEmpty ?
+              Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: TextWidget(text: "where", size: 2.0, color: AppColors.greyScale,),
+                  )) :
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(districts.length, (index) => Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3),
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text( districts.elementAt(index)?.name,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),)
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 30,
+              top: 12,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset("assets/images/svgs/location.svg"),
+              ),
+            )
+          ],
+        ),
+      ),
+
     ];
   }
 
