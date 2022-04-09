@@ -20,7 +20,8 @@ class Api {
   static String createFolder = "/favorite/create/";
   static String allFavorites = "/favorite/user/";
   static String folder = "/favorite/folder/";
-  static String folderList = "favorite/folder/page/user/";
-  static String addFavorite = "favorite/add/favorite/";
+  static String folderList = "/favorite/folder/page/user/";
+  static String addFavorite = "/favorite/add/favorite/";
+  static String delFavorite = "/favorite/delete/favorite/";
   static String nationality = "/general/nationality/all";
 }

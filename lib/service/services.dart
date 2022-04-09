@@ -274,6 +274,26 @@ class AppService {
     }
   }
 
+  static deleteFavorite({num? favId, num? folderId}) async {
+    try{
+      var res = await Network.delete(url: "${Api.delFavorite}$favId/folder/$folderId");
+      if(res != null) {
+        var _folder = json.decode(res);
+        if(_folder['statusCode'] == 200) {
+          // Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+          return _folder['message'].toString();
+        }
+        else if(_folder['message'] != null)
+          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+      }
+      return null;
+    } catch(e){
+      print("ERROR LOGIN: $e");
+      Get.rawSnackbar(message: "Error in login request!", backgroundColor: AppColors.danger);
+      return throw Exception(e);
+    }
+  }
+
   // GET FAVORITE FOLDER
   static getFolders(num? userId) async {
     try{

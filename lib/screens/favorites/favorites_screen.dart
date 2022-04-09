@@ -77,10 +77,11 @@ class FavoritesScreen extends GetView<FavoriteController> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
                   // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
                   itemBuilder: (context, index) => folder.favorites!.length > index ?
-                  Image.network(folder.favorites!.elementAt(index).imageStr!,
-                    errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
-                  ) : SizedBox(),
-                  // itemCount: folder.favorites!.length >= 4 ? 4 : folder.favorites!.length,
+                  Image.asset("assets/images/svgs/no_img.png") :
+                  // Image.network(folder.favorites!.elementAt(index).imageStr!,
+                  //   errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
+                  // ) :
+                  SizedBox(),
                   itemCount: 4,
                 ),
                 if(folder.favorites!.isEmpty)

@@ -59,6 +59,32 @@ class Network {
     }
   }
 
+  static delete({url,payload,headers, Map<String, dynamic>? params}) async {
+    try{
+      Map<String, String> apiHeaders = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+      if(headers !=null){
+        apiHeaders.addAll(headers);
+      }
+      var body = json.encode(payload);
+      Uri uri = Uri.https(Constants.baseURL, url, params);
+      print(uri);
+      var response = await client.delete(uri, body: body,headers:apiHeaders );
+      print(response.body);
+      if(response.statusCode == 200) {
+        return response.body;
+      }
+      if(response.statusCode < 200 || response.statusCode > 400 || json == null) {
+        return null;
+      }
+    } catch(e){
+      print("POST: $e");
+      return throw Exception(e);
+    }
+  }
+
   static put({url,payload,headers, Map<String, dynamic>? params}) async {
     try{
       Map<String, String> apiHeaders = {

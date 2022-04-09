@@ -14,6 +14,7 @@ class FavoriteController extends GetxController {
 
   HomeController get homeController => Get.find();
   RxBool loading = false.obs;
+  RxInt currIndex = 0.obs;
   GetStorage _box = GetStorage();
   final formKey = GlobalKey<FormState>();
   RxList<Folder> _folders = List<Folder>.empty(growable: true).obs;
@@ -94,6 +95,26 @@ class FavoriteController extends GetxController {
             Get.rawSnackbar(message: "Folder created", backgroundColor: AppColors.success);
           name.clear();
         }
+      }
+    }
+    catch (e) {
+      print("error: $e");
+    }
+    finally {
+      loading.value = false;
+    }
+  }
+
+  Future deleteFav(Favorite item, num folderId, index) async {
+    try{
+      currIndex.value = index;
+      loading.value = true;
+      Get.back(closeOverlays: true);
+      var res = await AppService.deleteFavorite(favId: item.id, folderId: folderId);
+      if(res != null) {
+        _folders.firstWhere((_folder) => _folder.folderId == folderId).favorites!.removeWhere((_fav) => _fav.id == folderId);
+        loading.value = false;
+        Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
       }
     }
     catch (e) {
