@@ -137,30 +137,6 @@ class HomeScreen extends GetView<HomeController> {
     List categories = Get.find<SearchController>().selectedItems.where((e) => e is Category || e is SubCategory).toList();
     List districts = Get.find<SearchController>().selectedItems.where((e) => e is District || e is County).toList();
     return [
-      // InputField(
-      //   placeHolder: "what_r_u_looking_for",
-      //   readOnly: true,
-      //   icon: Padding(
-      //     padding: const EdgeInsets.all(10.0),
-      //     child: SvgPicture.asset("assets/images/svgs/rocket.svg"),
-      //   ),
-      //   horizontal: 30,
-      //   vertical: 15,
-      //   onTap: () => handleSearch(true),
-      // ),
-      // VerticalSpace(15),
-      // InputField(
-      //   onTap: () => handleSearch(false),
-      //   placeHolder: "where",
-      //   readOnly: true,
-      //   icon: Padding(
-      //     padding: const EdgeInsets.all(10.0),
-      //     child: SvgPicture.asset("assets/images/svgs/location.svg"),
-      //   ),
-      //   horizontal: 30,
-      //   vertical: 0,
-      // ),
-
       InkWell(
         onTap: () => handleSearch(true),
         child: Stack(

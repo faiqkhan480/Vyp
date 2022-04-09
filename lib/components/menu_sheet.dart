@@ -5,7 +5,6 @@ import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/components/setting_sheet.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
-import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
@@ -15,7 +14,6 @@ import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 import 'add_favorite_dialog.dart';
-import 'info_sheet.dart';
 
 class MenuSheet extends StatelessWidget {
   final bool isLogin;
@@ -42,7 +40,83 @@ class MenuSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List menu = isLogin ? loginMenu : isItemMenu ? itemMenu : guestMenu;
-    // List menu = loginMenu;
+    return FutureBuilder<Spot>(
+      future: Get.find<HomeController>().fetchData(spot?.id ?? 0),
+      builder: (context, AsyncSnapshot<Spot> snapshot) {
+        // if(snapshot.connectionState == ConnectionState.waiting)
+        //   return Center(child: CircularProgressIndicator());
+        // if(snapshot.hasError)
+        //   return TextWidget(text: "No data were found!");
+        return Container(
+            color: AppColors.secondaryColor,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child:Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if(isItemMenu)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextWidget(text: spot?.spotName, size: 2.5,),
+                  ),
+
+                Wrap(
+                  children: List.generate(
+                    menu.length,
+                        (index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if(menu.elementAt(index).entries.first.value.toString() == "share")
+                          if(snapshot.connectionState == ConnectionState.waiting)
+                            Center(child: SizedBox(height: 10, width: 10,child: CircularProgressIndicator()))
+                          else
+                          ListTile(
+                            leading: menu.elementAt(index).entries.last.value,
+                            title: TextWidget(
+                              text: menu.elementAt(index).entries.first.value.toString(),
+                              size: 1.8,
+                            ),
+                            // subtitle: Divider(thickness: 1, height: 1,),
+                            dense: true,
+                            // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
+                            onTap: () => Share.share("${snapshot.data!.shortDescription!}\n ${snapshot.data!.website}"),
+                          )
+                        else
+                          ListTile(
+                          leading: menu.elementAt(index).entries.last.value,
+                          title: TextWidget(
+                            text: menu.elementAt(index).entries.first.value.toString(),
+                            size: 1.8,
+                          ),
+                          // subtitle: Divider(thickness: 1, height: 1,),
+                          dense: true,
+                          // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
+                          onTap: () => handleClick(menu.elementAt(index).entries.first.value.toString()),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 70.0),
+                          child: Divider(thickness: 1, height: 1,),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+                if(isLogin)
+                  TextButton(
+                    onPressed: Get.find<HomeController>().handleLogout,
+                    child: Text("logout".tr),
+                    style: TextButton.styleFrom(
+                      primary: AppColors.skyBlue,
+                      textStyle: TextStyle(decoration: TextDecoration.underline, fontSize: SizeConfig.textMultiplier * 1.8),
+                    ),
+                  ),
+                // VerticalSpace(10)
+              ],
+            )
+        );
+      },
+    );
     return Container(
         color: AppColors.secondaryColor,
         padding: EdgeInsets.symmetric(vertical: 10),

@@ -328,6 +328,11 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<Spot> fetchData(id) async {
+    var res = await AppService.spotDetail(spotId: id);
+    return res as Spot;
+  }
+
   void _changePaginationFilter(int page, int limit) {
     // pageNum.value = page;
     // pageSize.value = limit;
