@@ -24,7 +24,7 @@ class ResetPassDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextWidget(text: "reset_password", size: 1.8, align: TextAlign.center,),
+              TextWidget(text: "reset_password", size: 2.8, align: TextAlign.center,),
               VerticalSpace(40),
               // PASSWORD FIELD
               TextFormField(

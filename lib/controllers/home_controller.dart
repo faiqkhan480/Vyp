@@ -107,7 +107,7 @@ class HomeController extends GetxController {
 
   setValue(User _val) => _user.value = _val;
 
-  void changeView() {
+  void changeView() async {
     // print("CALLED::::::");
     showMap.value = !showMap.value;
     // _determinePosition();

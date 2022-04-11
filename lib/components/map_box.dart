@@ -19,6 +19,7 @@ class _MapBoxState extends State<MapBox> {
   // Google Maps controller
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = {};
+  List<Marker> listMarkers = [];
 
   CameraPosition _kGooglePlex = CameraPosition(
       // bearing: 192.8334901395799,
@@ -57,6 +58,8 @@ class _MapBoxState extends State<MapBox> {
           initialCameraPosition: _kGooglePlex,
           markers: Set<Marker>.of(markers.values),
           onMapCreated: (GoogleMapController controller) {
+            if(listMarkers.isNotEmpty)
+              controller.moveCamera(CameraUpdate.newLatLng(listMarkers[listMarkers.length ~/ 2].position));
             _controller.complete(controller);
           },
         ),
@@ -69,5 +72,6 @@ class _MapBoxState extends State<MapBox> {
     MarkerId markerId = MarkerId(id);
     Marker marker = Marker(markerId: markerId, icon: descriptor, position: position);
     markers[markerId] = marker;
+    listMarkers.add(marker);
   }
 }

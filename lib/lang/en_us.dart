@@ -46,6 +46,8 @@ const Map<String, String> en_US = {
   "nationality": "Nationality",
   "b_day": "Bd yyyy/mm/dd",
   "confirm_password": "Confirm password",
+  "new_password": "New password",
+  "old_password": "Old password",
   "create_upper": "CREATE",
   "name": "Name",
   "add": "Add",
