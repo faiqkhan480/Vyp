@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
@@ -43,15 +44,21 @@ class GroupList extends StatelessWidget {
 
   Widget renderChild(index) {
     String? _itemName = isDistrict ? districts?.elementAt(index).name : counties?.elementAt(index).name;
+    String? _districtName = !isDistrict ? Get.find<SearchController>().districts.firstWhere((d) => d.id == counties?.elementAt(index).districtId).name : null;
     int? _itemId = isDistrict ? districts?.elementAt(index).id : counties?.elementAt(index).id;
     List _items = spots!.where((element) => handleType(element, index)).toList();
     if(_items.isNotEmpty)
+      if(_districtName != null)
+        _districtName = "- $_districtName";
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
-            child: TextWidget(text: _itemName ?? "", size: 3,),
+            child: TextWidget(
+              text: (_itemName ?? "") + (_districtName ?? ""),
+              size: 3,
+            ),
           ),
           HorizontalList(spots: _items as List<Spot>, isCountry: false, parentId: _itemId,),
         ],
