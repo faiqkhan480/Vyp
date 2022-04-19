@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
@@ -156,6 +156,15 @@ class HomeController extends GetxController {
     await Get.find<SearchController>().fetchDistricts();
     await Get.find<SearchController>().fetchCounties();
     // Get.offNamed(AppRoutes.ROOT);
+  }
+
+  void handleLocation() async {
+    PermissionStatus _permission = await Permission.location.status;
+    if(_permission == PermissionStatus.granted) {
+      await openAppSettings();
+    } else {
+      _determinePosition();
+    }
   }
 
   void handleSearch({List? extraParams, pageKey, bool? isCategory}) async {

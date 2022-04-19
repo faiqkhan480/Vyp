@@ -83,22 +83,25 @@ class HomeScreen extends GetView<HomeController> {
         flexibleSpace: PreferredSize(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: Obx(() => Container(
-                padding: EdgeInsets.only(bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if(controller.placeMarks.isNotEmpty)
-                      SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
-                    HorizontalSpace(8),
-                    TextWidget(
-                      text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.subLocality} ${controller.placeMarks.first.locality}" : "",
-                      // color: AppColors.primaryColor,
-                      size: 1.8,
-                      // align: TextAlign.center,
-                    ),
-                  ],
-                )
+            child: Obx(() => InkWell(
+              onTap: controller.handleLocation,
+              child: Container(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if(controller.placeMarks.isNotEmpty)
+                        SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
+                      HorizontalSpace(8),
+                      TextWidget(
+                        text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea} ${controller.placeMarks.first.country}" : "",
+                        // color: AppColors.primaryColor,
+                        size: 1.8,
+                        // align: TextAlign.center,
+                      ),
+                    ],
+                  )
+              ),
             )),
           ),
           preferredSize: Size(double.infinity, 18),
@@ -271,6 +274,7 @@ class HomeScreen extends GetView<HomeController> {
   // TABS VIEWS
   Widget tabViews() {
     SearchController searchController = Get.find<SearchController>();
+    var countryId = controller.selectedCountry.value.id;
     return Flexible(
       child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
@@ -278,14 +282,14 @@ class HomeScreen extends GetView<HomeController> {
             Obx(() =>
               (controller.loading() && controller.spots.isEmpty) ?
               Center(child: CircularProgressIndicator(),) :
-              SingleChildScrollView(child: HorizontalList(spots: controller.spots,))
+              SingleChildScrollView(child: HorizontalList(spots: controller.spots.where((s) => s.idCountry == countryId).toList(),))
             ),
 
             // GROUPED BY DISTRICTS
             Obx(() => GroupList(
                 isDistrict: true,
                 districts: searchController.districts,
-                spots: controller.spots,
+                spots: controller.spots.where((s) => s.idCountry == countryId).toList(),
                 loading: (controller.loading() && controller.spots.isEmpty)
             )),
 
@@ -293,7 +297,7 @@ class HomeScreen extends GetView<HomeController> {
             Obx(() => GroupList(
                 isDistrict: false,
                 counties: searchController.counties,
-                spots: controller.spots,
+                spots: controller.spots.where((s) => s.idCountry == countryId).toList(),
                 loading: (controller.loading() && controller.spots.isEmpty)
             )),
           ]
