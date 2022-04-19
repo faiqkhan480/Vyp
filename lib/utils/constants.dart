@@ -38,10 +38,10 @@ List<Map<String, dynamic>> loginMenu = [
 
 
 List<Map<String, dynamic>> itemMenu = [
-  {
-    "label" : "more_info",
-    "icon" : SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.darkGrey,),
-  },
+  // {
+  //   "label" : "more_info",
+  //   "icon" : SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.darkGrey,),
+  // },
   {
     "label" : "add_fav",
     "icon" : SvgPicture.asset("assets/images/svgs/mark.svg"),

@@ -45,38 +45,58 @@ class SpotCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Constants.imgUrl),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5),
-                BlendMode.colorBurn),
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Constants.imgUrl),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5),
+                    BlendMode.colorBurn),
+              ),
           ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      // height: 100,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          RichText(
-            text: TextSpan(
-                style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
-                children: List.generate(item!.category!.length, (index) => TextSpan(text: item!.category?.elementAt(index) ?? ""))
-            ),
-          ),
-          TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
-          // VerticalSpace(20),
-          Row(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          // height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg"), onTap: handleInfoClick,),
-              InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"), onTap:handleClick,),
+              RichText(
+                text: TextSpan(
+                    style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+                    children: List.generate(item!.category!.length, (index) => TextSpan(text: item!.category?.elementAt(index) ?? ""))
+                ),
+              ),
+              Spacer(),
+              TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
+              Spacer(),
+              Spacer(),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+
+        Positioned(
+          bottom: 0.0,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg"), onTap: handleInfoClick,),
+              // InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"), onTap:handleClick,),
+              IconButton(
+                onPressed: handleInfoClick,
+                icon: SvgPicture.asset("assets/images/svgs/info.svg"),
+              ),
+              IconButton(
+                onPressed: handleClick,
+                icon: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
