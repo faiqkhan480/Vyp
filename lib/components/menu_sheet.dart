@@ -5,6 +5,7 @@ import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/components/setting_sheet.dart';
 import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
+import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
@@ -79,7 +80,15 @@ class MenuSheet extends StatelessWidget {
                             // subtitle: Divider(thickness: 1, height: 1,),
                             dense: true,
                             // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
-                            onTap: () => Share.share("${snapshot.data!.shortDescription!}\n ${snapshot.data!.website}"),
+                            onTap: () {
+                              Share.share(
+                                  "${snapshot.data!.spotName!}\n"
+                                  "${Get.find<SearchController>().districts.firstWhere((d) => d.id == snapshot.data!.idDistrict).name}"
+                                  // "\\${Get.find<SearchController>().counties.firstWhere((c) => c.id == snapshot.data!.idCounty).name}\n"
+                                  "\\${Get.find<HomeController>().selectedCountry.value.countryName}\n"
+                                  "${snapshot.data!.shortDescription!}\n "
+                                  "${snapshot.data!.website}"
+                              );},
                           )
                         else
                           ListTile(
@@ -201,7 +210,7 @@ class MenuSheet extends StatelessWidget {
         openSettings();
         break;
       case "share":
-        Share.share('check out my website https://example.com');
+        Share.share('check out my website ${spot!.website}');
         break;
     }
   }
