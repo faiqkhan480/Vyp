@@ -112,15 +112,15 @@ class LoginForm extends StatelessWidget {
                   child: TextWidget(text: "connect_using", size: 1.9, align: TextAlign.center,),
                 ),
                 // SOCIAL LOGINS
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(child: Button("FaceBook", isFlat: true, color: AppColors.success, radius: 5, icon: SvgPicture.asset("assets/images/svgs/fb.svg", height: 18,), onPressed: () => null,)),
-                    HorizontalSpace(20),
-                    Expanded(child: Button("Google", isFlat: true, color: AppColors.danger, radius: 5, icon: SvgPicture.asset("assets/images/svgs/google.svg"), onPressed: () => null,)),
-                  ],
-                ),
-                VerticalSpace(30),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     Expanded(child: Button("FaceBook", isFlat: true, color: AppColors.success, radius: 5, icon: SvgPicture.asset("assets/images/svgs/fb.svg", height: 18,), onPressed: () => null,)),
+                //     HorizontalSpace(20),
+                //     Expanded(child: Button("Google", isFlat: true, color: AppColors.danger, radius: 5, icon: SvgPicture.asset("assets/images/svgs/google.svg"), onPressed: () => null,)),
+                //   ],
+                // ),
+                // VerticalSpace(30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

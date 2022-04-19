@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyv/components/dialog_component.dart';
 import 'package:vyv/models/folder_model.dart';
 import 'package:vyv/models/screen_model.dart';
 import 'package:vyv/models/spot_model.dart';
@@ -13,6 +14,8 @@ import 'package:vyv/screens/home/home_bindings.dart';
 import 'package:vyv/screens/info/info_binding.dart';
 import 'package:vyv/screens/info/info_screen.dart';
 
+import 'home_controller.dart';
+
 /// screens models list
 final screensData = <ScreenModel>[
   ScreenModel(name: 'red', colors: Colors.red, navKey: 1),
@@ -22,7 +25,7 @@ final screensData = <ScreenModel>[
 
 /// main controller
 class RootController extends GetxController {
-  static RootController get to => Get.find();
+  // static HomeController get to => Get.find<Home>();
 
   var currentIndex = 0.obs;
   var currentTab = 0.obs;
@@ -35,7 +38,11 @@ class RootController extends GetxController {
   }
 
   void changeTab(int index) {
-    currentTab.value = index;
+    if(index > 0 && Get.find<HomeController>().user?.id == null) {
+      Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
+    } else {
+      currentTab.value = index;
+    }
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
