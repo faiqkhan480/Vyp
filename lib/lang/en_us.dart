@@ -15,6 +15,7 @@ const Map<String, String> en_US = {
   "add_calender": "Add to calendar",
   "share": "Share",
   "logout": "Logout",
+  "log_out": "LOG OUT",
   // INFO MENU
   "free": "Free",
   "go_to_web": "Go to website",
