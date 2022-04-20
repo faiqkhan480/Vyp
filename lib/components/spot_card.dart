@@ -77,7 +77,7 @@ class SpotCard extends StatelessWidget {
                       text: item!.category?.elementAt(0) ?? "",
                       children: [
                         if(item!.category!.length > 1)
-                          TextSpan(text: " +" + (item!.category!.length - 1).toString() ?? "")
+                          TextSpan(text: " +" + (item!.category!.length - 1).toString())
                       ]
                   ),
                 ),
