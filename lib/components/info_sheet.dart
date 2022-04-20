@@ -24,32 +24,6 @@ class InfoSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // HEADER
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextWidget(text: item?.spotName ?? "", size: 2.2, color: AppColors.darkGrey,),
-                InkWell(child: SvgPicture.asset("assets/images/svgs/close_square.svg"), onTap: handleClose,)
-              ],
-            ),
-          ),
-          // WEB LINK ROW
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-            child: Row(
-              children: [
-                TextWidget(text: "free", size: 2.0, weight: FontWeight.w500,),
-                HorizontalSpace(8),
-                SvgPicture.asset("assets/images/svgs/success.svg"),
-                HorizontalSpace(8),
-                InkWell(onTap: handleClick, child: TextWidget(text: "go_to_web", size: 1.8, weight: FontWeight.w500,)),
-                HorizontalSpace(8),
-                InkWell(child: SvgPicture.asset("assets/images/svgs/global.svg"), onTap: () => null,)
-              ],
-            ),
-          ),
           // INFO CONTENT
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
@@ -57,16 +31,52 @@ class InfoSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Image.network(
-                    item?.imageStr ?? "",
+                  child: Image.asset(
+                    "assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg",
                     width: 80,
-                    height: SizeConfig.heightMultiplier * 14,
+                    height: SizeConfig.heightMultiplier * 20,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => SizedBox(height: SizeConfig.heightMultiplier * 14, width: 80, child: Image.asset("assets/images/svgs/no_img.png")),
                   ),
+                  // child: Image.network(
+                  //   item?.imageStr ?? "",
+                  //   width: 80,
+                  //   height: SizeConfig.heightMultiplier * 14,
+                  //   fit: BoxFit.cover,
+                  //   errorBuilder: (context, error, stackTrace) => SizedBox(height: SizeConfig.heightMultiplier * 14, width: 80, child: Image.asset("assets/images/svgs/no_img.png")),
+                  // ),
                 ),
                 HorizontalSpace(8),
-                Expanded(flex: 3,child: TextWidget(text: item?.shortDescription ?? "", size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,)),
+                Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextWidget(text: item?.spotName ?? "", size: 2.2, color: AppColors.darkGrey,),
+                            InkWell(
+                              onTap: handleClose,
+                              child: SvgPicture.asset("assets/images/svgs/close_square.svg"),
+                            )
+                          ],
+                        ),
+                        TextWidget(text: item?.shortDescription ?? "", size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,),
+                      ],
+                    )
+                ),
+              ],
+            ),
+          ),
+          // OPTIONS ROW
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => null,),
+                IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
+                IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: () => null,),
+                IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: () => null,),
               ],
             ),
           ),

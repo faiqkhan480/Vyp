@@ -4,7 +4,7 @@ import 'package:vyv/utils/app_colors.dart';
 
 class Constants {
   static final baseURL = 'vyvapi.azurewebsites.net';
-  static final appName = 'Vyv';
+  static final appName = 'IViv';
   static final imgUrl = 'assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg';
   static final appbarHeight = AppBar().preferredSize.height;
 }
