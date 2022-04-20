@@ -20,72 +20,86 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: [
-          Flexible(flex: 2, child: setPage()),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Flexible(flex: 2, child: setPage()),
 
-          Flexible(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Flexible(
+                flex: 2,
+                child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SvgPicture.asset("assets/images/svgs/mail.svg"),
-                    HorizontalSpace(20),
-                    TextWidget(
-                      text: _controller.user?.email ?? "",
-                      size: 2.5,
-                      align: TextAlign.center,
-                      weight: FontWeight.w300,
+                    VerticalSpace(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/images/svgs/mail.svg"),
+                        HorizontalSpace(20),
+                        TextWidget(
+                          text: _controller.user?.email ?? "",
+                          size: 2.5,
+                          align: TextAlign.center,
+                          weight: FontWeight.w300,
+                        ),
+                      ],
                     ),
+                    VerticalSpace(30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/images/svgs/mobile.svg"),
+                        HorizontalSpace(20),
+                        TextWidget(
+                          text: _controller.user?.email ?? "",
+                          size: 2.5,
+                          align: TextAlign.center,
+                          weight: FontWeight.w300,
+                        ),
+                      ],
+                    ),
+                    VerticalSpace(30),
+                    InkWell(
+                      onTap: () =>  Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true),
+                      child: TextWidget(
+                        text: "reset_password",
+                        size: 2.5,
+                        align: TextAlign.center,
+                        weight: FontWeight.w700,
+                      ),
+                    ),
+
+                    // Spacer(),
+
+                    // Spacer(),
                   ],
                 ),
-                VerticalSpace(30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/images/svgs/mobile.svg"),
-                    HorizontalSpace(20),
-                    TextWidget(
-                      text: _controller.user?.email ?? "",
-                      size: 2.5,
-                      align: TextAlign.center,
-                      weight: FontWeight.w300,
-                    ),
-                  ],
-                ),
-                VerticalSpace(30),
-                InkWell(
-                  onTap: () =>  Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true),
-                  child: TextWidget(
-                    text: "reset_password",
-                    size: 2.5,
-                    align: TextAlign.center,
-                    weight: FontWeight.w700,
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 150.0),
-                  child: Button(
-                    "log_out".tr,
-                    isFlat: true,
-                    color: AppColors.primaryColor,
-                    onPressed: _controller.handleLogout,
-                    loading: _controller.loading(),
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
+              ),
+            ],
           ),
+          Positioned(
+              bottom: 30,
+              left: 0,
+              right: 0,
+              child: logoutButton()
+          )
         ],
       ),
     );
   }
+
+  Widget logoutButton() => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 150.0),
+    child: Button(
+      "log_out".tr,
+      isFlat: true,
+      color: AppColors.primaryColor,
+      onPressed: _controller.handleLogout,
+      loading: _controller.loading(),
+    ),
+  );
 
   Widget setPage() {
     return Stack(
