@@ -50,6 +50,8 @@ class GroupList extends StatelessWidget {
     if(_items.isNotEmpty)
       if(_districtName != null)
         _districtName = "- $_districtName";
+    if(_items.isEmpty)
+      return SizedBox();
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

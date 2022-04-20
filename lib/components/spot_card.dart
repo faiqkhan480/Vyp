@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vyv/models/spot_model.dart';
@@ -62,12 +63,38 @@ class SpotCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RichText(
-                text: TextSpan(
-                    style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
-                    children: List.generate(item!.category!.length, (index) => TextSpan(text: item!.category?.elementAt(index) ?? ""))
+              GestureDetector(
+                onTapDown: (TapDownDetails details) async {
+                  await showMenu(
+                    context: context,
+                    position: RelativeRect.fromLTRB(details.globalPosition.dx, details.globalPosition.dy, details.globalPosition.dx, details.globalPosition.dy),
+                    items: List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
+                  );
+                },
+                child: RichText(
+                  text: TextSpan(
+                      style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+                      text: item!.category?.elementAt(0) ?? "",
+                      children: [
+                        if(item!.category!.length > 1)
+                          TextSpan(text: " +" + (item!.category!.length - 1).toString() ?? "")
+                      ]
+                  ),
                 ),
               ),
+              // PopupMenuButton(
+              //   child: RichText(
+              //     text: TextSpan(
+              //         style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+              //         text: item!.category?.elementAt(0) ?? "",
+              //         children: [
+              //           if(item!.category!.length > 1)
+              //             TextSpan(text: " +" + (item!.category!.length - 1).toString() ?? "")
+              //         ]
+              //     ),
+              //   ),
+              //     itemBuilder: (context) => List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
+              // ),
               Spacer(),
               TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
               Spacer(),
