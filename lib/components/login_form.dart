@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:vyv/controllers/auth_controller.dart';
 
 import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/constants.dart';
+import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
@@ -50,11 +52,44 @@ class LoginForm extends StatelessWidget {
                 ),
 
               if(!controller.isForgot())...[
-                SvgPicture.asset("assets/images/svgs/img.svg"),
-                VerticalSpace(10),
-                TextWidget(text: "welcome_back", color: AppColors.primaryColor, size: 2.8, weight: FontWeight.w600, align: TextAlign.center,),
+                Align(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppColors.lightGrey,
+                            blurRadius: 3.0,
+                            offset: Offset(2.0, 5.0)
+                          ),
+                        ]
+                    ),
+                    alignment: Alignment.center,
+                    height: 70,
+                    width: 150,
+                    child:  TextWidget(
+                      text: Constants.appName,
+                      color: AppColors.primaryColor,
+                      size: 5,
+                      align: TextAlign.center,
+                      family: 'GemunuLibre',
+                    ),
+                  ),
+                ),
+                VerticalSpace(20),
+                TextWidget(text: "welcome_back", color: AppColors.primaryColor, size: 2.8, weight: FontWeight.w700, align: TextAlign.center,),
 
-                TextWidget(text: "login_text", size: 1.8, align: TextAlign.center,),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      style: TextStyle(color: AppColors.black, fontSize: SizeConfig.textMultiplier * 1.8),
+                      text: "login_text".tr,
+                      children: [
+                          TextSpan(text: Constants.appName, style: TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.w700))
+                      ]
+                  ),
+                ),
                 VerticalSpace(40),
               ],
               // EMAIL FIELD
@@ -103,14 +138,21 @@ class LoginForm extends StatelessWidget {
               // LOGIN BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Button(!controller.isForgot() ? "login_upper" : "submit", isFlat: true, color: AppColors.primaryColor, onPressed: controller.handleLogin, loading: controller.loading()),
+                child: Button(
+                    !controller.isForgot() ? "login_upper" : "submit",
+                    isFlat: true,
+                    color: AppColors.primaryColor,
+                    onPressed: controller.handleLogin,
+                    loading: controller.loading(),
+                    radius: 10,
+                ),
               ),
 
               if(!controller.isForgot())...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: TextWidget(text: "connect_using", size: 1.9, align: TextAlign.center,),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                //   child: TextWidget(text: "connect_using", size: 1.9, align: TextAlign.center,),
+                // ),
                 // SOCIAL LOGINS
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -120,7 +162,7 @@ class LoginForm extends StatelessWidget {
                 //     Expanded(child: Button("Google", isFlat: true, color: AppColors.danger, radius: 5, icon: SvgPicture.asset("assets/images/svgs/google.svg"), onPressed: () => null,)),
                 //   ],
                 // ),
-                // VerticalSpace(30),
+                VerticalSpace(30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

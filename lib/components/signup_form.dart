@@ -51,15 +51,18 @@ class SignupForm extends StatelessWidget {
             // mainAxisSize: MainAxisSize.min,
             children: [
               // BACK BUTTON
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
+              Row(
+                children: [
+                  IconButton(
                       onPressed: () => controller.handleChange(true),
                       icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg", color: AppColors.primaryColor,)
-                  )
+                  ),
+                  Spacer(),
+                  TextWidget(text: "let_get_started", color: AppColors.primaryColor, size: 2.8, weight: FontWeight.w700, align: TextAlign.center,),
+                  Spacer(),
+                  Spacer(),
+                ],
               ),
-
-              TextWidget(text: "let_get_started", color: AppColors.primaryColor, size: 2.8, weight: FontWeight.w600, align: TextAlign.center,),
               TextWidget(text: "signup_text", size: 1.8, align: TextAlign.center,),
               // FIRST/LAST NAME
               Padding(

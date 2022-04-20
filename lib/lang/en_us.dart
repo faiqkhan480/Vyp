@@ -28,7 +28,7 @@ const Map<String, String> en_US = {
 
   // LOGIN/REGISTER DIALOG
   "welcome_back": "Welcome back!",
-  "login_text": "Log in to your existent account of App",
+  "login_text": "Log in to your existent account of ",
   "email": "Email",
   "password": "Password",
   "forgot": "Forgot?",
@@ -39,7 +39,7 @@ const Map<String, String> en_US = {
   "sign_up": "Sign up",
   "sign_in": "Sign In",
   "let_get_started": "Let’s get started!",
-  "signup_text": "Create an account to App to get all features",
+  "signup_text": "Create an account to IViv to get all features",
   "first_name": "FirstName",
   "last_name": "LastName",
   "phone": "Phone",
