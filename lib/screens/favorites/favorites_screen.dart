@@ -79,7 +79,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
               alignment: Alignment.center,
               children: [
                 GridView.builder(
-                  shrinkWrap: true,
+                  // shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
                   // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),

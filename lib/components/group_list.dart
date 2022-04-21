@@ -49,7 +49,7 @@ class GroupList extends StatelessWidget {
     List _items = spots!.where((element) => handleType(element, index)).toList();
     if(_items.isNotEmpty)
       if(_districtName != null)
-        _districtName = "- $_districtName";
+        _districtName = " - $_districtName";
     if(_items.isEmpty)
       return SizedBox();
       return Column(
