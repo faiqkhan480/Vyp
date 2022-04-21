@@ -52,25 +52,25 @@ class SearchBottomSheet extends GetView<SearchController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextWidget(
-                          // text: Get.find<HomeController>().selectedCountry.value.countryName,
-                          text: "select_all",
+                          text: Get.find<HomeController>().selectedCountry.value.countryName,
+                          // text: "select_all",
                           size: 2.2,
                         ),
-                        Obx(() {
-                          var _length = isCategory ? controller.categories.length : controller.districts.length;
-                          var _items = isCategory ? controller.categories : controller.districts;
-                          var _childItems = isCategory ? controller.subCategories : controller.counties;
-                          var _selected = controller.selectedDistricts.where((e) => isCategory ? e.runtimeType == Category : e.runtimeType == District).toList();
-                          return CustomCheckBox(
-                            isSelected: controller.selectedDistricts.length == _length,
-                            action: () => controller.handleByCountry(isCategory),
-                            icon: (controller.selectedDistricts.isNotEmpty &&
-                                (controller.selectedDistricts.length != _length || controller.selectedDistricts.every((element) =>
-                                element.children!.length != (isCategory ? controller.subCategories.where((c) => c.categoryId == element.parent!.id).toList().length : controller.counties.where((c) => c.districtId == element.parent!.id).toList().length)
-                                ))) ?
-                            CupertinoIcons.minus :  Icons.check,
-                          );
-                        }),
+                        // Obx(() {
+                        //   var _length = isCategory ? controller.categories.length : controller.districts.length;
+                        //   var _items = isCategory ? controller.categories : controller.districts;
+                        //   var _childItems = isCategory ? controller.subCategories : controller.counties;
+                        //   var _selected = controller.selectedDistricts.where((e) => isCategory ? e.runtimeType == Category : e.runtimeType == District).toList();
+                        //   return CustomCheckBox(
+                        //     isSelected: controller.selectedDistricts.length == _length,
+                        //     action: () => controller.handleByCountry(isCategory),
+                        //     icon: (controller.selectedDistricts.isNotEmpty &&
+                        //         (controller.selectedDistricts.length != _length || controller.selectedDistricts.every((element) =>
+                        //         element.children!.length != (isCategory ? controller.subCategories.where((c) => c.categoryId == element.parent!.id).toList().length : controller.counties.where((c) => c.districtId == element.parent!.id).toList().length)
+                        //         ))) ?
+                        //     CupertinoIcons.minus :  Icons.check,
+                        //   );
+                        // }),
                       ],
                     ),
                   ),
@@ -96,8 +96,11 @@ class SearchBottomSheet extends GetView<SearchController> {
           title: TextWidget(text: _parent.name, size: 2.0,),
           trailing: CustomCheckBox(
             isSelected: _value,
-            action: () => isCategory ? controller.handleByCategory(!_value, _parent, _children as List<SubCategory>) : controller.handleByDistrict(!_value, _parent, _children, isCategory),
-            icon:
+            action: () => isCategory ?
+            controller.handleByCategory(!_value, _parent, _children as List<SubCategory>) :
+            controller.handleByDistrict(!_value, _parent, _children, isCategory),
+            icon: _children.isEmpty ?
+                null :
             (_value && (isCategory ? controller.selectedCategories.firstWhere((e) => e.parent!.id == _parent.id) : controller.selectedDistricts.firstWhere((e) => e.parent!.id == _parent.id)).children!.length != _children.length) ?
             CupertinoIcons.minus :
             Icons.check,
@@ -128,12 +131,12 @@ class SearchBottomSheet extends GetView<SearchController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if(childIndex == 0)
-          CheckboxListTile(
-            title: TextWidget(text: "select_all", size: 1.8,),
-            value: (_selected?.children?.length ?? 0) == _childItems.length,
-            onChanged: (value) => isCategory ? controller.handleAllSubCategorySelection(value ?? true, _parentItem) : controller.handleAllCountySelection(value ?? true, _parentItem, isCategory),
-          ),
+        // if(childIndex == 0)
+        //   CheckboxListTile(
+        //     title: TextWidget(text: "select_all", size: 1.8,),
+        //     value: (_selected?.children?.length ?? 0) == _childItems.length,
+        //     onChanged: (value) => isCategory ? controller.handleAllSubCategorySelection(value ?? true, _parentItem) : controller.handleAllCountySelection(value ?? true, _parentItem, isCategory),
+        //   ),
 
         CheckboxListTile(
           title: TextWidget(text: _childItems.elementAt(childIndex).name, size: 1.8,),

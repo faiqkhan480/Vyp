@@ -4,9 +4,9 @@ import 'package:vyv/utils/app_colors.dart';
 class CustomCheckBox extends StatelessWidget {
   final VoidCallback action;
   final bool isSelected;
-  final IconData icon;
+  final IconData? icon;
   final bool isShow;
-  const CustomCheckBox({Key? key, required this.action, required this.isSelected, required this.icon, this.isShow = true}) : super(key: key);
+  const CustomCheckBox({Key? key, required this.action, required this.isSelected, this.icon, this.isShow = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CustomCheckBox extends StatelessWidget {
         ),
         height: 25,
         width: 25,
-        child: isSelected && isShow ? Icon(icon, color: AppColors.white,) : null,
+        child: isSelected && isShow && icon != null ? Icon(icon, color: AppColors.white,) : null,
       ),
     );
   }

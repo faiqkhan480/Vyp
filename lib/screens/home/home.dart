@@ -90,8 +90,10 @@ class HomeScreen extends GetView<HomeController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if(controller.placeMarks.isNotEmpty)
-                        SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,),
+                      // if(controller.placeMarks.isNotEmpty)
+                        InkWell(
+                          onTap: controller.handleLocation,
+                            child: SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,)),
                       HorizontalSpace(8),
                       TextWidget(
                         text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea} ${controller.placeMarks.first.country}" : "",
