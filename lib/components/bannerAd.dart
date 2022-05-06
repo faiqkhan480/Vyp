@@ -6,12 +6,9 @@ import 'package:vyv/utils/size_config.dart';
 class BanneAd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: SizeConfig.heightMultiplier * 6,
-      child: AdWidget(
-        key: UniqueKey(),
-        ad: AdMobService.createBannerAd()..load(),
-      ),
+    return AdWidget(
+      key: UniqueKey(),
+      ad: AdMobService.createBannerAd()..load(),
     );
   }
 }

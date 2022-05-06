@@ -6,6 +6,7 @@ import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/utils/app_colors.dart';
 
+import 'bannerAd.dart';
 import 'spot_card.dart';
 
 class HorizontalList extends StatefulWidget {
@@ -31,6 +32,13 @@ class _HorizontalListState extends State<HorizontalList> {
         // // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
         height: widget.spots!.length < 3 ? 160 : 300,
         child: Obx(() {
+          List _data = [];
+          for(var i = 0; i < widget.spots!.length; i++) {
+            if (i != 0 && i % 5 == 0)
+              _data.add(Spot(spotName: "ad"));
+            // else
+              _data.add(widget.spots!.elementAt(i));
+          }
           return Stack(
             children: [
               LazyLoadScrollView(
@@ -49,16 +57,18 @@ class _HorizontalListState extends State<HorizontalList> {
                 isLoading: Get.find<HomeController>().loading(),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: widget.spots!.length < 3 ? 1 : 2,
+                    // crossAxisCount: widget.spots!.length < 3 ? 1 : 2,
+                    crossAxisCount: _data.length < 3 ? 1 : 2,
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 6,
                     mainAxisSpacing: 6,
                   ),
-                  itemCount: widget.spots?.length ?? 0,
+                  itemCount: _data.length ?? 0,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
+                  itemBuilder: (context, index) => (_data.elementAt(index).spotName == "ad") ? Container(child: BanneAd()) : SpotCard(index: index, item: _data.elementAt(index)),
+                  // itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
                   // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
                 ),
               ),
