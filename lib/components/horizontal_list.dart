@@ -63,7 +63,7 @@ class _HorizontalListState extends State<HorizontalList> {
                     crossAxisSpacing: 6,
                     mainAxisSpacing: 6,
                   ),
-                  itemCount: _data.length ?? 0,
+                  itemCount: _data.length,
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,

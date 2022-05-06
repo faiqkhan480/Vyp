@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vyv/controllers/favorite_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/spot_model.dart';
@@ -11,6 +12,9 @@ import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
+
+import 'add_favorite_dialog.dart';
+import 'dialog_component.dart';
 
 class InfoSheet extends StatelessWidget {
   final Spot? item;
@@ -103,7 +107,7 @@ class InfoSheet extends StatelessWidget {
                     children: [
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => handleShare(snapshot.data!),),
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: () => null,),
+                      IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: handleFavorites),
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: () => null,),
                     ],
                   ),
@@ -125,7 +129,7 @@ class InfoSheet extends StatelessWidget {
     );
   }
 
-  handleShare(Spot spotData) {
+  void handleShare(Spot spotData) {
     Share.share(
         "${spotData.spotName!}\n"
             "${Get.find<SearchController>().districts.firstWhere((d) => d.id == spotData.idDistrict).name}"
@@ -139,11 +143,20 @@ class InfoSheet extends StatelessWidget {
     if (!await launch("https://" + (item?.website ?? ""))) Get.rawSnackbar(title: 'Could not launch ${item?.website}');
   }
 
-  handleClose() =>  Get.back();
+  void handleClose() =>  Get.back();
 
-  handleNavigate() {
+  void handleNavigate() {
     Get.back(closeOverlays: true);
     Get.toNamed(AppRoutes.INFO, arguments: item, id: 1);
     // Get.toNamed(AppRoutes.INFO, arguments: item);
+  }
+
+  void handleFavorites() async {
+    Get.back(closeOverlays: true);
+    if(Get.find<HomeController>().user?.id != null)
+      Get.dialog(AddFavorite(controller: Get.put<FavoriteController>(FavoriteController(isFetching: false)), spot: item,), barrierDismissible: true, useSafeArea: true)
+          .then((value) => Get.delete<FavoriteController>());
+    else
+      Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
   }
 }

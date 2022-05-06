@@ -64,6 +64,7 @@ class HomeController extends GetxController {
     countries.assignAll(countryFromMap(box.read("countries")));
   }
 
+  // GET CURRENT LOCATION
   Future _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vyv/components/horizontal_list.dart';
 import 'package:vyv/components/group_list.dart';
-import 'package:vyv/components/spot_card.dart';
 import 'package:vyv/components/map_box.dart';
 import 'package:vyv/components/menu_sheet.dart';
 import 'package:vyv/components/search_sheet.dart';
@@ -20,13 +18,12 @@ import 'package:vyv/utils/app_colors.dart';
 
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
-import 'package:vyv/widgets/input_field.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
-  List<String> tabs = ["Portugal", "districts", "counties"];
+  final List<String> tabs = ["Portugal", "districts", "counties"];
 
   handleClick() {
     Get.bottomSheet(
@@ -54,6 +51,7 @@ class HomeScreen extends GetView<HomeController> {
       enableDrag: false,
       isScrollControlled: true,
       persistent: true,
+      ignoreSafeArea: false
     ).then((value) {
       // Get.find<SearchController>().selectedDistricts.clear();
       // Get.find<SearchController>().selectedItems.clear();
@@ -63,55 +61,57 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.secondaryColor,
-        elevation: 0,
-        title: TextWidget(
-          text: Constants.appName,
-          color: AppColors.primaryColor,
-          size: 5,
-          align: TextAlign.center,
-          family: 'GemunuLibre',
-        ),
-        actions: [IconButton(onPressed: handleClick, icon: Icon(Icons.menu, color: Colors.black,))],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.secondaryColor,
+          elevation: 0,
+          title: TextWidget(
+            text: Constants.appName,
+            color: AppColors.primaryColor,
+            size: 5,
+            align: TextAlign.center,
+            family: 'GemunuLibre',
+          ),
+          actions: [IconButton(onPressed: handleClick, icon: Icon(Icons.menu, color: Colors.black,))],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
+          flexibleSpace: PreferredSize(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Obx(() => InkWell(
+                onTap: controller.handleLocation,
+                child: Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // if(controller.placeMarks.isNotEmpty)
+                          InkWell(
+                            onTap: controller.handleLocation,
+                              child: SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,)),
+                        HorizontalSpace(8),
+                        TextWidget(
+                          text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea} ${controller.placeMarks.first.country}" : "",
+                          // color: AppColors.primaryColor,
+                          size: 1.8,
+                          // align: TextAlign.center,
+                        ),
+                      ],
+                    )
+                ),
+              )),
+            ),
+            preferredSize: Size(double.infinity, 18),
           ),
         ),
-        flexibleSpace: PreferredSize(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Obx(() => InkWell(
-              onTap: controller.handleLocation,
-              child: Container(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // if(controller.placeMarks.isNotEmpty)
-                        InkWell(
-                          onTap: controller.handleLocation,
-                            child: SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,)),
-                      HorizontalSpace(8),
-                      TextWidget(
-                        text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea} ${controller.placeMarks.first.country}" : "",
-                        // color: AppColors.primaryColor,
-                        size: 1.8,
-                        // align: TextAlign.center,
-                      ),
-                    ],
-                  )
-              ),
-            )),
-          ),
-          preferredSize: Size(double.infinity, 18),
-        ),
+        body: Obx(body),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Obx(mapButton),
       ),
-      body: Obx(body),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Obx(mapButton),
     );
   }
 

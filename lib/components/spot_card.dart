@@ -48,81 +48,84 @@ class SpotCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(Constants.imgUrl),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5),
-                    BlendMode.colorBurn),
-              ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          // height: 100,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTapDown: (TapDownDetails details) async {
-                  await showMenu(
-                    context: context,
-                    position: RelativeRect.fromLTRB(details.globalPosition.dx, details.globalPosition.dy, details.globalPosition.dx, details.globalPosition.dy),
-                    items: List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
-                  );
-                },
-                child: RichText(
-                  text: TextSpan(
-                      style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
-                      text: item!.category?.elementAt(0) ?? "",
-                      children: [
-                        if(item!.category!.length > 1)
-                          TextSpan(text: " +" + (item!.category!.length - 1).toString())
-                      ]
+        InkWell(
+          onTap: handleInfoClick,
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Constants.imgUrl),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5),
+                      BlendMode.colorBurn),
+                ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            // height: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTapDown: (TapDownDetails details) async {
+                    await showMenu(
+                      context: context,
+                      position: RelativeRect.fromLTRB(details.globalPosition.dx, details.globalPosition.dy, details.globalPosition.dx, details.globalPosition.dy),
+                      items: List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
+                    );
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+                        text: item!.category?.elementAt(0) ?? "",
+                        children: [
+                          if(item!.category!.length > 1)
+                            TextSpan(text: " +" + (item!.category!.length - 1).toString())
+                        ]
+                    ),
                   ),
                 ),
-              ),
-              // PopupMenuButton(
-              //   child: RichText(
-              //     text: TextSpan(
-              //         style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
-              //         text: item!.category?.elementAt(0) ?? "",
-              //         children: [
-              //           if(item!.category!.length > 1)
-              //             TextSpan(text: " +" + (item!.category!.length - 1).toString() ?? "")
-              //         ]
-              //     ),
-              //   ),
-              //     itemBuilder: (context) => List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
-              // ),
-              Spacer(),
-              TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
-              Spacer(),
-              Spacer(),
-            ],
+                // PopupMenuButton(
+                //   child: RichText(
+                //     text: TextSpan(
+                //         style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: SizeConfig.textMultiplier * 1.8 ),
+                //         text: item!.category?.elementAt(0) ?? "",
+                //         children: [
+                //           if(item!.category!.length > 1)
+                //             TextSpan(text: " +" + (item!.category!.length - 1).toString() ?? "")
+                //         ]
+                //     ),
+                //   ),
+                //     itemBuilder: (context) => List.generate(item!.category!.length, (index) => PopupMenuItem(child: Text(item!.category?.elementAt(index)))),
+                // ),
+                Spacer(),
+                TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
+                Spacer(),
+                Spacer(),
+              ],
+            ),
           ),
         ),
 
-        Positioned(
-          bottom: 0.0,
-          left: 0,
-          right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg"), onTap: handleInfoClick,),
-              // InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"), onTap:handleClick,),
-              IconButton(
-                onPressed: handleInfoClick,
-                icon: SvgPicture.asset("assets/images/svgs/info.svg"),
-              ),
-              IconButton(
-                onPressed: handleClick,
-                icon: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"),
-              ),
-            ],
-          ),
-        )
+        // Positioned(
+        //   bottom: 0.0,
+        //   left: 0,
+        //   right: 0,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        //       // InkWell(child: SvgPicture.asset("assets/images/svgs/info.svg"), onTap: handleInfoClick,),
+        //       // InkWell(child: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"), onTap:handleClick,),
+        //       IconButton(
+        //         onPressed: handleInfoClick,
+        //         icon: SvgPicture.asset("assets/images/svgs/info.svg"),
+        //       ),
+        //       IconButton(
+        //         onPressed: handleClick,
+        //         icon: SvgPicture.asset("assets/images/svgs/vertical_circles.svg"),
+        //       ),
+        //     ],
+        //   ),
+        // )
       ],
     );
   }

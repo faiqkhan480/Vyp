@@ -10,22 +10,26 @@ String folderToMap(List<Folder> data) => json.encode(List<dynamic>.from(data.map
 
 class Folder {
   Folder({
+    this.id,
     this.folderId,
     this.folderName,
     this.favorites,
   });
 
+  int? id;
   int? folderId;
   String? folderName;
   List<Favorite>? favorites;
 
   factory Folder.fromMap(Map<String, dynamic> json) => Folder(
+    id: json["id"] == null ? null : json["id"],
     folderId: json["folderId"] == null ? null : json["folderId"],
     folderName: json["folderName"] == null ? null : json["folderName"],
     favorites: json["favorites"] == null ? [] : List<Favorite>.from(json["favorites"].map((x) => Favorite.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
+    "id": id == null ? null : id,
     "folderId": folderId == null ? null : folderId,
     "folderName": folderName == null ? null : folderName,
     "favorites": favorites == null ? [] : List<dynamic>.from(favorites!.map((x) => x.toMap())),

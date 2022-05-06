@@ -232,6 +232,7 @@ class AppService {
 
   // ADD TO FAVORITE
   static addFavorite({required num? idSpot, required num? idFolder, required num? idUser, required String? favoriteName, required String? imageStr}) async {
+    print(idFolder);
     try{
       var res = await Network.post(url: "${Api.addFavorite}$idSpot/$idFolder/$idUser/$favoriteName/${imageStr!.isEmpty ? " " : imageStr}");
       print(res);
@@ -257,6 +258,7 @@ class AppService {
   static createFolder({String? name, num? userId}) async {
     try{
       var res = await Network.post(url: "${Api.createFolder}$name/$userId");
+      print(res);
       if(res != null) {
         var _folder = json.decode(res);
         if(_folder['statusCode'] == 200) {

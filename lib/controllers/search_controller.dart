@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vyv/models/category_model.dart';
 import 'package:vyv/models/country_model.dart';
@@ -5,7 +6,6 @@ import 'package:vyv/models/county_model.dart';
 import 'package:vyv/models/district_model.dart';
 import 'package:vyv/models/search_model.dart';
 import 'package:vyv/models/sub_category_model.dart';
-import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/service/services.dart';
 
 import 'home_controller.dart';
@@ -20,10 +20,12 @@ class SearchController extends GetxController {
   RxBool fetchingSubCategories = false.obs;
   RxBool check = false.obs;
   Rx<Country> selectedCountry = Country().obs;
+  // MAIN DATA VARIABLES
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
   List<Category> categories = List<Category>.empty(growable: true).obs;
   List<SubCategory> subCategories = List<SubCategory>.empty(growable: true).obs;
+
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
   RxList<SelectedDistrict> selectedDistricts = List<SelectedDistrict>.empty().obs;
   RxList<SelectedDistrict> selectedCategories = List<SelectedDistrict>.empty().obs;
@@ -32,6 +34,15 @@ class SearchController extends GetxController {
   List<Category> categoryParents = List<Category>.empty(growable: true).obs;
   List<County> selectedChildren = List<County>.empty(growable: true).obs;
   List<SubCategory> categoryChildren = List<SubCategory>.empty(growable: true).obs;
+
+  // DUPLICATE VARIABLE FOR USE IN SEARCHING
+  List<District> searchDistricts = List<District>.empty(growable: true).obs;
+  List<County> searchCounties = List<County>.empty(growable: true).obs;
+  List<Category> searchCategories = List<Category>.empty(growable: true).obs;
+  List<SubCategory> searchSubCategories = List<SubCategory>.empty(growable: true).obs;
+
+  TextEditingController countrySearch = TextEditingController();
+  TextEditingController categorySearch = TextEditingController();
 
   @override
   void onInit() {
@@ -48,6 +59,7 @@ class SearchController extends GetxController {
       var res = await AppService.getDistricts(homeController.selectedCountry.value.id!);
       if(res != null) {
         districts.assignAll(res);
+        searchDistricts.assignAll(res);
         fetchingDistrict.value = false;
         // Get.offNamed(AppRoutes.ROOT);
       }
@@ -66,6 +78,7 @@ class SearchController extends GetxController {
       var res = await AppService.getCounties(homeController.selectedCountry.value.id!);
       if(res != null) {
         counties.assignAll(res);
+        searchCounties.assignAll(res);
         fetchingCounties.value = false;
         setData();
         // Get.offNamed(AppRoutes.ROOT);
@@ -87,6 +100,7 @@ class SearchController extends GetxController {
       var res = await AppService.getCategories();
       if(res != null) {
         categories.assignAll(res);
+        searchCategories.assignAll(res);
         fetchingCategories.value = false;
         setData();
         // Get.offNamed(AppRoutes.ROOT);
@@ -107,6 +121,7 @@ class SearchController extends GetxController {
       var res = await AppService.getSubCategories();
       if(res != null) {
         subCategories.assignAll(res);
+        searchSubCategories.assignAll(res);
         fetchingSubCategories.value = false;
         setData();
         // Get.offNamed(AppRoutes.ROOT);
@@ -132,19 +147,38 @@ class SearchController extends GetxController {
     });
   }
 
-  void handleByCountry(isCategory) {
-    if(selectedDistricts.isEmpty) {
-      (isCategory ? categories : districts).forEach((dynamic d) {
-        selectedDistricts.add(
-            SelectedDistrict(
-                parent: d,
-                children: isCategory ? subCategories.where((sub) => sub.id == d.id).toList() : counties.where((c) => c.districtId == d.id).toList()
-            )
-        );
+  void handleByCountry(val) {
+    if(!val) {
+      districts.forEach((District _parent) {
+        selectedDistricts.add(SelectedDistrict(parent: _parent, children: counties.where((element) => element.districtId == _parent.id).toList()));
+        selectedParents.add(_parent);
+        selectedChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
       });
+      selectedItems.assignAll(districts);
     }
     else {
       selectedDistricts.clear();
+      selectedItems.clear();
+      selectedParents.clear();
+      selectedChildren.clear();
+    }
+  }
+
+  void handleAllCategorySelection(val) {
+    if(!val) {
+      categories.forEach((Category _parent) {
+        selectedCategories.add(SelectedDistrict(parent: _parent, children: subCategories.where((element) => element.categoryId == _parent.id).toList()));
+        // selectedItems.add(_parent);
+        categoryParents.add(_parent);
+        categoryChildren.assignAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
+      });
+      selectedItems.assignAll(categories);
+    }
+    else {
+      selectedCategories.clear();
+      selectedItems.clear();
+      categoryParents.clear();
+      categoryChildren.clear();
     }
   }
 
@@ -328,5 +362,26 @@ class SearchController extends GetxController {
       element.id == item.id :
       element.categoryId == item.id);
     }
+  }
+
+  void handleSearchChange(String val, bool _isCategory) {
+    if(val.isNotEmpty) {
+      if (_isCategory) {
+        searchCategories.assignAll(searchCategories.where((element) => element.name!.contains(val)).toList());
+      }
+      else {
+        searchDistricts.assignAll(searchDistricts.where((element) => element.name!.contains(val)).toList());
+      }
+    }
+    else {
+      if (_isCategory) {
+        searchCategories.assignAll(categories);
+      }
+      else {
+        searchDistricts.assignAll(districts);
+      }
+    }
+    update();
+    // searchDistricts.refresh();
   }
 }

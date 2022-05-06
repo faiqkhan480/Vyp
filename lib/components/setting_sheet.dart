@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyv/components/reset_pass.dart';
@@ -5,6 +7,7 @@ import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/country_model.dart';
 import 'package:vyv/models/county_model.dart';
 import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/text_component.dart';
 
 import 'dialog_component.dart';
@@ -35,14 +38,19 @@ class SettingsSheet extends StatelessWidget {
                 onChanged: (Country? value) => controller.setCountry(value!),
                 items: List.generate(controller.countries.length, (index) => DropdownMenuItem<Country>(
                   value: controller.countries.elementAt(index),
-                  child: Text(controller.countries.elementAt(index).countryName.toString()),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.memory(
+                          base64Decode(controller.countries.elementAt(index).imageStr!),
+                          height: SizeConfig.heightMultiplier * 3,
+                        ),
+                      ),
+                      Text(controller.countries.elementAt(index).countryName.toString()),
+                    ],
+                  ),
                 )),
-                // items: _controller.countries.map<DropdownMenuItem>((c) {
-                //   return DropdownMenuItem(
-                //     value: c,
-                //     child: Text(c.countryName ?? ""),
-                //   );
-                // }).toList(),
               ),
               dense: true,
               onTap: () => null,
