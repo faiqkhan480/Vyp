@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:vyv/routes/app_pages.dart';
 import 'package:vyv/routes/app_routes.dart';
 
@@ -12,6 +13,9 @@ import 'utils/size_config.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
   await GetStorage.init();
   // final translationProvider = TranslationProvider();
 
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         builder: (context, orientation) {
           SizeConfig().init(constraints, orientation); // SET APP CONSTRAINTS
           return GetMaterialApp(
-            title: 'Vyv',
+            title: 'IViv',
             translations: AppTranslations(),
             locale: AppTranslations.locale,
             fallbackLocale: AppTranslations.fallbackLocale,
