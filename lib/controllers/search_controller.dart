@@ -18,6 +18,8 @@ class SearchController extends GetxController {
   RxBool fetchingCounties = false.obs;
   RxBool fetchingCategories = false.obs;
   RxBool fetchingSubCategories = false.obs;
+  RxBool allCategories = false.obs;
+  RxBool allDistricts = false.obs;
   RxBool check = false.obs;
   Rx<Country> selectedCountry = Country().obs;
   // MAIN DATA VARIABLES
@@ -155,12 +157,14 @@ class SearchController extends GetxController {
         selectedChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
       });
       selectedItems.assignAll(districts);
+      allDistricts.value = true;
     }
     else {
       selectedDistricts.clear();
       selectedItems.clear();
       selectedParents.clear();
       selectedChildren.clear();
+      allDistricts.value = false;
     }
   }
 
@@ -173,12 +177,14 @@ class SearchController extends GetxController {
         categoryChildren.assignAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
       });
       selectedItems.assignAll(categories);
+      allCategories.value = true;
     }
     else {
       selectedCategories.clear();
       selectedItems.clear();
       categoryParents.clear();
       categoryChildren.clear();
+      allCategories.value = false;
     }
   }
 

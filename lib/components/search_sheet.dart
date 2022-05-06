@@ -206,6 +206,7 @@ class SearchBottomSheet extends GetView<SearchController> {
   }
 
   Widget searchBox() {
+    bool allSelection = isCategory ? controller.allCategories() : controller.allDistricts();
     List _items = controller.selectedItems.where((e) =>
     isCategory
         ? (e is Category || e is SubCategory)
@@ -213,6 +214,48 @@ class SearchBottomSheet extends GetView<SearchController> {
     return Container(
         child: Wrap(
             children: [
+              if(allSelection)
+                IntrinsicWidth(
+                    child: Container(
+                      height: 60,
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () => isCategory ?
+                            controller.handleAllCategorySelection(true) :
+                            controller.handleByCountry(true),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceEvenly,
+                                    children: [
+                                      Text(Get.find<HomeController>().selectedCountry.value.countryName ?? "",
+                                        style: TextStyle(color: Colors.white,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(width: 5.0,),
+                                      Icon(
+                                        Icons.cancel,
+                                        color: Colors.white,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ),
+                    )
+                )
+              else
               ...List.generate(_items.length, (index) =>
                   IntrinsicWidth(
                       child: Container(
