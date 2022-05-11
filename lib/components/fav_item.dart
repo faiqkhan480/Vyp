@@ -70,7 +70,7 @@ class FavoriteItem extends StatelessWidget {
                   onTap: () {
                     if(i == 0) {
                       Get.back(closeOverlays: true);
-                      Get.toNamed(AppRoutes.INFO, arguments: new Spot(id: item!.idSpot), id: 1);
+                      Get.toNamed(AppRoutes.INFO, arguments: new Spot(id: item!.id), id: 1);
                     } else
                       Get.find<FavoriteController>().deleteFav(item!, folderId, index);
                   }
