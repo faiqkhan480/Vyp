@@ -352,12 +352,14 @@ class HomeController extends GetxController {
     // });
   }
 
-  void handleLogout() {
+  void handleLogout(isBack) {
     box.remove("user");
     // _user.close();
     user = User();
     _user.refresh();
     Get.back(closeOverlays: true);
+    if(isBack)
+      Get.back();
     Get.rawSnackbar(message: "Successfully logout!", backgroundColor: AppColors.success);
   }
 

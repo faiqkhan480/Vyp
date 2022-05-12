@@ -113,7 +113,7 @@ class MenuSheet extends StatelessWidget {
 
                 if(isLogin)
                   TextButton(
-                    onPressed: Get.find<HomeController>().handleLogout,
+                    onPressed: () => Get.find<HomeController>().handleLogout(false),
                     child: Text("logout".tr),
                     style: TextButton.styleFrom(
                       primary: AppColors.skyBlue,
@@ -167,7 +167,7 @@ class MenuSheet extends StatelessWidget {
 
             if(isLogin)
               TextButton(
-                onPressed: Get.find<HomeController>().handleLogout,
+                onPressed: () => Get.find<HomeController>().handleLogout(false),
                 child: Text("logout".tr),
                 style: TextButton.styleFrom(
                   primary: AppColors.skyBlue,

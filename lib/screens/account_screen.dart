@@ -25,60 +25,116 @@ class AccountScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Flexible(flex: 2, child: setPage()),
+              Flexible(flex: 3, child: setPage()),
 
-              Flexible(
-                flex: 2,
-                child: ListView(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    VerticalSpace(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/images/svgs/mail.svg"),
-                        HorizontalSpace(20),
-                        TextWidget(
-                          text: _controller.user?.email ?? "",
-                          size: 2.5,
-                          align: TextAlign.center,
-                          weight: FontWeight.w300,
-                        ),
-                      ],
-                    ),
-                    VerticalSpace(30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/images/svgs/mobile.svg"),
-                        HorizontalSpace(20),
-                        TextWidget(
-                          text: _controller.user?.email ?? "",
-                          size: 2.5,
-                          align: TextAlign.center,
-                          weight: FontWeight.w300,
-                        ),
-                      ],
-                    ),
-                    VerticalSpace(30),
-                    InkWell(
-                      onTap: () =>  Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true),
-                      child: TextWidget(
-                        text: "reset_password",
-                        size: 2.5,
-                        align: TextAlign.center,
-                        weight: FontWeight.w700,
-                      ),
-                    ),
-
-                    // Spacer(),
-
-                    // Spacer(),
-                  ],
-                ),
-              ),
+              // Flexible(
+              //   flex: 2,
+              //   child: ListView(
+              //     // crossAxisAlignment: CrossAxisAlignment.stretch,
+              //     children: [
+              //       VerticalSpace(20),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           SvgPicture.asset("assets/images/svgs/mail.svg"),
+              //           HorizontalSpace(20),
+              //           TextWidget(
+              //             text: _controller.user?.email ?? "",
+              //             size: 2.5,
+              //             align: TextAlign.center,
+              //             weight: FontWeight.w300,
+              //           ),
+              //         ],
+              //       ),
+              //       VerticalSpace(30),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           SvgPicture.asset("assets/images/svgs/mobile.svg"),
+              //           HorizontalSpace(20),
+              //           TextWidget(
+              //             text: _controller.user?.email ?? "",
+              //             size: 2.5,
+              //             align: TextAlign.center,
+              //             weight: FontWeight.w300,
+              //           ),
+              //         ],
+              //       ),
+              //       VerticalSpace(30),
+              //       InkWell(
+              //         onTap: () =>  Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true),
+              //         child: TextWidget(
+              //           text: "reset_password",
+              //           size: 2.5,
+              //           align: TextAlign.center,
+              //           weight: FontWeight.w700,
+              //         ),
+              //       ),
+              //
+              //       // Spacer(),
+              //
+              //       // Spacer(),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
+
+          Positioned(
+              top: Get.height * 0.50,
+              left: 0,
+              right: 0,
+              // bottom: 50,
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  VerticalSpace(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/images/svgs/mail.svg"),
+                      HorizontalSpace(20),
+                      TextWidget(
+                        text: _controller.user?.email ?? "",
+                        size: 2.5,
+                        align: TextAlign.center,
+                        weight: FontWeight.w300,
+                      ),
+                    ],
+                  ),
+                  VerticalSpace(30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/images/svgs/mobile.svg"),
+                      HorizontalSpace(20),
+                      TextWidget(
+                        text: _controller.user?.email ?? "",
+                        size: 2.5,
+                        align: TextAlign.center,
+                        weight: FontWeight.w300,
+                      ),
+                    ],
+                  ),
+                  VerticalSpace(30),
+                  InkWell(
+                    onTap: () =>  Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true),
+                    child: TextWidget(
+                      text: "reset_password",
+                      size: 2.5,
+                      align: TextAlign.center,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+
+                  // Spacer(),
+
+                  // Spacer(),
+                ],
+              )
+          ),
+
           Positioned(
               bottom: 30,
               left: 0,
@@ -96,7 +152,7 @@ class AccountScreen extends StatelessWidget {
       "log_out".tr,
       isFlat: true,
       color: AppColors.primaryColor,
-      onPressed: _controller.handleLogout,
+      onPressed: () => _controller.handleLogout(true),
       loading: _controller.loading(),
     ),
   );
@@ -154,7 +210,8 @@ class AccountScreen extends StatelessWidget {
             child: IconButton(onPressed: () => Get.back(canPop: true, id: 1), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg"))),
 
         Positioned(    // To take AppBar Size only
-          top: 280.0,
+          top: Get.height * 0.32,
+          // top: 280.0,
           left: 40.0,
           right: 40.0,
           child: Container(
@@ -184,7 +241,7 @@ class AccountScreen extends StatelessWidget {
                 ],
               )
           ),
-        )
+        ),
       ],
     );
   }
