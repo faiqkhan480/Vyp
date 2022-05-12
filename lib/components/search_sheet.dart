@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/countries_controller.dart';
 import 'package:vyv/controllers/home_controller.dart';
@@ -35,6 +36,15 @@ class SearchBottomSheet extends GetView<SearchController> {
       isCategory
           ? controller.handleByCategory(_value, _parent, _children)
           : controller.handleByDistrict(_value, _parent, _children, isCategory);
+
+  bool getChildLength() {
+    bool _length = false;
+    controller.selectedCategories.forEach((element) {
+      if(element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length)
+        _length = true;
+    });
+    return _length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,21 +84,22 @@ class SearchBottomSheet extends GetView<SearchController> {
                             var _selected = controller.selectedDistricts.where((e) => isCategory ? e is Category : e is District).toList();
                             bool _childLength = false;
                             if(isCategory) {
-                              _childLength = controller.selectedCategories.every((element) => element.children!.length == controller.searchSubCategories.where((p) => p.categoryId == element.parent.id).toList().length);
+                              _childLength = controller.selectedCategories.every((element) => element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length);
                             }
                             else {
-                              _childLength = controller.selectedDistricts.every((element) => element.children!.length == controller.searchCounties.where((p) => p.districtId == element.parent.id).toList().length);
+                              _childLength = controller.selectedDistricts.every((element) => element.children!.length == controller.selectedChildren.where((p) => p.districtId == element.parent.id).toList().length);
                             }
                             return CustomCheckBox(
-                              isSelected: controller.selectedItems.length == _length,
+                              // isSelected: controller.selectedItems.length == _length ,
+                              isSelected: controller.selectedItems.isNotEmpty ,
                               action: () => isCategory ?
                               controller.handleAllCategorySelection(controller.selectedItems.length == controller.categories.length) :
                               controller.handleByCountry(controller.selectedItems.length == controller.districts.length),
                               icon:
                               controller.selectedItems.isEmpty ? null :
-                              (controller.selectedItems.length == _length || _childLength) ?
-                              Icons.check :
-                              CupertinoIcons.minus,
+                              (controller.selectedItems.length != _length || _childLength) ?
+                              CupertinoIcons.minus :
+                              Icons.check,
                             );
                           }),
                         ],
@@ -135,10 +146,9 @@ class SearchBottomSheet extends GetView<SearchController> {
             icon: _children.isEmpty ?
             null :
             (_value &&
-                (isCategory ? controller.selectedCategories.firstWhere((e) => e
-                    .parent!.id == _parent.id) : controller.selectedDistricts
-                    .firstWhere((e) => e.parent!.id == _parent.id)).children!
-                    .length != _children.length) ?
+                (isCategory ?
+                controller.selectedCategories.firstWhere((e) => e.parent!.id == _parent.id) :
+                controller.selectedDistricts.firstWhere((e) => e.parent!.id == _parent.id)).children!.length != _children.length) ?
             CupertinoIcons.minus :
             Icons.check,
           ),
@@ -266,8 +276,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                           child: Center(
                             child: GestureDetector(
                               onTap: () =>
-                                  controller.removeSearchItems(_items.elementAt(
-                                      index), isCategory),
+                                  controller.removeSearchItems(_items.elementAt(index), isCategory),
                               child: Container(
                                   decoration: BoxDecoration(
                                     color: Colors.green,
@@ -307,9 +316,13 @@ class SearchBottomSheet extends GetView<SearchController> {
                       controller: isCategory
                           ? controller.categorySearch
                           : controller.countrySearch,
-                      onChanged: (value) =>
-                          controller.handleSearchChange(value, isCategory),
+                      onChanged: (value) => controller.handleSearchChange(value, isCategory),
+                      maxLength: 30,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z ]")),
+                      ],
                       decoration: InputDecoration(
+                        counter: SizedBox(),
                           hintText: "Search Here...",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 15.0,),

@@ -273,15 +273,29 @@ class SearchController extends GetxController {
   }
 
   void removeSearchItems(item, isCategory) {
-    if(item.runtimeType == District || item.runtimeType == Category){
+    if(item.runtimeType == District){
       selectedDistricts.removeWhere((element) => element.parent!.id == item.id);
+    }
+    else if(item.runtimeType == Category) {
+      print("removeCategoryItems:::::::::::::: $item$isCategory".toUpperCase());
       selectedParents.removeWhere((element) => element.id == item.id);
     }
     else {
-      List<dynamic>? _children = selectedDistricts.firstWhereOrNull((element) => element.parent!.id == (isCategory ? item.categoryId : item.districtId))?.children;
-      _children!.removeWhere((element) => element.id == item.id);
-      selectedDistricts.firstWhere((d) => d.parent!.id == (isCategory ? item.categoryId : item.districtId)).children = _children;
-      selectedDistricts.refresh();
+      List<dynamic>? _children = [];
+      if(!isCategory) {
+        _children = selectedDistricts.firstWhereOrNull((element) => element.parent!.id == (item.districtId))?.children;
+        _children!.removeWhere((element) => element.id == item.id);
+        selectedDistricts.firstWhere((d) => d.parent!.id == item.districtId).children = _children;
+        selectedDistricts.refresh();
+      }
+      else {
+        _children = selectedCategories.firstWhereOrNull((element) => element.parent!.id == (item.categoryId))?.children;
+        _children!.removeWhere((element) => element.id == item.id);
+        searchSubCategories.where((c) => c.id == item.id);
+        selectedCategories.firstWhere((d) => d.parent!.id == item.categoryId).children = _children;
+        selectedCategories.refresh();
+      }
+
       selectedChildren.removeWhere((element) => element.id == item.id);
     }
     selectedItems.remove(item);
