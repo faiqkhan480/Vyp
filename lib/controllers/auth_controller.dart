@@ -5,6 +5,7 @@ import 'package:vyv/models/user_model.dart';
 import 'package:vyv/service/services.dart';
 import 'package:vyv/utils/app_colors.dart';
 
+import 'favorite_controller.dart';
 import 'home_controller.dart';
 
 class AuthController extends GetxController {
@@ -148,12 +149,15 @@ class AuthController extends GetxController {
           "phoneNumber": phone.text,
           "confirmed": true
         };
-        var res = await AppService.formSubmit(password: registerPassword.text, body: payload);
+        User? res = await AppService.formSubmit(password: registerPassword.text, body: payload);
         if(res != null) {
           homeController.user = res;
-          loading.value = false;
-          Get.back(closeOverlays: true);
+          // loading.value = false;
+          // Get.back(closeOverlays: true);
+          // Get.find<FavoriteController>().name.text = "All";
+          await Get.find<FavoriteController>().createFolder(folderName: "All", userID: res.id);
           Get.rawSnackbar(message: "Account created!", backgroundColor: AppColors.success);
+          handleChange(true);
         }
         else {
           loading.value = false;

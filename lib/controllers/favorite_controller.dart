@@ -97,9 +97,9 @@ class FavoriteController extends GetxController {
     }
   }
 
-  Future createFolder() async {
+  Future createFolder({String? folderName, int? userID}) async {
     try{
-      if(formKey.currentState!.validate()) {
+      if(folderName == null && formKey.currentState!.validate()) {
         FocusManager.instance.primaryFocus?.unfocus();
         loading.value = true;
         var res = await AppService.createFolder(name: name.text, userId: homeController.user!.id);
@@ -112,6 +112,20 @@ class FavoriteController extends GetxController {
             Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
           else
             Get.rawSnackbar(message: "Folder created", backgroundColor: AppColors.success);
+          name.clear();
+        }
+      }
+      else {
+        var res = await AppService.createFolder(name: folderName , userId: userID);
+        if(res != null) {
+          folders.add(res);
+          _box.write("folders", folderToMap(folders));
+          loading.value = false;
+          // Get.back(closeOverlays: true);
+          if(res is String)
+            Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
+          // else
+            // Get.rawSnackbar(message: "Folder created", backgroundColor: AppColors.success);
           name.clear();
         }
       }

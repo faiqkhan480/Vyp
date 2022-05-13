@@ -311,9 +311,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                   )),
               IntrinsicWidth(
                   child: TextField(
-                      controller: isCategory
-                          ? controller.categorySearch
-                          : controller.countrySearch,
+                      controller: isCategory ? controller.categorySearch : controller.countrySearch,
                       onChanged: (value) => controller.handleSearchChange(value, isCategory),
                       maxLength: 30,
                       inputFormatters: [

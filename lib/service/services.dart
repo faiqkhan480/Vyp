@@ -193,7 +193,8 @@ class AppService {
       if(res != null) {
         var user = json.decode(res);
         if(user['statusCode'] == 200) {
-          _box.write('user', jsonEncode(user['result']));
+          if(body == null)
+            _box.write('user', jsonEncode(user['result']));
           return userFromMap(jsonEncode(user['result']));
         }
         Get.rawSnackbar(message: user['message'].toString(), backgroundColor: AppColors.danger);
@@ -263,7 +264,7 @@ class AppService {
       if(res != null) {
         var _folder = json.decode(res);
         if(_folder['statusCode'] == 200) {
-          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.danger);
+          Get.rawSnackbar(message: _folder['message'].toString(), backgroundColor: AppColors.success);
           return Folder.fromMap(_folder['result']);
         }
         else if(_folder['message'] != null)

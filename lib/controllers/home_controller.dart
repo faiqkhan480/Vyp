@@ -353,6 +353,7 @@ class HomeController extends GetxController {
   }
 
   void handleLogout(isBack) {
+    print("LOGOUT APP");
     box.remove("user");
     // _user.close();
     user = User();
