@@ -4,12 +4,12 @@ import 'district_model.dart';
 
 class SearchModel {
   Country country;
-  List<SelectedDistrict> districts;
+  List<SelectedItems> districts;
   SearchModel({required this.country, required this.districts});
 }
 
-class SelectedDistrict {
+class SelectedItems {
   var parent;
   List<dynamic>? children;
-  SelectedDistrict({this.parent, this.children});
+  SelectedItems({this.parent, this.children});
 }

@@ -27,7 +27,7 @@ class SearchBottomSheet extends GetView<SearchController> {
         extraParams: isCategory ? [
           ...controller.categoryParents,
           ...controller.categoryChildren
-        ] : [...controller.selectedParents, ...controller.selectedChildren],
+        ] : [...controller.districtsParents, ...controller.countyChildren],
         isCategory: isCategory);
   }
 
@@ -65,11 +65,11 @@ class SearchBottomSheet extends GetView<SearchController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // SEARCH FIELD
                     Obx(searchBox),
                     // CHECK BOX FOR SELECTION ALL ITEMS
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -87,7 +87,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                               _childLength = controller.selectedCategories.every((element) => element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length);
                             }
                             else {
-                              _childLength = controller.selectedDistricts.every((element) => element.children!.length == controller.selectedChildren.where((p) => p.districtId == element.parent.id).toList().length);
+                              _childLength = controller.selectedDistricts.every((element) => element.children!.length == controller.countyChildren.where((p) => p.districtId == element.parent.id).toList().length);
                             }
                             return CustomCheckBox(
                               // isSelected: controller.selectedItems.length == _length ,
@@ -171,11 +171,9 @@ class SearchBottomSheet extends GetView<SearchController> {
 
   // CHILD ITEM SELECTION
   Widget childItem(int childIndex, dynamic _parentItem, List<dynamic> _childItems) {
-    SelectedDistrict? _selected = !isCategory ?
+    SelectedItems? _selected = !isCategory ?
     controller.selectedDistricts.firstWhereOrNull((element) =>
-    element.parent!.id == _childItems
-        .elementAt(childIndex)
-        .districtId) :
+    element.parent!.id == _childItems.elementAt(childIndex).districtId) :
     controller.selectedCategories.firstWhereOrNull((element) =>
         element.parent!.id == _childItems
         .elementAt(childIndex)

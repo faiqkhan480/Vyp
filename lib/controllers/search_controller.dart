@@ -22,6 +22,7 @@ class SearchController extends GetxController {
   RxBool allDistricts = false.obs;
   RxBool check = false.obs;
   Rx<Country> selectedCountry = Country().obs;
+
   // MAIN DATA VARIABLES
   List<District> districts = List<District>.empty(growable: true).obs;
   List<County> counties = List<County>.empty(growable: true).obs;
@@ -29,12 +30,14 @@ class SearchController extends GetxController {
   List<SubCategory> subCategories = List<SubCategory>.empty(growable: true).obs;
 
   List<SearchModel> search = List<SearchModel>.empty(growable: true).obs;
-  RxList<SelectedDistrict> selectedDistricts = List<SelectedDistrict>.empty().obs;
-  RxList<SelectedDistrict> selectedCategories = List<SelectedDistrict>.empty().obs;
+  RxList<SelectedItems> selectedDistricts = List<SelectedItems>.empty().obs;
+  RxList<SelectedItems> selectedCategories = List<SelectedItems>.empty().obs;
+
   RxList selectedItems = List.empty(growable: true).obs;
-  List<District> selectedParents = List<District>.empty(growable: true).obs;
+
+  List<District> districtsParents = List<District>.empty(growable: true).obs;
   List<Category> categoryParents = List<Category>.empty(growable: true).obs;
-  List<County> selectedChildren = List<County>.empty(growable: true).obs;
+  List<County> countyChildren = List<County>.empty(growable: true).obs;
   List<SubCategory> categoryChildren = List<SubCategory>.empty(growable: true).obs;
 
   // DUPLICATE VARIABLE FOR USE IN SEARCHING
@@ -141,7 +144,6 @@ class SearchController extends GetxController {
 
   void setData() {
     districts.forEach((district) {
-
       // search.add(SearchModel(
       //   country: selectedCountry.value,
       //   districts: SelectedDistricts(districts: districts, counties: ),
@@ -152,9 +154,9 @@ class SearchController extends GetxController {
   void handleByCountry(val) {
     if(!val) {
       districts.forEach((District _parent) {
-        selectedDistricts.add(SelectedDistrict(parent: _parent, children: counties.where((element) => element.districtId == _parent.id).toList()));
-        selectedParents.add(_parent);
-        selectedChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
+        selectedDistricts.add(SelectedItems(parent: _parent, children: counties.where((element) => element.districtId == _parent.id).toList()));
+        districtsParents.add(_parent);
+        countyChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
       });
       selectedItems.assignAll(districts);
       allDistricts.value = true;
@@ -162,8 +164,8 @@ class SearchController extends GetxController {
     else {
       selectedDistricts.clear();
       selectedItems.clear();
-      selectedParents.clear();
-      selectedChildren.clear();
+      districtsParents.clear();
+      countyChildren.clear();
       allDistricts.value = false;
     }
   }
@@ -171,7 +173,7 @@ class SearchController extends GetxController {
   void handleAllCategorySelection(val) {
     if(!val) {
       categories.forEach((Category _parent) {
-        selectedCategories.add(SelectedDistrict(parent: _parent, children: subCategories.where((element) => element.categoryId == _parent.id).toList()));
+        selectedCategories.add(SelectedItems(parent: _parent, children: subCategories.where((element) => element.categoryId == _parent.id).toList()));
         // selectedItems.add(_parent);
         categoryParents.add(_parent);
         categoryChildren.assignAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
@@ -190,17 +192,17 @@ class SearchController extends GetxController {
 
   void handleByDistrict(bool value, dynamic parentItem, List<dynamic> childItems, isCategory) {
     if(value) {
-      selectedDistricts.add(SelectedDistrict(parent: parentItem, children: childItems));
+      selectedDistricts.add(SelectedItems(parent: parentItem, children: childItems));
       selectedItems.add(parentItem);
-      selectedParents.add(parentItem);
-      selectedChildren.assignAll(childItems as List<County>);
+      districtsParents.add(parentItem);
+      countyChildren.assignAll(childItems as List<County>);
     }
     else {
       selectedDistricts.removeWhere((element) => element.parent!.id == parentItem.id);
       selectedItems.remove(parentItem);
-      selectedParents.remove(parentItem);
+      districtsParents.remove(parentItem);
       selectedItems.removeWhere((element) => element.districtId == parentItem.id);
-      selectedChildren.removeWhere((element) => element.districtId == parentItem.id);
+      countyChildren.removeWhere((element) => element.districtId == parentItem.id);
     }
   }
 
@@ -211,7 +213,7 @@ class SearchController extends GetxController {
       element.runtimeType == District || element.runtimeType == Category ?
       element.id == item.id :
       (isCategory ? element.categoryId : element.districtId) == item.id);
-      selectedDistricts.add(SelectedDistrict(
+      selectedDistricts.add(SelectedItems(
           parent: item,
           children: isCategory ? subCategories.where((c) => c.categoryId == item.id).toList() : counties.where((c) => c.districtId == item.id).toList()
       ));
@@ -235,12 +237,12 @@ class SearchController extends GetxController {
       bool _checkDistrict = selectedDistricts.any((element) => element.parent!.id == parent.id);
       // IF NOT DISTRICT IS SELECTED THAN SELECT ALL
       if(!_checkDistrict) {
-        selectedDistricts.add(SelectedDistrict(
+        selectedDistricts.add(SelectedItems(
             parent: isCategory ? categories.firstWhere((cat) => cat.id == parent.id) : districts.firstWhere((d) => d.id == parent.id),
             children: isCategory ? subCategories.where((subCat) => subCat.id == child.id).toList() : counties.where((c) => c.id == child.id).toList()
         ));
         selectedDistricts.refresh();
-        selectedParents.add(parent);
+        districtsParents.add(parent);
       }
       // IF DISTRICT IS SELECTED THAN ADD ONE COUNTY ITEM
       else {
@@ -251,11 +253,11 @@ class SearchController extends GetxController {
         // selected.firstWhere((element) => element.district!.id == item.id).counties!.add(_county);
         selectedDistricts.refresh();
       }
-      if(!selectedItems.contains(parent) && selectedParents.any((element) => element.id != parent.id))
-        selectedParents.add(parent);
+      if(!selectedItems.contains(parent) && districtsParents.any((element) => element.id != parent.id))
+        districtsParents.add(parent);
       //   selectedItems.add(parent);
       selectedItems.add(child);
-      selectedChildren.add(child);
+      countyChildren.add(child);
     }
     // IF UNCHECK ITEM
     else {
@@ -264,9 +266,9 @@ class SearchController extends GetxController {
       selectedDistricts.firstWhere((d) => d.parent!.id == parent.id).children = _children;
       selectedDistricts.refresh();
       selectedItems.remove(child);
-      selectedChildren.remove(child);
+      countyChildren.remove(child);
       if(selectedItems.isEmpty || !selectedItems.any((element) => element.districtId == parent.id)) {
-        selectedParents.remove(parent);
+        districtsParents.remove(parent);
         selectedDistricts.clear();
       }
     }
@@ -278,7 +280,7 @@ class SearchController extends GetxController {
     }
     else if(item.runtimeType == Category) {
       print("removeCategoryItems:::::::::::::: $item$isCategory".toUpperCase());
-      selectedParents.removeWhere((element) => element.id == item.id);
+      districtsParents.removeWhere((element) => element.id == item.id);
     }
     else {
       List<dynamic>? _children = [];
@@ -296,7 +298,7 @@ class SearchController extends GetxController {
         selectedCategories.refresh();
       }
 
-      selectedChildren.removeWhere((element) => element.id == item.id);
+      countyChildren.removeWhere((element) => element.id == item.id);
     }
     selectedItems.remove(item);
     if(selectedItems.isEmpty){
@@ -306,7 +308,7 @@ class SearchController extends GetxController {
 
   void handleByCategory(bool value, Category parentItem, List<SubCategory> childItems) {
     if(value) {
-      selectedCategories.add(SelectedDistrict(parent: parentItem, children: childItems));
+      selectedCategories.add(SelectedItems(parent: parentItem, children: childItems));
       selectedItems.add(parentItem);
       categoryParents.add(parentItem);
       categoryChildren.assignAll(childItems);
@@ -326,7 +328,7 @@ class SearchController extends GetxController {
       bool _checkDistrict = selectedCategories.any((element) => element.parent!.id == parent.id);
       // IF NOT DISTRICT IS SELECTED THAN SELECT ALL
       if(!_checkDistrict) {
-        selectedCategories.add(SelectedDistrict(
+        selectedCategories.add(SelectedItems(
             parent: categories.firstWhere((cat) => cat.id == parent.id),
             children: subCategories.where((subCat) => subCat.id == child.id).toList()
         ));
@@ -368,7 +370,7 @@ class SearchController extends GetxController {
       element.runtimeType == Category ?
       element.id == item.id :
       element.categoryId == item.id);
-      selectedCategories.add(SelectedDistrict(
+      selectedCategories.add(SelectedItems(
           parent: item,
           children: subCategories.where((c) => c.categoryId == item.id).toList()
       ));
@@ -384,21 +386,53 @@ class SearchController extends GetxController {
     }
   }
 
-  void handleSearchChange(String val, bool _isCategory) {
-    if(val.isNotEmpty) {
+  void handleSearchChange(String searchValue, bool _isCategory) {
+    if(searchValue.isNotEmpty) {
       if (_isCategory) {
-        searchCategories.assignAll(searchCategories.where((element) => element.name!.contains(val)).toList());
+        searchCategories.clear();
+        searchSubCategories.clear();
+        List<Category> _categoriesLength = categories.where((element) => element.name!.toLowerCase().startsWith(searchValue.toLowerCase())).toList();
+        List<SubCategory> _subCategoriesLength = subCategories.where((element) => element.name!.toLowerCase().startsWith(searchValue.toLowerCase())).toList();
+        _categoriesLength.forEach((cat) {
+          searchSubCategories.addAll(subCategories.where((element) => element.categoryId == cat.id).toList());
+        });
+
+        if(_subCategoriesLength.isNotEmpty)
+          _subCategoriesLength.forEach((subCat) {
+            Category _cat = categories.firstWhere((c) => c.id == subCat.categoryId);
+            if(!_categoriesLength.contains(_cat))
+              _categoriesLength.add(_cat);
+            searchSubCategories.add(subCat);
+          });
+        searchCategories.assignAll(_categoriesLength);
       }
       else {
-        searchDistricts.assignAll(searchDistricts.where((element) => element.name!.contains(val)).toList());
+        searchDistricts.clear();
+        searchCounties.clear();
+        List<District> _categoriesLength = districts.where((element) => element.name!.toLowerCase().startsWith(searchValue.toLowerCase())).toList();
+        List<County> _subCategoriesLength = counties.where((element) => element.name!.toLowerCase().startsWith(searchValue.toLowerCase())).toList();
+        _categoriesLength.forEach((cat) {
+          searchCounties.addAll(counties.where((element) => element.districtId == cat.id).toList());
+        });
+
+        if(_subCategoriesLength.isNotEmpty)
+          _subCategoriesLength.forEach((subCat) {
+            District _cat = districts.firstWhere((c) => c.id == subCat.districtId);
+            if(!_categoriesLength.contains(_cat))
+              _categoriesLength.add(_cat);
+            searchCounties.add(subCat);
+          });
+        searchDistricts.assignAll(_categoriesLength);
       }
     }
     else {
       if (_isCategory) {
         searchCategories.assignAll(categories);
+        searchSubCategories.assignAll(subCategories);
       }
       else {
         searchDistricts.assignAll(districts);
+        searchCounties.assignAll(counties);
       }
     }
     update();

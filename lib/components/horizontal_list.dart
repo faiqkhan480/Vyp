@@ -34,7 +34,7 @@ class _HorizontalListState extends State<HorizontalList> {
         child: Obx(() {
           List _data = [];
           for(var i = 0; i < widget.spots!.length; i++) {
-            if (i != 0 && i % 5 == 0)
+            if (i != 0 && i % 11 == 0)
               _data.add(Spot(spotName: "ad"));
             // else
               _data.add(widget.spots!.elementAt(i));
