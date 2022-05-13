@@ -85,6 +85,7 @@ class SearchController extends GetxController {
         counties.assignAll(res);
         searchCounties.assignAll(res);
         fetchingCounties.value = false;
+        handleByCountry(false);
         setData();
         // Get.offNamed(AppRoutes.ROOT);
       }
@@ -128,6 +129,7 @@ class SearchController extends GetxController {
         subCategories.assignAll(res);
         searchSubCategories.assignAll(res);
         fetchingSubCategories.value = false;
+        handleAllCategorySelection(false);
         setData();
         // Get.offNamed(AppRoutes.ROOT);
       }
@@ -158,12 +160,15 @@ class SearchController extends GetxController {
         districtsParents.add(_parent);
         countyChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
       });
-      selectedItems.assignAll(districts);
+      // selectedItems.assignAll(districts);
+      selectedItems.addAll(districts);
       allDistricts.value = true;
+      update();
     }
     else {
       selectedDistricts.clear();
-      selectedItems.clear();
+      // selectedItems.clear();
+      selectedItems.removeWhere((e) => e is District || e is County);
       districtsParents.clear();
       countyChildren.clear();
       allDistricts.value = false;
@@ -178,12 +183,14 @@ class SearchController extends GetxController {
         categoryParents.add(_parent);
         categoryChildren.assignAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
       });
-      selectedItems.assignAll(categories);
+      // selectedItems.assignAll(categories);
+      selectedItems.addAll(categories);
       allCategories.value = true;
     }
     else {
       selectedCategories.clear();
-      selectedItems.clear();
+      // selectedItems.clear();
+      selectedItems.removeWhere((e) => e is Category || e is SubCategory);
       categoryParents.clear();
       categoryChildren.clear();
       allCategories.value = false;

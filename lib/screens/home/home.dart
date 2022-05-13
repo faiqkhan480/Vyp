@@ -141,6 +141,7 @@ class HomeScreen extends GetView<HomeController> {
   List<Widget> searchFields() {
     List categories = Get.find<SearchController>().selectedItems.where((e) => e is Category || e is SubCategory).toList();
     List districts = Get.find<SearchController>().selectedItems.where((e) => e is District || e is County).toList();
+    print(categories);
     return [
       InkWell(
         onTap: () => handleSearch(true),
