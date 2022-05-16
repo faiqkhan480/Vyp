@@ -154,8 +154,8 @@ class InfoSheet extends StatelessWidget {
   void handleFavorites() async {
     Get.back(closeOverlays: true);
     if(Get.find<HomeController>().user?.id != null)
-      Get.dialog(AddFavorite(controller: Get.put<FavoriteController>(FavoriteController(isFetching: false)), spot: item,), barrierDismissible: true, useSafeArea: true)
-          .then((value) => Get.delete<FavoriteController>());
+      Get.dialog(
+          AddFavorite(controller: Get.find<FavoriteController>(), spot: item,), barrierDismissible: true, useSafeArea: true);
     else
       Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
   }

@@ -116,6 +116,7 @@ class AuthController extends GetxController {
         if(res != null) {
           // homeController.user = res;
           homeController.setValue(res);
+          await Get.find<FavoriteController>().fetchFolders();
           // print(homeController.user!.id);
           loading.value = false;
           Get.back(closeOverlays: true);
@@ -151,7 +152,7 @@ class AuthController extends GetxController {
         };
         User? res = await AppService.formSubmit(password: registerPassword.text, body: payload);
         if(res != null) {
-          homeController.user = res;
+          // homeController.user = res;
           // loading.value = false;
           // Get.back(closeOverlays: true);
           // Get.find<FavoriteController>().name.text = "All";

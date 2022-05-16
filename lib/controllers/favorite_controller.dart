@@ -86,6 +86,7 @@ class FavoriteController extends GetxController {
         if(res != null) {
           Get.back(closeOverlays: true);
           Get.rawSnackbar(message: res.toString(), backgroundColor: AppColors.success);
+          fetchFolders();
         }
       }
     }

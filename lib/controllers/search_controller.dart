@@ -155,10 +155,13 @@ class SearchController extends GetxController {
 
   void handleByCountry(val) {
     if(!val) {
+      selectedDistricts.clear();
+      districtsParents.clear();
+      selectedItems.removeWhere((e) => e is District || e is County);
       districts.forEach((District _parent) {
         selectedDistricts.add(SelectedItems(parent: _parent, children: counties.where((element) => element.districtId == _parent.id).toList()));
         districtsParents.add(_parent);
-        countyChildren.assignAll(counties.where((element) => element.districtId == _parent.id).toList());
+        countyChildren.addAll(counties.where((element) => element.districtId == _parent.id).toList());
       });
       // selectedItems.assignAll(districts);
       selectedItems.addAll(districts);
@@ -177,17 +180,22 @@ class SearchController extends GetxController {
 
   void handleAllCategorySelection(val) {
     if(!val) {
+      selectedCategories.clear();
+      categoryParents.clear();
+      categoryChildren.clear();
+      selectedItems.removeWhere((element) => element is Category || element is SubCategory);
       categories.forEach((Category _parent) {
         selectedCategories.add(SelectedItems(parent: _parent, children: subCategories.where((element) => element.categoryId == _parent.id).toList()));
         // selectedItems.add(_parent);
         categoryParents.add(_parent);
-        categoryChildren.assignAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
+        categoryChildren.addAll(subCategories.where((element) => element.categoryId == _parent.id).toList());
       });
       // selectedItems.assignAll(categories);
       selectedItems.addAll(categories);
       allCategories.value = true;
     }
     else {
+      print("ELSE");
       selectedCategories.clear();
       // selectedItems.clear();
       selectedItems.removeWhere((e) => e is Category || e is SubCategory);
@@ -202,13 +210,13 @@ class SearchController extends GetxController {
       selectedDistricts.add(SelectedItems(parent: parentItem, children: childItems));
       selectedItems.add(parentItem);
       districtsParents.add(parentItem);
-      countyChildren.assignAll(childItems as List<County>);
+      countyChildren.addAll(childItems as List<County>);
     }
     else {
       selectedDistricts.removeWhere((element) => element.parent!.id == parentItem.id);
       selectedItems.remove(parentItem);
       districtsParents.remove(parentItem);
-      selectedItems.removeWhere((element) => element.districtId == parentItem.id);
+      selectedItems.removeWhere((element) => (element is County) && element.districtId == parentItem.id);
       countyChildren.removeWhere((element) => element.districtId == parentItem.id);
     }
   }
@@ -318,13 +326,13 @@ class SearchController extends GetxController {
       selectedCategories.add(SelectedItems(parent: parentItem, children: childItems));
       selectedItems.add(parentItem);
       categoryParents.add(parentItem);
-      categoryChildren.assignAll(childItems);
+      categoryChildren.addAll(childItems);
     }
     else {
       selectedCategories.removeWhere((element) => element.parent!.id == parentItem.id);
       selectedItems.remove(parentItem);
       categoryParents.remove(parentItem);
-      selectedItems.removeWhere((element) => element.categoryId == parentItem.id);
+      selectedItems.removeWhere((element) => (element is SubCategory) && element.categoryId == parentItem.id);
       categoryChildren.removeWhere((element) => element.categoryId == parentItem.id);
     }
   }

@@ -42,10 +42,12 @@ class FavoritesScreen extends GetView<FavoriteController> {
         childAspectRatio: 0.8,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         children: List.generate(
-            controller.folders.isEmpty ? 0 : controller.folders.length + 1,
-                (index) => index == 0 ?
-                imagesGrid(controller.folders.elementAt(0), isAll: true) :
-                imagesGrid(controller.folders.elementAt(index-1))
+            // controller.folders.isEmpty ? 0 : controller.folders.length + 1,
+            controller.folders.isEmpty ? 0 : controller.folders.length,
+                (index) => imagesGrid(controller.folders.elementAt(index))
+                // (index) => index == 0 ?
+                // imagesGrid(controller.folders.elementAt(0), isAll: true) :
+                // imagesGrid(controller.folders.elementAt(index-1))
         ),
         // children: [
         //   imagesGrid("All"),
@@ -57,19 +59,19 @@ class FavoritesScreen extends GetView<FavoriteController> {
 
   Widget imagesGrid(Folder folder, {bool? isAll}) {
     List<Favorite> _listFav = [];
-    if(isAll == true) {
-      controller.folders.forEach((element) {
-        if(element.favorites != null)
-          _listFav.addAll(element.favorites!);
-      });
-    }
+    // if(isAll == true) {
+    //   controller.folders.forEach((element) {
+    //     if(element.favorites != null)
+    //       _listFav.addAll(element.favorites!);
+    //   });
+    // }
 
     if(_listFav.length > 4)
       _listFav.length = 4;
     return InkWell(
       onTap: () {
-        controller.fetchAllFavorites(folderId: isAll == true ? null : folder.folderId);
-        Get.toNamed(AppRoutes.FOLDER, arguments: isAll == true ? _listFav : folder, id: 1);
+        controller.fetchAllFavorites(folderId: folder.folderId);
+        Get.toNamed(AppRoutes.FOLDER, arguments: folder, id: 1);
       },
       child: Column(
         children: [
@@ -87,15 +89,17 @@ class FavoritesScreen extends GetView<FavoriteController> {
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
                     // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
-                    itemBuilder: (context, index) => isAll == true ?
-                    Image.asset("assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg", fit: BoxFit.cover,) :
+                    itemBuilder: (context, index) =>
+                    // isAll == true ?
+                    // Image.asset("assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg", fit: BoxFit.cover,) :
                     folder.favorites!.length > index ?
                     Image.asset("assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg", fit: BoxFit.cover,) :
                     // Image.network(folder.favorites!.elementAt(index).imageStr!,
                     //   errorBuilder: (context, error, stackTrace) => Image.asset("assets/images/svgs/no_img.png"),
                     // ) :
                     SizedBox(),
-                    itemCount: isAll == true ? _listFav.length : folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
+                    // itemCount: isAll == true ? _listFav.length : folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
+                    itemCount: folder.favorites!.isEmpty ?  4 : folder.favorites!.length,
                   ),
                 ),
                 if(folder.favorites!.isEmpty)
@@ -104,7 +108,8 @@ class FavoritesScreen extends GetView<FavoriteController> {
             ),
           ),
           VerticalSpace(5),
-          TextWidget(text: isAll == true ? "All" : folder.folderName, size: 1.8,)
+          // TextWidget(text: isAll == true ? "All" : folder.folderName, size: 1.8,)
+          TextWidget(text: folder.folderName, size: 1.8,)
         ],
       ),
     );

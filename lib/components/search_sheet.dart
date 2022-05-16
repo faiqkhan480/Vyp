@@ -79,27 +79,27 @@ class SearchBottomSheet extends GetView<SearchController> {
                           ),
                           Obx(() {
                             var _length = isCategory ? controller.categories.length : controller.districts.length;
-                            var _items = isCategory ? controller.searchCategories : controller.searchDistricts;
-                            var _childItems = isCategory ? controller.searchSubCategories : controller.searchCounties;
-                            var _selected = controller.selectedDistricts.where((e) => isCategory ? e is Category : e is District).toList();
-                            bool _childLength = false;
-                            if(isCategory) {
-                              _childLength = controller.selectedCategories.every((element) => element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length);
-                            }
-                            else {
-                              _childLength = controller.selectedDistricts.every((element) => element.children!.length == controller.countyChildren.where((p) => p.districtId == element.parent.id).toList().length);
-                            }
+                            var _items = isCategory ?
+                            controller.selectedItems.where((e) => e is Category).toList() :
+                            controller.selectedItems.where((e) => e is District).toList();
+                            var _childItems = isCategory ?
+                            controller.selectedItems.where((e) => e is SubCategory).toList() :
+                            controller.selectedItems.where((e) => e is County).toList();
+                            var _selected = isCategory ? controller.selectedCategories : controller.selectedDistricts;
+                            bool _childLength = isCategory ?
+                            controller.selectedCategories.every((element) => element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length) :
+                            controller.selectedDistricts.every((element) => element.children!.length == controller.countyChildren.where((p) => p.districtId == element.parent.id).toList().length);
                             return CustomCheckBox(
                               // isSelected: controller.selectedItems.length == _length ,
                               isSelected: controller.selectedItems.isNotEmpty ,
                               action: () => isCategory ?
-                              controller.handleAllCategorySelection(controller.selectedItems.length == controller.categories.length) :
-                              controller.handleByCountry(controller.selectedItems.length == controller.districts.length),
+                              controller.handleAllCategorySelection(_items.length == controller.categories.length) :
+                              controller.handleByCountry(_items.length == controller.districts.length),
                               icon:
                               controller.selectedItems.isEmpty ? null :
-                              (controller.selectedItems.length != _length || _childLength) ?
-                              CupertinoIcons.minus :
-                              Icons.check,
+                              (_items.length == _length && _childLength) ?
+                              Icons.check :
+                              CupertinoIcons.minus,
                             );
                           }),
                         ],
