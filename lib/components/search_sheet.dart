@@ -87,8 +87,8 @@ class SearchBottomSheet extends GetView<SearchController> {
                             controller.selectedItems.where((e) => e is County).toList();
                             var _selected = isCategory ? controller.selectedCategories : controller.selectedDistricts;
                             bool _childLength = isCategory ?
-                            controller.selectedCategories.every((element) => element.children!.length == controller.categoryChildren.where((p) => p.categoryId == element.parent.id).toList().length) :
-                            controller.selectedDistricts.every((element) => element.children!.length == controller.countyChildren.where((p) => p.districtId == element.parent.id).toList().length);
+                            controller.selectedCategories.every((element) => element.children!.length == controller.subCategories.where((p) => p.categoryId == element.parent.id).toList().length) :
+                            controller.selectedDistricts.every((element) => element.children!.length == controller.counties.where((p) => p.districtId == element.parent.id).toList().length);
                             return CustomCheckBox(
                               // isSelected: controller.selectedItems.length == _length ,
                               isSelected: controller.selectedItems.isNotEmpty ,
@@ -126,14 +126,14 @@ class SearchBottomSheet extends GetView<SearchController> {
   // PARENT ITEM SELECTION
   Widget parentItem(index) {
     return Obx(() {
+      HomeController _homeController = Get.find<HomeController>();
       dynamic _parent = isCategory ? controller.searchCategories.elementAt(
           index) : controller.searchDistricts.elementAt(index);
-      List<dynamic> _children = isCategory ? controller.searchSubCategories
-          .where((c) => c.categoryId == _parent.id).toList() : controller
+      List<dynamic> _children = isCategory ? controller.searchSubCategories.where((c) => c.categoryId == _parent.id).toList() : controller
           .searchCounties.where((c) => c.districtId == _parent.id).toList();
-      bool _value = isCategory ? controller.selectedCategories.any((
-          element) => element.parent!.id == _parent.id) : controller
-          .selectedDistricts.any((element) => element.parent!.id == _parent.id);
+      bool _value = isCategory ?
+      controller.selectedCategories.any((element) => element.parent!.id == _parent.id) :
+      controller.selectedDistricts.any((element) => element.parent.countryId == _homeController.selectedCountry.value.id && element.parent!.id == _parent.id);
       return ExpansionTile(
         title: ListTile(
           title: TextWidget(text: _parent.name, size: 2.0,),
@@ -143,7 +143,8 @@ class SearchBottomSheet extends GetView<SearchController> {
             isCategory ?
             controller.handleByCategory(!_value, _parent, _children as List<SubCategory>) :
             controller.handleByDistrict(!_value, _parent, _children, isCategory),
-            icon: _children.isEmpty ?
+            // icon: _children.isEmpty ?
+            icon: !_value ?
             null :
             (_value &&
                 (isCategory ?
