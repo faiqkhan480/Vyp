@@ -88,14 +88,17 @@ class HomeScreen extends GetView<HomeController> {
                     padding: EdgeInsets.only(bottom: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         // if(controller.placeMarks.isNotEmpty)
                           InkWell(
                             onTap: controller.handleLocation,
-                              child: SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,)),
+                              child: Icon(Icons.location_on, size: SizeConfig.heightMultiplier * 2.8,)
+                          ),
+                        // child: SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8,)),
                         HorizontalSpace(8),
                         TextWidget(
-                          text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea} ${controller.placeMarks.first.country}" : "",
+                          text: controller.placeMarks.isNotEmpty ? "${controller.placeMarks.first.administrativeArea}, ${controller.placeMarks.first.country}" : "",
                           // color: AppColors.primaryColor,
                           size: 1.8,
                           // align: TextAlign.center,
@@ -141,7 +144,7 @@ class HomeScreen extends GetView<HomeController> {
   List<Widget> searchFields() {
     List categories = Get.find<SearchController>().selectedItems.where((e) => e is Category || e is SubCategory).toList();
     List districts = Get.find<SearchController>().selectedItems.where((e) => (e is District || e is County) && ( e is District && e.countryId == controller.selectedCountry.value.id)).toList();
-    print(categories);
+
     return [
       InkWell(
         onTap: () => handleSearch(true),
@@ -258,6 +261,7 @@ class HomeScreen extends GetView<HomeController> {
               ),
             ),
           ),
+
           TabBar(
               indicatorColor: AppColors.black,
               // indicator: BoxDecoration( color: AppColors.grey),

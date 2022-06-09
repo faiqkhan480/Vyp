@@ -32,7 +32,11 @@ List<Map<String, dynamic>> loginMenu = [
   {
     "label" : "settings",
     "icon" : SvgPicture.asset("assets/images/svgs/gear.svg"),
-  }
+  },
+  {
+    "label" : "reset_password",
+    "icon" : Icon(Icons.lock_reset_rounded, color: AppColors.darkGrey,)
+  },
 ];
 
 

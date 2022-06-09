@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+// import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/controllers/info_controller.dart';
 import 'package:vyv/models/spot_model.dart';
@@ -192,14 +192,15 @@ class InfoScreen extends GetView<InfoController> {
           Icon(Icons.star, color: AppColors.skyBlue,),
           HorizontalSpace(10),
           TextWidget(text: stars, size: 1.6,),
-          Expanded(
-              child: LinearPercentIndicator(
-                width: SizeConfig.screenWidth * 0.74,
-                lineHeight: 8.0,
-                percent: 0.5,
-                barRadius: Radius.circular(50),
-                progressColor: AppColors.skyBlue,)
-          ),
+          Spacer(),
+          // Expanded(
+          //     child: LinearPercentIndicator(
+          //       width: SizeConfig.screenWidth * 0.74,
+          //       lineHeight: 8.0,
+          //       percent: 0.5,
+          //       barRadius: Radius.circular(50),
+          //       progressColor: AppColors.skyBlue,)
+          // ),
           // HorizontalSpace(10),
           TextWidget(text: points, size: 1.6,),
           // HorizontalSpace(10),

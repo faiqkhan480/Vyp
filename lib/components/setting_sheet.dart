@@ -78,18 +78,18 @@ class SettingsSheet extends StatelessWidget {
               onTap: () => null,
             ),
 
-            if(controller.user?.id != null)
-              ListTile(
-              leading: Icon(Icons.person),
-              title: TextWidget(
-                text: 'reset_password',
-                size: 1.8,
-              ),
-              // subtitle: Divider(thickness: 1, height: 1,),
-              dense: true,
-              // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
-              onTap: handleClick,
-            ),
+            // if(controller.user?.id != null)
+            //   ListTile(
+            //   leading: Icon(Icons.person),
+            //   title: TextWidget(
+            //     text: 'reset_password',
+            //     size: 1.8,
+            //   ),
+            //   // subtitle: Divider(thickness: 1, height: 1,),
+            //   dense: true,
+            //   // contentPadding: EdgeInsets.only(top: 3, bottom: 5),
+            //   onTap: handleClick,
+            // ),
           ],
         )
     );

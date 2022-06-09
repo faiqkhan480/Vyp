@@ -63,8 +63,7 @@ class MenuSheet extends StatelessWidget {
 
                 Wrap(
                   children: List.generate(
-                    menu.length,
-                        (index) => Column(
+                    menu.length, (index) => Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         if(menu.elementAt(index).entries.first.value.toString() == "share")
@@ -117,7 +116,7 @@ class MenuSheet extends StatelessWidget {
                     child: Text("logout".tr),
                     style: TextButton.styleFrom(
                       primary: AppColors.skyBlue,
-                      textStyle: TextStyle(decoration: TextDecoration.underline, fontSize: SizeConfig.textMultiplier * 1.8),
+                      textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: SizeConfig.textMultiplier * 2.2),
                     ),
                   ),
                 // VerticalSpace(10)
@@ -211,6 +210,10 @@ class MenuSheet extends StatelessWidget {
         break;
       case "share":
         Share.share('check out my website ${spot!.website}');
+        break;
+      case "reset_password":
+        Get.back(closeOverlays: true);
+        Get.dialog(DialogComponent(isReset: true,), barrierDismissible: true, useSafeArea: true);
         break;
     }
   }
