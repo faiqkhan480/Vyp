@@ -23,7 +23,7 @@ import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
-  final List<String> tabs = ["Portugal", "districts", "counties"];
+  final List<String> tabs = ["places", "districts", "counties"];
 
   handleClick() {
     Get.bottomSheet(
@@ -278,10 +278,10 @@ class HomeScreen extends GetView<HomeController> {
                 height: double.infinity,
                 width: double.infinity,
                 child: Text(
+                  tabs.elementAt(index).tr,
+                  // index == 0 ?
+                  // controller.selectedCountry.value.countryName ?? "" :
                   // tabs.elementAt(index).tr,
-                  index == 0 ?
-                  controller.selectedCountry.value.countryName ?? ""
-                      : tabs.elementAt(index).tr,
                   textAlign: TextAlign.center,
                 ),
               ),))

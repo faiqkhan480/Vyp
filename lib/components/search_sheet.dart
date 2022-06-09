@@ -74,7 +74,8 @@ class SearchBottomSheet extends GetView<SearchController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
-                            text: Get.find<HomeController>().selectedCountry.value.countryName,
+                            text: "places",
+                      // Get.find<HomeController>().selectedCountry.value.countryName,
                             size: 2.2,
                           ),
                           Obx(() {
@@ -136,7 +137,9 @@ class SearchBottomSheet extends GetView<SearchController> {
       controller.selectedDistricts.any((element) => element.parent.countryId == _homeController.selectedCountry.value.id && element.parent!.id == _parent.id);
       return ExpansionTile(
         title: ListTile(
-          title: TextWidget(text: _parent.name, size: 2.0,),
+          title: GestureDetector(
+              onLongPress: () => Clipboard.setData(ClipboardData(text: _parent.name)),
+              child: TextWidget(text: _parent.name, size: 2.0,)),
           trailing: CustomCheckBox(
             isSelected: _value,
             action: () =>
@@ -316,7 +319,8 @@ class SearchBottomSheet extends GetView<SearchController> {
                       onChanged: (value) => controller.handleSearchChange(value, isCategory),
                       maxLength: 30,
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z ]")),
+                        // FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z ]")),
+                        FilteringTextInputFormatter.allow(RegExp("[A-Za-zÀ-ȕ0-9 ]")),
                       ],
                       decoration: InputDecoration(
                         counter: SizedBox(),
