@@ -110,7 +110,7 @@ class AccountScreen extends StatelessWidget {
                       SvgPicture.asset("assets/images/svgs/mobile.svg"),
                       HorizontalSpace(20),
                       TextWidget(
-                        text: _controller.user?.email ?? "",
+                        text: _controller.user?.phoneNumber ?? "",
                         size: 2.5,
                         align: TextAlign.center,
                         weight: FontWeight.w300,
