@@ -17,6 +17,7 @@ class FavoriteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(item?.spotName);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -32,8 +33,10 @@ class FavoriteItem extends StatelessWidget {
       // height: 100,
       child: Obx(() => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          SizedBox(),
+          TextWidget(text: item?.spotName ?? "", size: 2.0, color: AppColors.white, align: TextAlign.center,),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

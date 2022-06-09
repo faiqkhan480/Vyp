@@ -329,6 +329,7 @@ class AppService {
 
   // GET FAVORITES
   static getFavorites({num? folderId}) async {
+    // print("GET FAVORITES::::::");
     try{
       var res = await Network.get(url: "${Api.folder}$folderId");
       if(res != null)
