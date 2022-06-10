@@ -82,12 +82,16 @@ class FavoritesScreen extends GetView<FavoriteController> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black)
+                    color: folder.favorites!.isEmpty ? AppColors.lightGrey.withOpacity(0.6) : null,
+                    border: Border.all(color: AppColors.greyScale.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(5)
                   ),
+                  alignment: Alignment.center,
                   child: GridView.builder(
-                    // shrinkWrap: true,
+                    shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                    // padding: EdgeInsets.all(8.0),
                     // itemBuilder: (context, index) => Image.asset(images.elementAt(index), fit: BoxFit.cover,),
                     itemBuilder: (context, index) =>
                     // isAll == true ?
@@ -103,7 +107,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
                   ),
                 ),
                 if(folder.favorites!.isEmpty)
-                  Icon(Icons.inbox, color: AppColors.grey, size: 60,)
+                  Icon(Icons.inbox, color: AppColors.white, size: 60,)
               ],
             ),
           ),
