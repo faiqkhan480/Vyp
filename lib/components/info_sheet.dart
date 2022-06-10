@@ -108,7 +108,7 @@ class InfoSheet extends StatelessWidget {
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => handleShare(snapshot.data!),),
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
                       IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: handleFavorites),
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: () => null,),
+                      IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: toMap,),
                     ],
                   ),
                 ),
@@ -154,9 +154,13 @@ class InfoSheet extends StatelessWidget {
   void handleFavorites() async {
     Get.back(closeOverlays: true);
     if(Get.find<HomeController>().user?.id != null)
-      Get.dialog(
-          AddFavorite(controller: Get.find<FavoriteController>(), spot: item,), barrierDismissible: true, useSafeArea: true);
+      Get.dialog(AddFavorite(controller: Get.find<FavoriteController>(), spot: item,), barrierDismissible: true, useSafeArea: true);
     else
       Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
+  }
+
+  void toMap() {
+    Get.back(closeOverlays: true);
+    Get.toNamed(AppRoutes.MAP, arguments: item, id: 1);
   }
 }

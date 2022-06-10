@@ -6,4 +6,5 @@ class AppRoutes {
   static const String FAVORITES = "/fav";
   static const String FOLDER = "/folder";
   static const String ACCOUNT = "/account";
+  static const String MAP = "/map";
 }

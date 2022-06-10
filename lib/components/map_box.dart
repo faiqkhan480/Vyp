@@ -13,9 +13,7 @@ class MapBox extends StatefulWidget {
 }
 
 class _MapBoxState extends State<MapBox> {
-  HomeController _homeController = Get.find<HomeController>();
-
-  HomeController get homeController => _homeController;
+  HomeController get homeController => Get.find<HomeController>();
   // Google Maps controller
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = {};
@@ -69,7 +67,7 @@ class _MapBoxState extends State<MapBox> {
 
   // This method will add markers to the map based on the LatLng position
   _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
-    MarkerId markerId = MarkerId(id);
+    MarkerId markerId =  MarkerId(id);
     Marker marker = Marker(markerId: markerId, icon: descriptor, position: position);
     markers[markerId] = marker;
     listMarkers.add(marker);

@@ -13,6 +13,7 @@ import 'package:vyv/screens/home/home.dart';
 import 'package:vyv/screens/home/home_bindings.dart';
 import 'package:vyv/screens/info/info_binding.dart';
 import 'package:vyv/screens/info/info_screen.dart';
+import 'package:vyv/screens/map_screen.dart';
 
 import 'home_controller.dart';
 
@@ -79,6 +80,12 @@ class RootController extends GetxController {
           settings: settings,
           // binding: FavoriteBinding(),
           page: () => AccountScreen()
+      );
+    if(settings.name == AppRoutes.MAP)
+      return GetPageRoute(
+          settings: settings,
+          // binding: FavoriteBinding(),
+          page: () => MapScreen(spot: settings.arguments as Spot)
       );
     return null;
   }

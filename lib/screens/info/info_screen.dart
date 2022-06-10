@@ -37,7 +37,6 @@ class InfoScreen extends GetView<InfoController> {
 
   @override
   Widget build(BuildContext context) {
-    print(Get);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
