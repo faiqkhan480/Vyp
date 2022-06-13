@@ -9,6 +9,7 @@ class BanneAd extends StatelessWidget {
     return AdWidget(
       key: UniqueKey(),
       ad: AdMobService.createBannerAd()..load(),
+      // ad: AdMobService.renderNativeAd()..load(),
     );
   }
 }

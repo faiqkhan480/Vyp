@@ -5,6 +5,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vyv/controllers/home_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/constants.dart';
 
 import 'bannerAd.dart';
 import 'spot_card.dart';
@@ -67,7 +68,17 @@ class _HorizontalListState extends State<HorizontalList> {
                   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => (_data.elementAt(index).spotName == "ad") ? Container(child: BanneAd()) : SpotCard(index: index, item: _data.elementAt(index)),
+                  itemBuilder: (context, index) => (_data.elementAt(index).spotName == "ad") ?
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.lightGrey
+                      )
+                    ),
+                      // padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: BanneAd()
+                  ) :
+                  SpotCard(index: index, item: _data.elementAt(index)),
                   // itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
                   // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
                 ),

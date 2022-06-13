@@ -11,10 +11,27 @@ class AdMobService {
     }
   }
 
+  static NativeAd renderNativeAd() {
+    NativeAd _nativeAd = NativeAd(
+      listener: NativeAdListener(
+        onAdLoaded: (Ad ad) => print('Add opened'),
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) => print("Ad opened"),
+        onAdClosed: (Ad ad) => print("Ad is closed"),
+      ),
+      adUnitId: bannerAdUnitId,
+      request: AdRequest(),
+      factoryId: "AS",
+    );
+    return _nativeAd;
+  }
+
   static BannerAd createBannerAd() {
     BannerAd ad = BannerAd(
         adUnitId: bannerAdUnitId,
-        size: AdSize.largeBanner,
+        size: AdSize.mediumRectangle,
         request: AdRequest(),
         listener: BannerAdListener(
           onAdLoaded: (Ad ad) => print('Add opened'),

@@ -136,6 +136,7 @@ class SearchBottomSheet extends GetView<SearchController> {
       controller.selectedCategories.any((element) => element.parent!.id == _parent.id) :
       controller.selectedDistricts.any((element) => element.parent.countryId == _homeController.selectedCountry.value.id && element.parent!.id == _parent.id);
       return ExpansionTile(
+        trailing: _children.isEmpty ? SizedBox() : null,
         title: ListTile(
           title: GestureDetector(
               onLongPress: () => Clipboard.setData(ClipboardData(text: _parent.name)),
