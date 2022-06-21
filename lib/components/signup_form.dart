@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:vyv/controllers/auth_controller.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
-import 'package:vyv/utils/app_colors.dart';
-import 'package:vyv/utils/constants.dart';
-import 'package:vyv/widgets/space.dart';
-import 'package:vyv/widgets/text_component.dart';
+import '../controllers/auth_controller.dart';
+import '../utils/app_colors.dart';
+import '../utils/constants.dart';
+import '../widgets/space.dart';
+import '../widgets/text_component.dart';
 
 import 'button.dart';
 import 'dialog_component.dart';
@@ -105,11 +105,37 @@ class SignupForm extends StatelessWidget {
               ),
               VerticalSpace(10),
               // PHONE FIELD
-              TextFormField(
+              IntlPhoneField(
                 controller: controller.phone,
-                validator: controller.textValidator,
-                decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/phone_square.svg", label: "phone".tr),
+                initialCountryCode: "PT",
+                onChanged: (val) {
+                  controller.setCountryCode(val.countryCode);
+                },
+                onCountryChanged: (val) {
+                  controller.setCountryCode(val.dialCode);
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+                decoration: InputDecoration(
+                    isDense: true,
+                    counter: SizedBox(),
+                    // prefixIcon: Padding(
+                    //   padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
+                    //   child: SvgPicture.asset("assets/images/svgs/phone_square.svg"),
+                    // ),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.black, width: 2)),
+                    contentPadding: EdgeInsets.only(bottom: 15),
+                    alignLabelWithHint: true,
+                    labelText: "phone".tr,
+                    labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
+                ),
               ),
+              // TextFormField(
+              //   controller: controller.phone,
+              //   validator: controller.textValidator,
+              //   decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/phone_square.svg", label: "phone".tr),
+              // ),
               // BIRTHDATE & NATIONALITY
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),

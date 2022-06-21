@@ -40,6 +40,8 @@ class AuthController extends GetxController {
   TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
+  String countryCode = "";
+
   bool get loginForm => isLogin.value;
 
   // User get user => _user.value;
@@ -159,6 +161,10 @@ class AuthController extends GetxController {
       }
     }
   }
+
+  setCountryCode(String _countryCode) {
+    countryCode = _countryCode;
+  }
   
   void handleRegister() async {
     if (signUpFormKey.currentState!.validate()) {
@@ -172,7 +178,7 @@ class AuthController extends GetxController {
           "nationality": int.parse(selectedNationality),
           "email": registerEmail.text,
           "birthday": _date,
-          "phoneNumber": phone.text,
+          "phoneNumber": "+$countryCode${phone.text}",
           "confirmed": true
         };
         User? res = await AppService.formSubmit(password: registerPassword.text, body: payload);

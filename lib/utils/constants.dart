@@ -61,10 +61,10 @@ List<Map<String, dynamic>> itemMenu = [
 ];
 
 class StyleProperties {
-  static prefixField({String? label, required String iconPath}) => InputDecoration(
+  static prefixField({String? label, required String iconPath, double? prefixWidth}) => InputDecoration(
       isDense: true,
       counter: SizedBox(),
-      prefixIconConstraints: BoxConstraints(maxWidth: 40),
+      prefixIconConstraints: BoxConstraints(maxWidth: prefixWidth ?? 40),
       prefixIcon: Padding(
         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
         child: SvgPicture.asset(iconPath),
