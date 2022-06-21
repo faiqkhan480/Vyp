@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.4
   http: ^0.13.4
-  get: 4.6.1
+  get: ^4.6.1
   get_storage: ^2.0.3
   flutter_svg: ^1.0.3
   gestures: ^1.0.0

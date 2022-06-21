@@ -59,3 +59,28 @@ List<Map<String, dynamic>> itemMenu = [
     "icon" : SvgPicture.asset("assets/images/svgs/share.svg"),
   }
 ];
+
+class StyleProperties {
+  static prefixField({String? label, required String iconPath}) => InputDecoration(
+      isDense: true,
+      counter: SizedBox(),
+      prefixIconConstraints: BoxConstraints(maxWidth: 40),
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
+        child: SvgPicture.asset(iconPath),
+      ),
+      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.black, width: 2)),
+      contentPadding: EdgeInsets.zero,
+      alignLabelWithHint: true,
+      labelText: label,
+      labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
+  );
+
+  static inputDecoration({String? label}) => InputDecoration(
+      contentPadding: EdgeInsets.zero,
+      counter: SizedBox(),
+      alignLabelWithHint: true,
+      labelText: label,
+      labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
+  );
+}

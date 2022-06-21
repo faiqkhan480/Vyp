@@ -74,8 +74,9 @@ class SearchBottomSheet extends GetView<SearchController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
-                            text: "places",
-                      // Get.find<HomeController>().selectedCountry.value.countryName,
+                            text: isCategory ?
+                            "places" :
+                            Get.find<HomeController>().selectedCountry.value.countryName,
                             size: 2.2,
                           ),
                           Obx(() {
@@ -221,9 +222,9 @@ class SearchBottomSheet extends GetView<SearchController> {
   Widget searchBox() {
     bool allSelection = isCategory ? controller.allCategories() : controller.allDistricts();
     List _items = controller.selectedItems.where((e) =>
-    isCategory
-        ? (e is Category || e is SubCategory)
-        : (e is District || e is County)).toList();
+    isCategory ?
+    (e is Category || e is SubCategory) :
+    (e is District || e is County)).toList();
     return Container(
         child: Wrap(
             children: [
@@ -250,7 +251,7 @@ class SearchBottomSheet extends GetView<SearchController> {
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceEvenly,
                                     children: [
-                                      Text(Get.find<HomeController>().selectedCountry.value.countryName ?? "",
+                                      Text(isCategory ? "places".tr : (Get.find<HomeController>().selectedCountry.value.countryName ?? ""),
                                         style: TextStyle(color: Colors.white,
                                             fontSize: 16),
                                       ),

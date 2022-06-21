@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vyv/controllers/auth_controller.dart';
 
 import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/constants.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
 
@@ -72,38 +74,24 @@ class SignupForm extends StatelessWidget {
                     Expanded(child: TextFormField(
                       controller: controller.firstName,
                       validator: controller.textValidator,
-                      decoration: InputDecoration(
-                          isDense: true,
-                          prefixIconConstraints: BoxConstraints(maxWidth: 40),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
-                            child: SvgPicture.asset("assets/images/svgs/user.svg"),
-                          ),
-                          contentPadding: EdgeInsets.zero,
-                          alignLabelWithHint: true,
-                          labelText: "first_name".tr,
-                          labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
-                      ),
+                      maxLength: 30,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp("[A-Za-zÀ-ȕ]")),
+                      ],
+                      keyboardType: TextInputType.name,
+                      decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/user.svg", label: "first_name".tr),
                     ),),
                     HorizontalSpace(20),
-                    Expanded( child: TextFormField(
-                      controller: controller.lastName,
-                      validator: controller.textValidator,
-                      decoration: InputDecoration(
-                        // isDense: true,
-                        // prefixIconConstraints: BoxConstraints(
-                        //   minWidth: 5,
-                        //   minHeight: 48,
-                        // ),
-                        // prefixIcon: Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        // // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                        // ),
-                          contentPadding: EdgeInsets.zero,
-                          alignLabelWithHint: true,
-                          labelText: "last_name".tr,
-                          labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
-                      ),
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.lastName,
+                        validator: controller.textValidator,
+                        maxLength: 30,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp("[A-Za-zÀ-ȕ]")),
+                        ],
+                        keyboardType: TextInputType.name,
+                        decoration: StyleProperties.inputDecoration(label: "last_name".tr),
                     ),),
                   ],
                 ),
@@ -111,37 +99,16 @@ class SignupForm extends StatelessWidget {
               // EMAIL FIELD
               TextFormField(
                 controller: controller.registerEmail,
-                validator: controller.textValidator,
-                decoration: InputDecoration(
-                    isDense: true,
-                    prefixIconConstraints: BoxConstraints(maxWidth: 40),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
-                      child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    alignLabelWithHint: true,
-                    labelText: "email".tr,
-                    labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
-                ),
+                validator: controller.emailValidator,
+                keyboardType: TextInputType.emailAddress,
+                decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/blank_card.svg", label: "email".tr),
               ),
               VerticalSpace(10),
               // PHONE FIELD
               TextFormField(
                 controller: controller.phone,
                 validator: controller.textValidator,
-                decoration: InputDecoration(
-                    isDense: true,
-                    prefixIconConstraints: BoxConstraints(maxWidth: 40),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
-                      child: SvgPicture.asset("assets/images/svgs/phone_square.svg"),
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    alignLabelWithHint: true,
-                    labelText: "phone".tr,
-                    labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300)
-                ),
+                decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/phone_square.svg", label: "phone".tr),
               ),
               // BIRTHDATE & NATIONALITY
               Padding(
@@ -177,11 +144,6 @@ class SignupForm extends StatelessWidget {
                         readOnly: true,
                         onTap: controller.handleDatePicker,
                         decoration: InputDecoration(
-                          // isDense: true,
-                          // prefixIcon: Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          //   // child: SvgPicture.asset("assets/images/svgs/blank_card.svg"),
-                          // ),
                             contentPadding: EdgeInsets.zero,
                             alignLabelWithHint: true,
                             labelText: "b_day".tr,
@@ -195,38 +157,16 @@ class SignupForm extends StatelessWidget {
               // PASSWORD FIELD
               TextFormField(
                 controller: controller.registerPassword,
-                validator: controller.textValidator,
+                validator: controller.passwordValidator,
                 obscureText: true,
-                decoration: InputDecoration(
-                  isDense: true,
-                  prefixIconConstraints: BoxConstraints(maxWidth: 40),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
-                    child: SvgPicture.asset("assets/images/svgs/lock_open.svg"),
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  alignLabelWithHint: true,
-                  labelText: "password".tr,
-                  labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300),
-                ),
+                decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/lock_open.svg", label: "password".tr),
               ),
               // CONFIRM PASSWORD
               TextFormField(
                 controller: controller.confirmPassword,
                 validator: controller.confirmPassValidator,
                 obscureText: true,
-                decoration: InputDecoration(
-                  isDense: true,
-                  prefixIconConstraints: BoxConstraints(maxWidth: 40),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, right: 10),
-                    child: SvgPicture.asset("assets/images/svgs/lock_open.svg"),
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  alignLabelWithHint: true,
-                  labelText: "confirm_password".tr,
-                  labelStyle: TextStyle(color: AppColors.lightGrey, fontFamily: 'Heebo', fontWeight: FontWeight.w300),
-                ),
+                decoration: StyleProperties.prefixField(iconPath: "assets/images/svgs/lock_open.svg", label: "confirm_password".tr),
               ),
               // LOGIN BUTTON
               Padding(

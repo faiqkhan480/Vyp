@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -97,7 +98,8 @@ class LoginForm extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: controller.isForgot() ? 50 : 0),
                 child: TextFormField(
                   controller: controller.emailField,
-                  validator: controller.textValidator,
+                  validator: controller.emailValidator,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       isDense: true,
                       prefixIconConstraints: BoxConstraints(maxWidth: 40),

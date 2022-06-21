@@ -41,8 +41,10 @@ class AuthController extends GetxController {
   TextEditingController confirmPassword = TextEditingController();
 
   bool get loginForm => isLogin.value;
+
   // User get user => _user.value;
   TextEditingController get emailField => emailController.value;
+
   TextEditingController get passField => passwordController.value;
 
   @override
@@ -62,11 +64,11 @@ class AuthController extends GetxController {
   void fetchNationalities() async {
     try {
       var res = await AppService.getAllNationality();
-      if(res != null)
+      if (res != null)
         nationalities = res;
       fetching.value = false;
     }
-    catch(e){
+    catch (e) {
       print("Error: $e");
     }
     finally {
@@ -79,7 +81,30 @@ class AuthController extends GetxController {
       return 'Please this field must be filled';
     }
     else if (value.length < 3) {
-    return 'Length is too short';
+      return 'Length is too short';
+    }
+    return null;
+  }
+
+  String? emailValidator(String? value) {
+    RegExp emailValid = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+    if (value!.isEmpty) {
+      return 'Please this field must be filled';
+    }
+    else if(!emailValid.hasMatch(value))
+      return 'Please enter valid email Id';
+    // else if (value.length < 3) {
+    //   return 'Length is too short';
+    // }
+    return null;
+  }
+
+  String? passwordValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Please this field must be filled';
+    }
+    else if (value.length < 8) {
+      return 'Length must be equal or greater than 8!';
     }
     return null;
   }
