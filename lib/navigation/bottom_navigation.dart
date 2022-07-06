@@ -62,38 +62,7 @@ class BottomNavigation extends GetView<RootController> {
         body: Obx(() => IndexedStack(
           index: controller.currentTab.value,
           children: _pages,
-          // children: [
-          //   Navigator(
-          //     key: Get.nestedKey(1),
-          //     initialRoute: AppRoutes.HOME,
-          //     onGenerateRoute: controller.onGenerateRoute,
-          //   ),
-          //   CalenderScreen(),
-          // ],
         )),
-
-        // bottomNavigationBar: Obx(
-        //       () => BottomNavigationBar(
-        //     items: const <BottomNavigationBarItem>[
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.search),
-        //         label: 'Browse',
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.history),
-        //         label: 'History',
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.settings),
-        //         label: 'Settings',
-        //       ),
-        //     ],
-        //     currentIndex: controller.currentIndex.value,
-        //     selectedItemColor: Colors.pink,
-        //     onTap: controller.changePage,
-        //   ),
-        // ),
-        // bottomNavigationBar: buildBottomNavigationMenu(context),
         bottomNavigationBar: BottomAppBar(
           elevation: 4.0,
           color: AppColors.white,

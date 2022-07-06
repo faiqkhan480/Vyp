@@ -39,7 +39,7 @@ class RootController extends GetxController {
   }
 
   void changeTab(int index) {
-    if(index > 0 && Get.find<HomeController>().user?.id == null) {
+    if(index > 0 && Get.find<HomeController>().user?.id != null) {
       Get.dialog(DialogComponent(), barrierDismissible: true, useSafeArea: true);
     } else {
       currentTab.value = index;
