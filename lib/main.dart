@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.red,
             ),
             // initialBinding: InitialBinding(),
-            initialRoute: AppRoutes.COUNTRIES,
+            initialRoute: AppRoutes.ROOT,
             getPages: AppPages.list,
             // home: Countries(),
           );

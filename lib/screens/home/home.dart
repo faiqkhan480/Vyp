@@ -23,7 +23,7 @@ import 'package:vyv/widgets/text_component.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
-  final List<String> tabs = ["places", "districts", "counties"];
+  final List<String> tabs = ["places", "events", "plans"];
 
   handleClick() {
     Get.bottomSheet(

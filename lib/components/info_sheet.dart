@@ -22,9 +22,9 @@ class InfoSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Get.find<HomeController>().fetchData(item?.id ?? 0),
-        builder: (context, AsyncSnapshot<Spot> snapshot) {
+    // return FutureBuilder(
+    //     future: Get.find<HomeController>().fetchData(item?.id ?? 0),
+    //     builder: (context, AsyncSnapshot<Spot> snapshot) {
           return Container(
             color: AppColors.secondaryColor,
             padding: EdgeInsets.only(top: 15, bottom: 5),
@@ -39,8 +39,9 @@ class InfoSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: (snapshot.connectionState == ConnectionState.waiting) ?
-                        SizedBox(width: 80, height: SizeConfig.heightMultiplier * 20,) :
+                        child:
+                        // (snapshot.connectionState == ConnectionState.waiting) ?
+                        // SizedBox(width: 80, height: SizeConfig.heightMultiplier * 20,) :
                         Image.asset(
                           "assets/images/svgs/national-stadium-karachi-E-03-07-1.jpg",
                           width: 80,
@@ -64,7 +65,7 @@ class InfoSheet extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextWidget(text: item?.spotName ?? "", size: 2.2, color: AppColors.darkGrey,),
+                                  TextWidget(text: item?.spotName ?? "Tennis de Aigra Nova", size: 2.2, color: AppColors.darkGrey,),
                                   InkWell(
                                     onTap: handleClose,
                                     child: SvgPicture.asset("assets/images/svgs/close_square.svg"),
@@ -75,11 +76,12 @@ class InfoSheet extends StatelessWidget {
                               Row(
                                 // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                 SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8, color: AppColors.grey,),
-                                  HorizontalSpace(8),
+                                 // SvgPicture.asset("assets/images/svgs/pin.svg", height: SizeConfig.heightMultiplier * 1.8, color: AppColors.grey,),
+                                 //  HorizontalSpace(8),
                                   TextWidget(
-                                    text: "${Get.find<SearchController>().counties.firstWhere((c) => c.id == item!.idCounty).name}"
-                                        ", ${Get.find<SearchController>().districts.firstWhere((d) => d.id == item!.idDistrict).name}",
+                                    text: "Cascais, Lisboa",
+                                    // text: "${Get.find<SearchController>().counties.firstWhere((c) => c.id == item!.idCounty).name}"
+                                    //     ", ${Get.find<SearchController>().districts.firstWhere((d) => d.id == item!.idDistrict).name}",
                                     // color: AppColors.primaryColor,
                                     size: 1.8,
                                     weight: FontWeight.w300,
@@ -88,10 +90,13 @@ class InfoSheet extends StatelessWidget {
                                 ],
                               ),
                               VerticalSpace(5),
-                              if(snapshot.connectionState == ConnectionState.waiting)
-                                Center(child: CircularProgressIndicator())
-                              else
-                                TextWidget(text: snapshot.data?.shortDescription ?? "", size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,),
+                              // if(snapshot.connectionState == ConnectionState.waiting)
+                              //   Center(child: CircularProgressIndicator())
+                              // else
+                                TextWidget(
+                                  // text: snapshot.data?.shortDescription ?? "",
+                                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae mollis ipsum. Integer at mi vel nisi sagittis aliquam.",
+                                  size: 1.6, align: TextAlign.justify, weight: FontWeight.w300,),
                             ],
                           )
                       ),
@@ -99,18 +104,48 @@ class InfoSheet extends StatelessWidget {
                   ),
                 ),
                 // OPTIONS ROW
-                if(snapshot.connectionState != ConnectionState.waiting)
-                  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => handleShare(snapshot.data!),),
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: handleFavorites),
-                      IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: toMap,),
-                    ],
+                // if(snapshot.connectionState != ConnectionState.waiting)
+                //   Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //     children: [
+                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => null/*handleShare(snapshot.data!)*/,),
+                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
+                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: handleFavorites),
+                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: toMap,),
+                //     ],
+                //   ),
+                // ),
+                Divider(color: AppColors.grey,),
+                ListTile(
+                  leading: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,),
+                  title: TextWidget(
+                    text: "more_info",
+                    size: 2.0,
                   ),
+                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
+                  onTap: handleNavigate,
+                ),
+                Divider(color: AppColors.grey,),
+                ListTile(
+                  leading: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,),
+                  title: TextWidget(
+                    text: "share_this",
+                    size: 2.0,
+                  ),
+                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
+                  onTap: handleNavigate,
+                ),
+                Divider(color: AppColors.grey,),
+                ListTile(
+                  leading: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,),
+                  title: TextWidget(
+                    text: "see_map",
+                    size: 2.0,
+                  ),
+                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
+                  onTap: handleNavigate,
                 ),
                 Divider(color: AppColors.grey,),
                 ListTile(
@@ -124,8 +159,8 @@ class InfoSheet extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        }
+          // );
+        // }
     );
   }
 
@@ -146,9 +181,9 @@ class InfoSheet extends StatelessWidget {
   void handleClose() =>  Get.back();
 
   void handleNavigate() {
-    Get.back(closeOverlays: true);
-    Get.toNamed(AppRoutes.INFO, arguments: item, id: 1);
-    // Get.toNamed(AppRoutes.INFO, arguments: item);
+    // Get.back(closeOverlays: true);
+    // Get.toNamed(AppRoutes.INFO, arguments: item, id: 1);
+    // // Get.toNamed(AppRoutes.INFO, arguments: item);
   }
 
   void handleFavorites() async {

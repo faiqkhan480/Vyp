@@ -8,6 +8,7 @@ import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 
 import 'bannerAd.dart';
+import 'event_card.dart';
 import 'spot_card.dart';
 
 class HorizontalList extends StatefulWidget {
@@ -29,9 +30,8 @@ class _HorizontalListState extends State<HorizontalList> {
       alignment: Alignment.topCenter,
       child: SizedBox(
         width: double.infinity,
-        // // height: spots!.length < 3 ? SizeConfig.heightMultiplier * 22.5 : SizeConfig.heightMultiplier * 45,
-        // // height: spots!.length < 3 ? Get.height * 0.21 : Get.height * 0.42,
-        height: widget.spots!.length < 3 ? 160 : 300,
+        // height: widget.spots!.length < 3 ? 160 : 300,
+        height: Get.height * .34,
         child: Obx(() {
           List _data = [];
           for(var i = 0; i < widget.spots!.length; i++) {
@@ -56,32 +56,39 @@ class _HorizontalListState extends State<HorizontalList> {
                 },
                 scrollOffset: 100,
                 isLoading: Get.find<HomeController>().loading(),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    // crossAxisCount: widget.spots!.length < 3 ? 1 : 2,
-                    crossAxisCount: _data.length < 3 ? 1 : 2,
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: 6,
-                    mainAxisSpacing: 6,
-                  ),
-                  itemCount: _data.length,
-                  padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
-                  shrinkWrap: false,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => (_data.elementAt(index).spotName == "ad") ?
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.lightGrey
-                      )
-                    ),
-                      // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: BanneAd()
-                  ) :
-                  SpotCard(index: index, item: _data.elementAt(index)),
-                  // itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
-                  // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => EventCard(),
+                    separatorBuilder: (context, index) => SizedBox(width: 10,),
+                    itemCount: 4
                 ),
+
+                // child: GridView.builder(
+                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //     // crossAxisCount: widget.spots!.length < 3 ? 1 : 2,
+                //     crossAxisCount: _data.length < 3 ? 1 : 2,
+                //     childAspectRatio: 1.0,
+                //     crossAxisSpacing: 6,
+                //     mainAxisSpacing: 6,
+                //   ),
+                //   itemCount: _data.length,
+                //   padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 0),
+                //   shrinkWrap: false,
+                //   scrollDirection: Axis.horizontal,
+                //   itemBuilder: (context, index) => (_data.elementAt(index).spotName == "ad") ?
+                //   Container(
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color: AppColors.lightGrey
+                //       )
+                //     ),
+                //       // padding: EdgeInsets.symmetric(horizontal: 5),
+                //       child: BanneAd()
+                //   ) :
+                //   SpotCard(index: index, item: _data.elementAt(index)),
+                //   // itemBuilder: (context, index) => SpotCard(index: index, item: widget.spots?.elementAt(index)),
+                //   // children: List.generate(spots?.length ?? 0, (index) => SpotCard(index: index, item: spots?.elementAt(index))),
+                // ),
               ),
 
               if(Get.find<HomeController>().loading())

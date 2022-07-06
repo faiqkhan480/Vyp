@@ -4,6 +4,8 @@ const Map<String, String> en_US = {
   "what_r_u_looking_for": "What are you looking for?",
   "where": "Where?",
   "places": "Places",
+  "events": "Events",
+  "plans": "Plans",
   "districts": "Districts",
   "counties": "Counties",
   // SHEET MENU
