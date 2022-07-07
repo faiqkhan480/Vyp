@@ -7,4 +7,5 @@ class AppRoutes {
   static const String FOLDER = "/folder";
   static const String ACCOUNT = "/account";
   static const String MAP = "/map";
+  static const String PLAN = "/plan_page";
 }

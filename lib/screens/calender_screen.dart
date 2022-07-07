@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/widgets/text_component.dart';
+
+import '../routes/app_routes.dart';
 
 // List<String> _days = ["W", "T", "F", "S", "S", "M", "T"];
 
@@ -76,110 +79,76 @@ class CalenderScreen extends StatelessWidget {
           //   ),
           ),
         ),
-        body: ListView.separated(
+        body: ListView.builder(
           itemBuilder: (context, index) => (index == 0) ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextWidget(
-                            text: "3:30 PM",
-                            size: 2 ,
-                            weight: FontWeight.w700,
-                            color: AppColors.primaryColor,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: TextWidget(
-                            text: "\tPlaying with friends",
-                            size: 2 ,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextWidget(
-                            text: "1h 00m",
-                            size: 1.4 ,
-                            align: TextAlign.center,
-                            // weight: FontWeight.w700,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: TextWidget(
-                            text: "\tTenis de Aigra Nova",
-                            size: 1.8 ,
-                            // weight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(thickness: 1,),
-                    // SizedBox(height: 10,)
-                  ],
+                // height: 40,
+                // alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                color: AppColors.secondaryColor,
+                child: TextWidget(
+                  text: "Wednesday, June 1",
+                  size: 1.8,
+                  weight: FontWeight.bold,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
+              Column(
+                children: List.generate(2, (index) => InkWell(
+                  onTap: () => Get.toNamed(AppRoutes.PLAN, id: 1),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: TextWidget(
-                            text: "3:30 PM",
-                            size: 2 ,
-                            weight: FontWeight.w700,
-                            color: AppColors.primaryColor,
-                            align: TextAlign.center,
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextWidget(
+                                text: "3:30 PM",
+                                size: 2 ,
+                                weight: FontWeight.w700,
+                                color: AppColors.primaryColor,
+                                align: TextAlign.center,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: TextWidget(
+                                text: "\tPlaying with friends",
+                                size: 2 ,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: TextWidget(
-                            text: "\tPlaying with friends",
-                            size: 2 ,
-                            weight: FontWeight.w700,
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextWidget(
+                                text: "1h 00m",
+                                size: 1.4 ,
+                                align: TextAlign.center,
+                                // weight: FontWeight.w700,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: TextWidget(
+                                text: "\tTenis de Aigra Nova",
+                                size: 1.8 ,
+                                // weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
+                        Divider(thickness: 1,),
+                        // SizedBox(height: 10,)
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextWidget(
-                            text: "1h 00m",
-                            size: 1.4 ,
-                            align: TextAlign.center,
-                            // weight: FontWeight.w700,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: TextWidget(
-                            text: "\tTenis de Aigra Nova",
-                            size: 1.8 ,
-                            // weight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(thickness: 1,),
-                    // SizedBox(height: 10,)
-                  ],
-                ),
+                  ),
+                ),),
               ),
             ],
           ) : Container(
@@ -190,17 +159,7 @@ class CalenderScreen extends StatelessWidget {
               size: 1.4,
             ),
           ),
-          separatorBuilder: (context, index) => Container(
-            // height: 40,
-            // alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            color: AppColors.secondaryColor,
-            child: TextWidget(
-              text: "Wednesday, June 1",
-              size: 1.8,
-              weight: FontWeight.bold,
-            ),
-          ),
+          // separatorBuilder: (context, index) => ,
           itemCount: 3,
         ),
       ),
