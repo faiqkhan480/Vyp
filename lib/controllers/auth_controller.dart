@@ -82,14 +82,14 @@ class AuthController extends GetxController {
     if (value!.isEmpty) {
       return 'Please this field must be filled';
     }
-    else if (value.length < 3) {
+    else if (value.length < 1) {
       return 'Length is too short';
     }
     return null;
   }
 
   String? emailValidator(String? value) {
-    RegExp emailValid = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+    RegExp emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (value!.isEmpty) {
       return 'Please this field must be filled';
     }
