@@ -10,8 +10,8 @@ import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/widgets/text_component.dart';
 
-import '../components/plan_tile.dart';
-import '../routes/app_routes.dart';
+import '../../components/plan_tile.dart';
+import '../../routes/app_routes.dart';
 
 List _elements = [
   {'name': 'Playing with friends', 'group': 'Wednesday, June 1'},

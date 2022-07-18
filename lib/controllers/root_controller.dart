@@ -16,7 +16,7 @@ import 'package:vyv/screens/info/info_screen.dart';
 import 'package:vyv/screens/map_screen.dart';
 import 'package:vyv/screens/plans/plan_screen.dart';
 
-import '../screens/calender_screen.dart';
+import '../screens/calender/calender_screen.dart';
 import 'home_controller.dart';
 
 /// screens models list
