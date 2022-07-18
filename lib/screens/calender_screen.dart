@@ -4,6 +4,7 @@ import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
@@ -11,7 +12,12 @@ import 'package:vyv/widgets/text_component.dart';
 
 import '../routes/app_routes.dart';
 
-// List<String> _days = ["W", "T", "F", "S", "S", "M", "T"];
+List _elements = [
+  {'name': 'Playing with friends', 'group': 'Wednesday, June 1'},
+  {'name': 'Playing with friends', 'group': 'Wednesday, June 1'},
+  {'group': 'Thursday, June 2'},
+  {'group': 'Friday, June 3'},
+];
 
 class CalenderScreen extends StatelessWidget {
   const CalenderScreen({Key? key}) : super(key: key);
@@ -73,96 +79,90 @@ class CalenderScreen extends StatelessWidget {
                 )
               ],
             ),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.vertical(
-          //     bottom: Radius.circular(30),
-          //   ),
           ),
         ),
-        body: ListView.builder(
-          itemBuilder: (context, index) => (index == 0) ? Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                // height: 40,
-                // alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                color: AppColors.secondaryColor,
-                child: TextWidget(
-                  text: "Wednesday, June 1",
-                  size: 1.8,
-                  weight: FontWeight.bold,
-                ),
-              ),
-              Column(
-                children: List.generate(2, (index) => InkWell(
-                  onTap: () => Get.toNamed(AppRoutes.PLAN, id: 1),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextWidget(
-                                text: "3:30 PM",
-                                size: 2 ,
-                                weight: FontWeight.w700,
-                                color: AppColors.primaryColor,
-                                align: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: TextWidget(
-                                text: "\tPlaying with friends",
-                                size: 2 ,
-                                weight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextWidget(
-                                text: "1h 00m",
-                                size: 1.4 ,
-                                align: TextAlign.center,
-                                // weight: FontWeight.w700,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: TextWidget(
-                                text: "\tTenis de Aigra Nova",
-                                size: 1.8 ,
-                                // weight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(thickness: 1,),
-                        // SizedBox(height: 10,)
-                      ],
-                    ),
-                  ),
-                ),),
-              ),
-            ],
-          ) : Container(
-            alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: TextWidget(
-              text: "Nothing scheduled",
-              size: 1.4,
-            ),
-          ),
-          // separatorBuilder: (context, index) => ,
-          itemCount: 3,
+        body: groupedList()
+      ),
+    );
+  }
+
+  Widget groupedList() {
+    return GroupedListView<dynamic, String>(
+      elements: _elements,
+      groupBy: (element) => element['group'],
+      groupSeparatorBuilder: (String groupByValue) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        color: AppColors.secondaryColor,
+        child: TextWidget(
+          text: groupByValue,
+          size: 1.8,
+          weight: FontWeight.bold,
         ),
       ),
+      itemBuilder: (context, dynamic element) => (element!['name'] != null) ?
+      InkWell(
+        onTap: () => Get.toNamed(AppRoutes.PLAN, id: 1),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextWidget(
+                      text: "3:30 PM",
+                      size: 2 ,
+                      weight: FontWeight.w700,
+                      color: AppColors.primaryColor,
+                      align: TextAlign.center,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: TextWidget(
+                      text: "\tPlaying with friends",
+                      size: 2 ,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextWidget(
+                      text: "1h 00m",
+                      size: 1.4 ,
+                      align: TextAlign.center,
+                      // weight: FontWeight.w700,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: TextWidget(
+                      text: "\tTenis de Aigra Nova",
+                      size: 1.8 ,
+                      // weight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(thickness: 1,),
+              // SizedBox(height: 10,)
+            ],
+          ),
+        ),
+      ) :
+      Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: TextWidget(
+          text: "Nothing scheduled",
+          size: 1.4,
+        ),
+      ),
+      order: GroupedListOrder.DESC, // optional
     );
   }
 }
