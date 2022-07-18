@@ -16,6 +16,7 @@ import 'package:vyv/screens/info/info_screen.dart';
 import 'package:vyv/screens/map_screen.dart';
 import 'package:vyv/screens/plans/plan_screen.dart';
 
+import '../screens/calender_screen.dart';
 import 'home_controller.dart';
 
 /// screens models list
@@ -47,7 +48,7 @@ class RootController extends GetxController {
     }
   }
 
-  Route? onGenerateRoute(RouteSettings settings) {
+  Route? homeRoutes(RouteSettings settings) {
     // if(settings.name == AppRoutes.HOME)
     if(settings.name == "/")
       return GetPageRoute(
@@ -88,6 +89,17 @@ class RootController extends GetxController {
           // binding: FavoriteBinding(),
           page: () => MapScreen(spot: settings.arguments as Spot)
       );
+    return null;
+  }
+
+  Route? calenderRoutes(RouteSettings settings) {
+    // if(settings.name == AppRoutes.HOME)
+    if(settings.name == "/")
+      return
+        GetPageRoute(
+            page: () => CalenderScreen()
+        );
+
     if(settings.name == AppRoutes.PLAN)
       return GetPageRoute(
           settings: settings,

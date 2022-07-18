@@ -21,17 +21,20 @@ class _MapBoxState extends State<MapBox> {
 
   CameraPosition _kGooglePlex = CameraPosition(
       // bearing: 192.8334901395799,
-      target: LatLng(0.0, 0.0),
-      zoom: 19.151926040649414);
+      target: LatLng(37.42796133580664, -122.085749655962),
+      // target: LatLng(0.0, 0.0),
+      // zoom: 19.151926040649414
+      zoom: 15
+  );
 
   @override
   void initState() {
-    _kGooglePlex = CameraPosition(
-      target: LatLng(double.parse(homeController.spots.first.latitude!.replaceAll(",", ".")), double.parse(homeController.spots.first.longitude!.replaceAll(",", "."))),
-      zoom: 15,
-      // bearing: 25,
-      // tilt: 75,
-    );
+    // _kGooglePlex = CameraPosition(
+    //   target: LatLng(double.parse(homeController.spots.first.latitude!.replaceAll(",", ".")), double.parse(homeController.spots.first.longitude!.replaceAll(",", "."))),
+    //   zoom: 15,
+    //   // bearing: 25,
+    //   // tilt: 75,
+    // );
 
     homeController.spots.forEach((s) {
       double _lat = double.parse(s.latitude!.replaceAll(",", "."));
@@ -54,10 +57,10 @@ class _MapBoxState extends State<MapBox> {
         child: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: _kGooglePlex,
-          markers: Set<Marker>.of(markers.values),
+          // markers: Set<Marker>.of(markers.values),
           onMapCreated: (GoogleMapController controller) {
-            if(listMarkers.isNotEmpty)
-              controller.moveCamera(CameraUpdate.newLatLng(listMarkers[listMarkers.length ~/ 2].position));
+            // if(listMarkers.isNotEmpty)
+            //   controller.moveCamera(CameraUpdate.newLatLng(listMarkers[listMarkers.length ~/ 2].position));
             _controller.complete(controller);
           },
         ),

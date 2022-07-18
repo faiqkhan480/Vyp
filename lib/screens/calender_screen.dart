@@ -10,6 +10,7 @@ import 'package:vyv/utils/app_colors.dart';
 import 'package:vyv/utils/constants.dart';
 import 'package:vyv/widgets/text_component.dart';
 
+import '../components/plan_tile.dart';
 import '../routes/app_routes.dart';
 
 List _elements = [
@@ -100,66 +101,7 @@ class CalenderScreen extends StatelessWidget {
         ),
       ),
       itemBuilder: (context, dynamic element) => (element!['name'] != null) ?
-      InkWell(
-        onTap: () => Get.toNamed(AppRoutes.PLAN, id: 1),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextWidget(
-                        text: "3:30 PM",
-                        size: 2 ,
-                        weight: FontWeight.w700,
-                        color: AppColors.primaryColor,
-                        align: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: TextWidget(
-                        text: "\tPlaying with friends",
-                        size: 2 ,
-                        weight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:  const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextWidget(
-                        text: "1h 00m",
-                        size: 1.4 ,
-                        align: TextAlign.center,
-                        // weight: FontWeight.w700,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: TextWidget(
-                        text: "\tTenis de Aigra Nova",
-                        size: 1.8 ,
-                        // weight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(thickness: 1,),
-              SizedBox(height: 10,)
-            ],
-          ),
-        ),
-      ) :
+      PlanTile(onPressed: () => Get.toNamed(AppRoutes.PLAN, id: 2),) :
       Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

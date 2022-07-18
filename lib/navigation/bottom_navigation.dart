@@ -38,13 +38,15 @@ class BottomNavigation extends GetView<RootController> {
     final List<Widget> _pages = [
       Navigator(
           key: Get.nestedKey(1), // create a key by index
-          onGenerateRoute: controller.onGenerateRoute,
+          onGenerateRoute: controller.homeRoutes,
           ),
       Navigator(
           key: Get.nestedKey(2), // create a key by index
-          onGenerateRoute: (settings) {
-            return GetPageRoute(page: () => CalenderScreen());
-          }),
+          onGenerateRoute: controller.calenderRoutes,
+        // onGenerateRoute: (settings) {
+          //   return GetPageRoute(page: () => CalenderScreen());
+          // }
+          ),
       Navigator(
           key: Get.nestedKey(3), // create a key by index
           onGenerateRoute: (settings) {

@@ -8,7 +8,8 @@ import 'text_component.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final Widget? child;
-  const AppBarWidget({Key? key, this.child}) : super(key: key);
+  final int rootId;
+  const AppBarWidget({Key? key, this.child, this.rootId = 1}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
@@ -26,7 +27,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         align: TextAlign.center,
         family: 'GemunuLibre',
       ),
-      leading: IconButton(onPressed: () => Get.back(id: 1, canPop: true), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
+      leading: IconButton(onPressed: () => Get.back(id: rootId, canPop: true), icon: SvgPicture.asset("assets/images/svgs/arrow_backward.svg")),
       actions: [child ?? SizedBox() ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
