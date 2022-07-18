@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../../components/map_box.dart';
 import '../../components/plan_tile.dart';
@@ -66,16 +68,46 @@ class PlanScreen extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: 20,),
+        // SizedBox(height: 10,),
 
-        ...List.generate(3, (index) => PlanTile(
-            onPressed: () => null,
-            bottomBorder: index < 2
-        )),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.greyScale)
+          ),
+          margin: EdgeInsets.symmetric(vertical: 15),
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextWidget(
+                  text: "Day1",
+                weight: FontWeight.w700,
+                size: 2,
+              ),
+              SvgPicture.asset("assets/images/svgs/archive.svg")
+            ],
+          ),
+        ),
 
-        Divider(thickness: 1,),
+        Flexible(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ...List.generate(3, (index) => PlanTile(
+                    onPressed: () => null,
+                    bottomBorder: index < 2
+                )),
 
-        MapBox()
+                Divider(thickness: 1,),
+
+                SizedBox(
+                    height: Get.height * 0.40,
+                    child: MapBox())
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
