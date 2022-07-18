@@ -103,53 +103,59 @@ class CalenderScreen extends StatelessWidget {
       InkWell(
         onTap: () => Get.toNamed(AppRoutes.PLAN, id: 1),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextWidget(
-                      text: "3:30 PM",
-                      size: 2 ,
-                      weight: FontWeight.w700,
-                      color: AppColors.primaryColor,
-                      align: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextWidget(
+                        text: "3:30 PM",
+                        size: 2 ,
+                        weight: FontWeight.w700,
+                        color: AppColors.primaryColor,
+                        align: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: TextWidget(
-                      text: "\tPlaying with friends",
-                      size: 2 ,
-                      weight: FontWeight.w700,
+                    Expanded(
+                      flex: 4,
+                      child: TextWidget(
+                        text: "\tPlaying with friends",
+                        size: 2 ,
+                        weight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextWidget(
-                      text: "1h 00m",
-                      size: 1.4 ,
-                      align: TextAlign.center,
-                      // weight: FontWeight.w700,
+              Padding(
+                padding:  const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextWidget(
+                        text: "1h 00m",
+                        size: 1.4 ,
+                        align: TextAlign.center,
+                        // weight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: TextWidget(
-                      text: "\tTenis de Aigra Nova",
-                      size: 1.8 ,
-                      // weight: FontWeight.w700,
+                    Expanded(
+                      flex: 4,
+                      child: TextWidget(
+                        text: "\tTenis de Aigra Nova",
+                        size: 1.8 ,
+                        // weight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Divider(thickness: 1,),
-              // SizedBox(height: 10,)
+              SizedBox(height: 10,)
             ],
           ),
         ),
