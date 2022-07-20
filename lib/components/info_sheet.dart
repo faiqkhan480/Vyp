@@ -9,6 +9,7 @@ import 'package:vyv/controllers/search_controller.dart';
 import 'package:vyv/models/spot_model.dart';
 import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
+import 'package:vyv/utils/constants.dart';
 import 'package:vyv/utils/size_config.dart';
 import 'package:vyv/widgets/space.dart';
 import 'package:vyv/widgets/text_component.dart';
@@ -103,60 +104,23 @@ class InfoSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-                // OPTIONS ROW
-                // if(snapshot.connectionState != ConnectionState.waiting)
-                //   Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //     children: [
-                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,), onPressed: () => null/*handleShare(snapshot.data!)*/,),
-                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,), onPressed: () => null,),
-                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,), onPressed: handleFavorites),
-                //       IconButton(icon: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,), onPressed: toMap,),
-                //     ],
-                //   ),
-                // ),
-                Divider(color: AppColors.grey,),
-                ListTile(
-                  leading: SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,),
-                  title: TextWidget(
-                    text: "more_info",
-                    size: 2.0,
-                  ),
-                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
-                  onTap: handleNavigate,
-                ),
-                Divider(color: AppColors.grey,),
-                ListTile(
-                  leading: SvgPicture.asset("assets/images/svgs/archive.svg", color: AppColors.grey,),
-                  title: TextWidget(
-                    text: "share_this",
-                    size: 2.0,
-                  ),
-                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
-                  onTap: handleNavigate,
-                ),
-                Divider(color: AppColors.grey,),
-                ListTile(
-                  leading: SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,),
-                  title: TextWidget(
-                    text: "see_map",
-                    size: 2.0,
-                  ),
-                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
-                  onTap: handleNavigate,
-                ),
-                Divider(color: AppColors.grey,),
-                ListTile(
-                  leading: SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.grey,),
-                  title: TextWidget(
-                    text: "more_info",
-                    size: 2.0,
-                  ),
-                  trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
-                  onTap: handleNavigate,
-                ),
+
+                ...List.generate(itemMenu.length, (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Divider(color: AppColors.grey,),
+                    ListTile(
+                      dense: true,
+                      leading: itemMenu.elementAt(index)['icon'],
+                      title: TextWidget(
+                        text: itemMenu.elementAt(index)['label'],
+                        size: 2.0,
+                      ),
+                      trailing: SvgPicture.asset("assets/images/svgs/arrow_forward.svg"),
+                      onTap: () => (itemMenu.elementAt(index)['route'] != null) ? handleNavigate(itemMenu.elementAt(index)['route']) : null,
+                    ),
+                  ],
+                )),
               ],
             ),
           // );
@@ -180,10 +144,9 @@ class InfoSheet extends StatelessWidget {
 
   void handleClose() =>  Get.back();
 
-  void handleNavigate() {
-    // Get.back(closeOverlays: true);
-    // Get.toNamed(AppRoutes.INFO, arguments: item, id: 1);
-    // // Get.toNamed(AppRoutes.INFO, arguments: item);
+  void handleNavigate(String route) {
+    Get.back(closeOverlays: true);
+    Get.toNamed(route, id: 1,);
   }
 
   void handleFavorites() async {

@@ -15,6 +15,7 @@ import 'package:vyv/screens/info/info_binding.dart';
 import 'package:vyv/screens/info/info_screen.dart';
 import 'package:vyv/screens/map_screen.dart';
 import 'package:vyv/screens/plans/plan_screen.dart';
+import 'package:vyv/screens/reviews_screen.dart';
 
 import '../screens/calender/calender_screen.dart';
 import 'home_controller.dart';
@@ -49,46 +50,53 @@ class RootController extends GetxController {
   }
 
   Route? homeRoutes(RouteSettings settings) {
-    // if(settings.name == AppRoutes.HOME)
-    if(settings.name == "/")
-      return GetPageRoute(
-        settings: settings,
-        binding: HomeBindings(),
-        page: () => HomeScreen(),
-      );
-
-    if (settings.name == AppRoutes.INFO)
-      return GetPageRoute(
-        settings: settings,
-        binding: InfoBinding(),
-        page: () => InfoScreen(spot: settings.arguments as Spot),
-      );
-
-    if (settings.name == AppRoutes.FAVORITES)
-      return GetPageRoute(
-        settings: settings,
-        binding: FavoriteBinding(),
-        page: () => FavoritesScreen()
-      );
-
-    if (settings.name == AppRoutes.FOLDER)
-      return GetPageRoute(
+    switch(settings.name) {
+      case "/" :
+          return GetPageRoute(
+            settings: settings,
+            binding: HomeBindings(),
+            page: () => HomeScreen(),
+          );
+      break;
+      case AppRoutes.INFO:
+        return GetPageRoute(
           settings: settings,
-          page: () => settings.arguments.runtimeType == Folder ? FolderScreen(folder: settings.arguments as Folder) : FolderScreen(favorites: settings.arguments as List<Favorite>)
-      );
-
-    if (settings.name == AppRoutes.ACCOUNT)
-      return GetPageRoute(
-          settings: settings,
-          // binding: FavoriteBinding(),
-          page: () => AccountScreen()
-      );
-    if(settings.name == AppRoutes.MAP)
-      return GetPageRoute(
-          settings: settings,
-          // binding: FavoriteBinding(),
-          page: () => MapScreen(spot: settings.arguments as Spot)
-      );
+          binding: InfoBinding(),
+          page: () => InfoScreen(spot: settings.arguments as Spot),
+        );
+        break;
+      case AppRoutes.FAVORITES:
+        return GetPageRoute(
+            settings: settings,
+            binding: FavoriteBinding(),
+            page: () => FavoritesScreen()
+        );
+        break;
+      case AppRoutes.FOLDER:
+        return GetPageRoute(
+            settings: settings,
+            page: () => settings.arguments.runtimeType == Folder ? FolderScreen(folder: settings.arguments as Folder) : FolderScreen(favorites: settings.arguments as List<Favorite>)
+        );
+        break;
+      case AppRoutes.ACCOUNT :
+        return GetPageRoute(
+            settings: settings,
+            page: () => AccountScreen()
+        );
+        break;
+      case AppRoutes.MAP:
+        return GetPageRoute(
+            settings: settings,
+            page: () => MapScreen(spot: settings.arguments as Spot)
+        );
+        break;
+      case AppRoutes.REVIEWS:
+        return GetPageRoute(
+            settings: settings,
+            page: () => ReviewsScreen()
+        );
+        break;
+    }
     return null;
   }
 

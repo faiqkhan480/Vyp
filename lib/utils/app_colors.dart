@@ -12,4 +12,5 @@ class AppColors {
   static final skyBlue = Color(0xff769CFF);
   static final success = Color(0xff396CF0);
   static final danger = Color(0xffFF5D29);
+  static final yellow = Color(0xffFFFF00);
 }

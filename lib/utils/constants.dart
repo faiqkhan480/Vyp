@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vyv/routes/app_routes.dart';
 import 'package:vyv/utils/app_colors.dart';
 
 class Constants {
@@ -42,22 +43,32 @@ List<Map<String, dynamic>> loginMenu = [
 
 
 List<Map<String, dynamic>> itemMenu = [
-  // {
-  //   "label" : "more_info",
-  //   "icon" : SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.darkGrey,),
-  // },
   {
-    "label" : "add_fav",
-    "icon" : SvgPicture.asset("assets/images/svgs/mark.svg"),
+    "label": "share_this",
+    "icon": SvgPicture.asset("assets/images/svgs/share.svg", color: AppColors.grey,),
   },
   {
     "label" : "add_calender",
-    "icon" : SvgPicture.asset("assets/images/svgs/archive.svg"),
+    "icon" : SvgPicture.asset("assets/images/svgs/add_calander.svg", color: AppColors.grey,),
+
   },
   {
-    "label" : "share",
-    "icon" : SvgPicture.asset("assets/images/svgs/share.svg"),
-  }
+    "label" : "add_fav",
+    "icon" : SvgPicture.asset("assets/images/svgs/mark.svg", color: AppColors.grey,),
+  },
+  {
+    "label" : "see_on_map",
+    "icon" : SvgPicture.asset("assets/images/svgs/paper_map.svg", color: AppColors.grey,),
+  },
+  {
+    "label" : "more_info",
+    "icon" : SvgPicture.asset("assets/images/svgs/info.svg", color: AppColors.grey,),
+  },
+  {
+    "label" : "reviews",
+    "icon" : SvgPicture.asset("assets/images/svgs/star.svg", color: AppColors.grey,),
+    "route": AppRoutes.REVIEWS,
+  },
 ];
 
 class StyleProperties {

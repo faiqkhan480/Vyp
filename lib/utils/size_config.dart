@@ -38,5 +38,9 @@ class SizeConfig {
 
     // print("Height Size\n");
     // print(heightMultiplier);
+
+    // FONT SIZES MULTIPLIER VALUES
+    // 2.15 = 18.00
+    // 1.92 = 16.07
   }
 }

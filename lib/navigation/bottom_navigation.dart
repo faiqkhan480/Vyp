@@ -15,7 +15,6 @@ class BottomNavigation extends GetView<RootController> {
   final TextStyle selectedLabelStyle = TextStyle(color: AppColors.lightGrey, fontSize: 12);
 
   Future<bool> onWilPop() async {
-    print("onWilPop:::::");
     final isFirstRouteInCurrentTab = !await Get.nestedKey(1)!.currentState!.maybePop();
     if (isFirstRouteInCurrentTab) {
       if (controller.currentIndex() != 0) {

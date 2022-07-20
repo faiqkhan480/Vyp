@@ -16,6 +16,9 @@ const Map<String, String> en_US = {
   "more_info": "More information",
   "add_fav": "Add to favorites",
   "add_calender": "Add to calendar",
+  "see_on_map": "See on map",
+  "reviews": "Reviews",
+  "share_this": "Share this",
   "share": "Share",
   "logout": "Logout",
   "log_out": "LOG OUT",
@@ -26,8 +29,6 @@ const Map<String, String> en_US = {
   "categories": "Categories",
   "tips": "Tips",
   "maps": "Maps",
-  "reviews": "Reviews",
-
   "all": "All",
 
   // LOGIN/REGISTER DIALOG
